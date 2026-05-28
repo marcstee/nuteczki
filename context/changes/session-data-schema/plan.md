@@ -228,26 +228,26 @@ Add an npm script to generate TypeScript types from the Supabase schema, generat
 
 #### Automated
 
-- [x] 1.1 Migration applies cleanly: `npx supabase db reset`
-- [x] 1.2 No schema advisories: `npx supabase db lint`
-- [x] 1.3 Columns match the contract: `\d+ sessions` / `\d+ answers` (or Studio)
-- [x] 1.4 Supabase local instance accessible at localhost:54321
+- [x] 1.1 Migration applies cleanly: `npx supabase db reset` — 43d4b30
+- [x] 1.2 No schema advisories: `npx supabase db lint` — 43d4b30
+- [x] 1.3 Columns match the contract: `\d+ sessions` / `\d+ answers` (or Studio) — 43d4b30
+- [x] 1.4 Supabase local instance accessible at localhost:54321 — 43d4b30
 
 #### Manual
 
-- [x] 1.5 Tables, RLS policies, and view visible in Supabase Studio
-- [x] 1.6 RLS policies listed under each table's policies tab
+- [x] 1.5 Tables, RLS policies, and view visible in Supabase Studio — 43d4b30
+- [x] 1.6 RLS policies listed under each table's policies tab — 43d4b30
 
 ### Phase 2: Type Generation Setup
 
 #### Automated
 
-- [ ] 2.1 Types generate without error: `npm run db:types`
-- [ ] 2.2 TypeScript compiles: `npx astro check`
-- [ ] 2.3 Linting passes: `npm run lint`
-- [ ] 2.4 Build succeeds: `npm run build`
+- [x] 2.1 Types generate without error: `npm run db:types`
+- [x] 2.2 TypeScript compiles: `npx astro check`
+- [x] 2.3 Linting passes: `npm run lint`
+- [x] 2.4 Build succeeds: `npm run build`
 
 #### Manual
 
-- [ ] 2.5 database.types.ts contains definitions for sessions, answers, and note_error_stats
-- [ ] 2.6 IDE autocompletion works for typed Supabase queries
+- [x] 2.5 database.types.ts contains definitions for sessions, answers, and note_error_stats
+- [x] 2.6 IDE autocompletion works for typed Supabase queries
