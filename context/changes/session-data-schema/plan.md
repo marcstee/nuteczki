@@ -242,12 +242,12 @@ Add an npm script to generate TypeScript types from the Supabase schema, generat
 
 #### Automated
 
-- [x] 2.1 Types generate without error: `npm run db:types`
-- [x] 2.2 TypeScript compiles: `npx astro check`
-- [x] 2.3 Linting passes: `npm run lint`
-- [x] 2.4 Build succeeds: `npm run build`
+- [x] 2.1 Types generate without error: `npm run db:types` — 99c431b
+- [x] 2.2 TypeScript compiles: `npx astro check` — 99c431b
+- [x] 2.3 Linting passes: `npm run lint` — 99c431b
+- [x] 2.4 Build succeeds: `npm run build` — 99c431b
 
 #### Manual
 
-- [x] 2.5 database.types.ts contains definitions for sessions, answers, and note_error_stats
-- [x] 2.6 IDE autocompletion works for typed Supabase queries
+- [x] 2.5 database.types.ts contains definitions for sessions, answers, and note_error_stats — 99c431b
+- [x] 2.6 IDE autocompletion works for typed Supabase queries — 99c431b
