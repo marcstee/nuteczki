@@ -2,7 +2,7 @@
 
 ## Overview
 
-Build a reusable, **declarative React SVG component** that renders a five-line treble staff with a single whole-note positioned correctly by pitch, across the fixed beginner range **C4 → A5** (13 diatonic positions, one ledger line below to one ledger line above). This is roadmap **F-02**, the identified **top blocker (skills)**, governed by the guardrail "**musical accuracy is non-negotiable**." It is consumed by S-01 (note→letter) and S-02 (letter→note, where noteheads become clickable answer targets).
+Build a reusable, **declarative React SVG component** that renders a five-line treble staff with a single note (a filled quarter note) positioned correctly by pitch, across the fixed beginner range **C4 → A5** (13 diatonic positions, one ledger line below to one ledger line above). This is roadmap **F-02**, the identified **top blocker (skills)**, governed by the guardrail "**musical accuracy is non-negotiable**." It is consumed by S-01 (note→letter) and S-02 (letter→note, where noteheads become clickable answer targets).
 
 The component is hand-rolled SVG (not VexFlow): each pitch maps to a deterministic staff step via a **pure, exported function**; the SVG scales with a fixed `viewBox` + CSS (no JS, no `ResizeObserver`); the treble clef is an inline `<path>`; noteheads are addressable `<g>` elements so S-02 can later attach handlers without refactoring.
 
@@ -28,7 +28,7 @@ A `Staff` React component at `src/components/staff/Staff.tsx` that, given `note=
 ## What We're NOT Doing
 
 - **No VexFlow** — and no other notation library.
-- **No accidentals** (sharps/flats), **no chords/multi-note**, **no rhythm/stems** beyond the stemless whole note, **no time signature**, **no bass clef**. All PRD non-goals.
+- **No accidentals** (sharps/flats), **no chords/multi-note**, **no time signature**, **no bass clef** — all PRD non-goals. The single notehead is a filled quarter note with a stem (familiar shape, larger S-02 click target); its rhythmic value is incidental — the exercise tests pitch only and no other rhythm notation is rendered.
 - **No interactivity** — no `onClick`, selection, or correct/incorrect states. That is S-02's job; we only make the SVG structure ready for it.
 - **No Vitest/test setup** — deferred by decision; the pure map is structured so tests bolt on later with no rework.
 - **No offline-font work** — not needed; the clef is inline SVG. (Offline is F-03's concern and is now moot for this component.)
@@ -36,14 +36,14 @@ A `Staff` React component at `src/components/staff/Staff.tsx` that, given `note=
 
 ## Implementation Approach
 
-A single source of musical truth (`pitch.ts`) is kept pure and free of any rendering concern: it maps each `Pitch` to an integer **staff step** and a ledger-line flag. The SVG component (`Staff.tsx`) is a pure function of props — it converts staff step → Y via the pure, exported `stepToY()` helper (the geometry constants live in the core, not the component), draws the five lines, an inline treble-clef `<path>`, an open whole-notehead, and a ledger line when required. A dev gallery route is the manual-verification surface where the accuracy guardrail is eyeballed across all 13 pitches.
+A single source of musical truth (`pitch.ts`) is kept pure and free of any rendering concern: it maps each `Pitch` to an integer **staff step** and a ledger-line flag. The SVG component (`Staff.tsx`) is a pure function of props — it converts staff step → Y via the pure, exported `stepToY()` helper (the geometry constants live in the core, not the component), draws the five lines, an inline treble-clef `<path>`, a filled quarter-note head with a stem, and a ledger line when required. A dev gallery route is the manual-verification surface where the accuracy guardrail is eyeballed across all 13 pitches.
 
 The staff coordinate model: bottom line **E4 = staff step 0**; each diatonic step up (next letter) = **+1 step = half a line-gap** in the rendered Y. Even step indices fall on lines (0=E4, 2=G4, 4=B4, 6=D5, 8=F5); odd indices fall on spaces. Below the staff: D4 = −1 (space), C4 = −2 (ledger line). Above: G5 = +9 (space), A5 = +10 (ledger line). A pitch needs a ledger line exactly when its step is even **and** outside `[0, 8]` — i.e. C4 and A5 in this range.
 
 ## Critical Implementation Details
 
 - **Clef placement is a musical-correctness check, not just decoration.** Pin the **Bravura `gClef` glyph (SMuFL U+E050)** as the asset (Bravura is SIL OFL 1.1 — OFL §1 permits embedding the path data with attribution). Extract the glyph's `d` path and its source metrics (`unitsPerEm` + glyph bounding box) from the font **once**, then store the path and a one-line OFL attribution in `treble-clef.ts`. **Alignment is deterministic, not eyeballed**: SMuFL registers the gClef so its glyph origin `(0,0)` sits on the G line, so the transform is (1) translate the origin to `(clefX, stepY(2))` — the G4-line Y — and (2) uniformly scale by `LINE_GAP / staffSpaceInFontUnits`, where `staffSpaceInFontUnits = unitsPerEm / 4` per the SMuFL em convention, applied with a Y-axis flip since SVG Y grows downward. The Phase 3 visual check then only *confirms* this math; it is not the alignment mechanism.
-- **Notehead is an open (hollow) whole note** — no stem, no rhythmic meaning, ideal for a flashcard ([vexflow-api-notes.md:73-78](context/changes/staff-renderer/vexflow-api-notes.md)). Render as a stroked ellipse (optionally slightly rotated) with no fill, drawn last so it sits above the staff lines.
+- **Notehead is a filled quarter note with a stem** — the familiar first-note shape and a larger click target for S-02; its rhythmic value is incidental (the exercise tests pitch only). Render as a filled, slightly tilted ellipse with a stem (up below the middle line B4, down on/above it), drawn last so it sits above the staff lines.
 - **`viewBox` must reserve vertical room for one ledger line above and below the staff and for the clef**, which extends past the top and bottom lines. Get this padding right once; everything else is relative to the line gap.
 
 ## Phase 1: Pitch model + staff geometry (pure core)
@@ -142,7 +142,7 @@ Rendering:
 - Root is `<svg>` with a fixed `viewBox`, `preserveAspectRatio="xMidYMid meet"`, `role="img"`, the resolved `aria-label`, and the passed `className`. No wrapper `<div>`, no explicit pixel width/height — CSS controls size.
 - Five staff lines, the inline `TREBLE_CLEF_PATH` placed by the **deterministic SMuFL transform** (translate the glyph origin to the G4-line Y `stepToY(2)`, uniformly scale by `LINE_GAP / (CLEF_FONT_UNITS_PER_EM / 4)`, with a Y-axis flip), and the notehead at `Y` taken straight from the pure core — `stepToY(pitchToStaffStep(note))` — with no geometry arithmetic in the component.
 - When `needsLedgerLine(step)`, draw a short ledger line centered on the notehead at that Y.
-- Notehead is an open whole note, wrapped in `<g data-pitch={note}>` (the stable, addressable hook S-02 will target). Drawn last so it overlays the lines.
+- Notehead is a filled quarter note with a stem, wrapped in `<g data-pitch={note}>` (the stable, addressable hook S-02 will target). Drawn last so it overlays the lines.
 - Lines, clef, notehead, and ledger all use `currentColor` so a Tailwind `text-*` class themes the whole staff.
 
 ### Success Criteria:

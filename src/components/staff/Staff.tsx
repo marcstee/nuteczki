@@ -51,7 +51,7 @@ const MIDDLE_LINE_STEP = 4;
 const CLEF_SCALE = LINE_GAP / (CLEF_FONT_UNITS_PER_EM / 4);
 
 /**
- * Renders a five-line treble staff with a single whole note positioned by pitch,
+ * Renders a five-line treble staff with a single filled quarter note positioned by pitch,
  * across the beginner range C4 → A5. A pure function of props — no effects, no refs,
  * no client JS (SSR-safe, ships zero JS as a display-only island).
  *

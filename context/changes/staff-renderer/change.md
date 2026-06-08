@@ -1,7 +1,7 @@
 ---
 change_id: staff-renderer
 title: Reusable music staff component that renders a note positioned by pitch
-status: implemented
+status: impl_reviewed
 created: 2026-06-08
 updated: 2026-06-08
 archived_at: null
@@ -19,6 +19,8 @@ Roadmap F-02 (foundation) — from `context/foundation/roadmap.md`.
 - **Risk:** Identified top blocker (skills). Note positions must be musically correct across the beginner range — first lower ledger line to first upper ledger line. Sequenced early so the riskiest skill gap surfaces first.
 
 **Plan review (2026-06-08):** triaged — F1/F2/F3 all fixed; verdict REVISE → SOUND. See [`reviews/plan-review.md`](./reviews/plan-review.md). F1: pinned Bravura gClef (SMuFL U+E050) + deterministic alignment. F2: extracted pure `geometry.ts` (`stepToY`). F3: `/dev/staff` gated behind `import.meta.env.DEV`.
+
+**Impl review (2026-06-08):** triaged — F1 resolved via Fix B (ratify). The notehead shipped as a filled quarter note with a stem rather than the planned stemless whole note; ratified the quarter note as the source of truth across plan.md and corrected the stale Staff.tsx docstring. Code unchanged. See [`reviews/impl-review.md`](./reviews/impl-review.md).
 
 ## Research
 
