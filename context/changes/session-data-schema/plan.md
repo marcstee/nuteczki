@@ -164,6 +164,14 @@ Add an npm script to generate TypeScript types from the Supabase schema, generat
 
 **Contract**: Import `Database` from `@/db/database.types` and use it as the generic parameter: `createServerClient<Database>(...)`. The function return type changes from `SupabaseClient | null` to `SupabaseClient<Database> | null`.
 
+#### 4. ESLint ignore for generated types
+
+**File**: `eslint.config.js`
+
+**Intent**: Exclude the generated `src/db/database.types.ts` from linting so `npm run lint` (criterion 2.3) does not flag the auto-generated file.
+
+**Contract**: Add `{ ignores: ["src/db/database.types.ts"] }` to the flat config array. *(Addendum — discovered need during implementation, not original scope; standard practice for generated Supabase types.)*
+
 ### Success Criteria:
 
 #### Automated Verification:

@@ -1,9 +1,9 @@
 ---
 change_id: session-data-schema
 title: Define Supabase schema for drill sessions, answers, and per-note error history
-status: implemented
+status: impl_reviewed
 created: 2026-05-28
-updated: 2026-05-29
+updated: 2026-06-08
 archived_at: null
 ---
 
