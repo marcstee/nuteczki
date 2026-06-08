@@ -249,27 +249,27 @@ None. New, additive component with no schema, dependency, or config changes (no 
 
 #### Automated
 
-- [x] 2.1 Type checking passes: `npx astro check`
-- [x] 2.2 Linting passes: `npm run lint` (react-compiler clean)
-- [x] 2.3 Build passes: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro check` — 23424a6
+- [x] 2.2 Linting passes: `npm run lint` (react-compiler clean) — 23424a6
+- [x] 2.3 Build passes: `npm run build` — 23424a6
 
 #### Manual
 
-- [x] 2.4 C4→A5 each render on the correct line/space
-- [x] 2.5 C4 and A5 show exactly one ledger line; no other pitch does
-- [x] 2.6 Treble clef spiral sits on the G4 line and looks correct
-- [x] 2.7 `text-*` class themes lines/clef/notehead together; SVG scales crisply
+- [x] 2.4 C4→A5 each render on the correct line/space — 23424a6
+- [x] 2.5 C4 and A5 show exactly one ledger line; no other pitch does — 23424a6
+- [x] 2.6 Treble clef spiral sits on the G4 line and looks correct — 23424a6
+- [x] 2.7 `text-*` class themes lines/clef/notehead together; SVG scales crisply — 23424a6
 
 ### Phase 3: Verification gallery (all 13 pitches)
 
 #### Automated
 
-- [ ] 3.1 Build passes with the new page: `npm run build`
-- [ ] 3.2 Linting passes: `npm run lint`
+- [x] 3.1 Build passes with the new page: `npm run build`
+- [x] 3.2 Linting passes: `npm run lint`
 
 #### Manual
 
-- [ ] 3.3 `/dev/staff` shows all 13 notes on musically correct positions
-- [ ] 3.4 C4/A5 ledger lines and clef placement correct across the grid
-- [ ] 3.5 Grid scales legibly at mobile width (PWA target)
-- [ ] 3.6 DEV gate: `/dev/staff` 404s in a production build; renders only under the dev server
+- [x] 3.3 `/dev/staff` shows all 13 notes on musically correct positions
+- [x] 3.4 C4/A5 ledger lines and clef placement correct across the grid
+- [x] 3.5 Grid scales legibly at mobile width (PWA target)
+- [x] 3.6 DEV gate: `/dev/staff` 404s in a production build; renders only under the dev server

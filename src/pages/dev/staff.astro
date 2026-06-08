@@ -1,0 +1,45 @@
+---
+// Dev/verification route — NOT a product surface. Renders every beginner-range
+// pitch (C4 → A5) through the Staff component so the "musical accuracy is
+// non-negotiable" guardrail can be eyeballed against the reference table.
+//
+// DEV gate: `output: "server"` would otherwise SSR this publicly on every request
+// in the deployed Worker. `import.meta.env.DEV` is true only under `npm run dev`,
+// so the page renders only in dev and returns an empty 404 in any production build
+// (the gallery body is never emitted there) — unlinked ≠ inaccessible.
+//
+// A bare top-level `return` here would crash `@typescript-eslint/no-misused-promises`,
+// so the gate is expressed as a 404 status + a guarded render instead.
+import Staff from "@/components/staff/Staff";
+import { PITCHES } from "@/components/staff/pitch";
+import Layout from "@/layouts/Layout.astro";
+
+const enabled = import.meta.env.DEV;
+if (!enabled) {
+  Astro.response.status = 404;
+}
+---
+
+{
+  enabled && (
+    <Layout title="Staff renderer — dev gallery">
+      <main class="min-h-screen bg-slate-50 p-6 text-slate-900">
+        <header class="mx-auto mb-6 max-w-5xl">
+          <h1 class="text-2xl font-bold">Staff renderer — dev gallery</h1>
+          <p class="mt-1 text-sm text-slate-600">
+            All 13 beginner-range pitches (C4 → A5) for visual verification. Dev-only route — 404s in production.
+          </p>
+        </header>
+
+        <ul class="mx-auto grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          {PITCHES.map((pitch) => (
+            <li class="flex flex-col items-center rounded-lg border border-slate-200 bg-white p-3">
+              <Staff note={pitch} className="w-full text-slate-900" />
+              <span class="mt-2 text-sm font-medium tabular-nums">{pitch}</span>
+            </li>
+          ))}
+        </ul>
+      </main>
+    </Layout>
+  )
+}
