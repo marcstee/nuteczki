@@ -1,0 +1,10 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import DrillSession from "@/components/drill/DrillSession";
+---
+
+<Layout title="Practice">
+  <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
+    <DrillSession client:load />
+  </div>
+</Layout>

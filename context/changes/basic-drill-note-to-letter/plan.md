@@ -279,31 +279,31 @@ None — no schema, dependency, or config changes. The F-01 migration already pr
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npx astro check`
-- [x] 1.2 Linting passes: `npm run lint`
+- [x] 1.1 Type checking passes: `npx astro check` — ad889fa
+- [x] 1.2 Linting passes: `npm run lint` — ad889fa
 
 #### Manual
 
-- [x] 1.3 All 13 pitches map to the correct button letter (esp. B4→H, C4/C5→C)
-- [x] 1.4 `nextPitch` never returns `previous` and returns only members of `PITCHES`
-- [x] 1.5 `summarize` returns correct counts and integer `accuracyPct` (0 for empty)
+- [x] 1.3 All 13 pitches map to the correct button letter (esp. B4→H, C4/C5→C) — ad889fa
+- [x] 1.4 `nextPitch` never returns `previous` and returns only members of `PITCHES` — ad889fa
+- [x] 1.5 `summarize` returns correct counts and integer `accuracyPct` (0 for empty) — ad889fa
 
 ### Phase 2: Drill page + playable loop (no persistence)
 
 #### Automated
 
-- [ ] 2.1 Type checking passes: `npx astro check`
-- [ ] 2.2 Linting passes: `npm run lint` (react-compiler clean)
-- [ ] 2.3 Build passes: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro check`
+- [x] 2.2 Linting passes: `npm run lint` (react-compiler clean)
+- [x] 2.3 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 2.4 `/drill` redirects when logged out, loads when logged in; dashboard CTA reaches it
-- [ ] 2.5 Picking 5 runs a 5-exercise loop; each shows a staff note + 7 letter buttons
-- [ ] 2.6 Answering locks/colors buttons, shows ✓/✗ cue; "Next" advances; no back-to-back repeats
-- [ ] 2.7 `B4` scored correct only on "H"; correct-answer highlight lands on "H"
-- [ ] 2.8 Auto-finish shows counts + accuracy %; "Practice again" resets; "Done" → `/dashboard`
-- [ ] 2.9 Buttons comfortably tappable at phone width (child motor-skill NFR)
+- [x] 2.4 `/drill` redirects when logged out, loads when logged in; dashboard CTA reaches it
+- [x] 2.5 Picking 5 runs a 5-exercise loop; each shows a staff note + 7 letter buttons
+- [x] 2.6 Answering locks/colors buttons, shows ✓/✗ cue; "Next" advances; no back-to-back repeats
+- [x] 2.7 `B4` scored correct only on "H"; correct-answer highlight lands on "H"
+- [x] 2.8 Auto-finish shows counts + accuracy %; "Practice again" resets; "Done" → `/dashboard`
+- [x] 2.9 Buttons comfortably tappable at phone width (child motor-skill NFR)
 
 ### Phase 3: Session persistence + save UX
 
