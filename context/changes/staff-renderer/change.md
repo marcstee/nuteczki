@@ -1,7 +1,7 @@
 ---
 change_id: staff-renderer
 title: Reusable music staff component that renders a note positioned by pitch
-status: plan_reviewed
+status: implementing
 created: 2026-06-08
 updated: 2026-06-08
 archived_at: null

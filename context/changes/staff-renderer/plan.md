@@ -236,14 +236,14 @@ None. New, additive component with no schema, dependency, or config changes (no 
 
 #### Automated
 
-- [ ] 1.1 Type checking passes: `npx astro check`
-- [ ] 1.2 Linting passes: `npm run lint`
+- [x] 1.1 Type checking passes: `npx astro check`
+- [x] 1.2 Linting passes: `npm run lint`
 
 #### Manual
 
-- [ ] 1.3 All 13 `pitchToStaffStep` rows match the reference table
-- [ ] 1.4 `needsLedgerLine` returns `true` only for C4 and A5
-- [ ] 1.5 `stepToY` grounded: stepToY(0)=E4 line, stepToY(2)=G4 line, +1 step = −LINE_GAP/2
+- [x] 1.3 All 13 `pitchToStaffStep` rows match the reference table
+- [x] 1.4 `needsLedgerLine` returns `true` only for C4 and A5
+- [x] 1.5 `stepToY` grounded: stepToY(0)=E4 line, stepToY(2)=G4 line, +1 step = −LINE_GAP/2
 
 ### Phase 2: Staff SVG component
 
