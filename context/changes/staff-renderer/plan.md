@@ -236,29 +236,29 @@ None. New, additive component with no schema, dependency, or config changes (no 
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npx astro check`
-- [x] 1.2 Linting passes: `npm run lint`
+- [x] 1.1 Type checking passes: `npx astro check` — bc671f3
+- [x] 1.2 Linting passes: `npm run lint` — bc671f3
 
 #### Manual
 
-- [x] 1.3 All 13 `pitchToStaffStep` rows match the reference table
-- [x] 1.4 `needsLedgerLine` returns `true` only for C4 and A5
-- [x] 1.5 `stepToY` grounded: stepToY(0)=E4 line, stepToY(2)=G4 line, +1 step = −LINE_GAP/2
+- [x] 1.3 All 13 `pitchToStaffStep` rows match the reference table — bc671f3
+- [x] 1.4 `needsLedgerLine` returns `true` only for C4 and A5 — bc671f3
+- [x] 1.5 `stepToY` grounded: stepToY(0)=E4 line, stepToY(2)=G4 line, +1 step = −LINE_GAP/2 — bc671f3
 
 ### Phase 2: Staff SVG component
 
 #### Automated
 
-- [ ] 2.1 Type checking passes: `npx astro check`
-- [ ] 2.2 Linting passes: `npm run lint` (react-compiler clean)
-- [ ] 2.3 Build passes: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro check`
+- [x] 2.2 Linting passes: `npm run lint` (react-compiler clean)
+- [x] 2.3 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 2.4 C4→A5 each render on the correct line/space
-- [ ] 2.5 C4 and A5 show exactly one ledger line; no other pitch does
-- [ ] 2.6 Treble clef spiral sits on the G4 line and looks correct
-- [ ] 2.7 `text-*` class themes lines/clef/notehead together; SVG scales crisply
+- [x] 2.4 C4→A5 each render on the correct line/space
+- [x] 2.5 C4 and A5 show exactly one ledger line; no other pitch does
+- [x] 2.6 Treble clef spiral sits on the G4 line and looks correct
+- [x] 2.7 `text-*` class themes lines/clef/notehead together; SVG scales crisply
 
 ### Phase 3: Verification gallery (all 13 pitches)
 
