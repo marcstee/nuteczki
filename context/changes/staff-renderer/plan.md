@@ -264,12 +264,12 @@ None. New, additive component with no schema, dependency, or config changes (no 
 
 #### Automated
 
-- [x] 3.1 Build passes with the new page: `npm run build`
-- [x] 3.2 Linting passes: `npm run lint`
+- [x] 3.1 Build passes with the new page: `npm run build` — 856059c
+- [x] 3.2 Linting passes: `npm run lint` — 856059c
 
 #### Manual
 
-- [x] 3.3 `/dev/staff` shows all 13 notes on musically correct positions
-- [x] 3.4 C4/A5 ledger lines and clef placement correct across the grid
-- [x] 3.5 Grid scales legibly at mobile width (PWA target)
-- [x] 3.6 DEV gate: `/dev/staff` 404s in a production build; renders only under the dev server
+- [x] 3.3 `/dev/staff` shows all 13 notes on musically correct positions — 856059c
+- [x] 3.4 C4/A5 ledger lines and clef placement correct across the grid — 856059c
+- [x] 3.5 Grid scales legibly at mobile width (PWA target) — 856059c
+- [x] 3.6 DEV gate: `/dev/staff` 404s in a production build; renders only under the dev server — 856059c
