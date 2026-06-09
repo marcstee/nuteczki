@@ -34,6 +34,33 @@ export const EXERCISE_TYPE_NOTE_TO_LETTER = "note_to_letter";
 export const EXERCISE_TYPE_LETTER_TO_NOTE = "letter_to_note";
 
 /**
+ * Per-`(exercise_type, note)` error counts that bias target-pitch selection
+ * toward the notes a child misses most (S-03 / FR-003). Keyed by exercise type;
+ * each value maps a subset of `Pitch` to its raw `error_count` from the
+ * `note_error_stats` view (a non-negative integer). An absent pitch means "no
+ * recorded errors" and is treated as count `0` by the weighted picker.
+ *
+ * Deliberately a plain JSON-serializable object (no `Map`): `drill.astro` builds
+ * it server-side and passes it across the Astro→React island boundary as a prop,
+ * which JSON-serializes.
+ */
+export type NoteWeights = Record<
+  typeof EXERCISE_TYPE_NOTE_TO_LETTER | typeof EXERCISE_TYPE_LETTER_TO_NOTE,
+  Partial<Record<Pitch, number>>
+>;
+
+/**
+ * The canonical empty weights value — no recorded errors for either type. This is
+ * the default for `buildSession` and the cold-start / graceful-fallback path:
+ * with it, every note collapses to the `+1` baseline weight, so the weighted draw
+ * is exactly uniform and selection reproduces today's behavior.
+ */
+export const EMPTY_WEIGHTS: NoteWeights = {
+  [EXERCISE_TYPE_NOTE_TO_LETTER]: {},
+  [EXERCISE_TYPE_LETTER_TO_NOTE]: {},
+};
+
+/**
  * Pitch → answer letter. Scientific `B4` maps to the `H` button; every other
  * pitch maps to its first character. This is the lone musical-domain mapping
  * S-01 owns, and a wrong entry is the equivalent of a wrong note — so it is a
@@ -61,14 +88,40 @@ export function pitchToLetter(pitch: Pitch): Letter {
 }
 
 /**
+ * Pure given `rng`: a pitch from `PITCHES` drawn in proportion to
+ * `error_count + 1` for each candidate, excluding `previous` when non-null so no
+ * two consecutive exercises repeat the same note. The `+1` baseline is applied
+ * across the **full** pool (every in-range pitch is a candidate with weight ≥ 1),
+ * not only over pitches present in `errorCounts` — so a mastered note never drops
+ * to zero probability, and an empty/all-zero `errorCounts` yields an exactly
+ * uniform draw. This is the single implementation of the pitch draw; `nextPitch`
+ * is the uniform special case. `rng` defaults to `Math.random` and is injectable.
+ */
+export function weightedNextPitch(
+  previous: Pitch | null,
+  errorCounts: Partial<Record<Pitch, number>>,
+  rng: () => number = Math.random,
+): Pitch {
+  const pool = previous === null ? PITCHES : PITCHES.filter((p) => p !== previous);
+  const weights = pool.map((p) => (errorCounts[p] ?? 0) + 1);
+  const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+  let r = rng() * totalWeight;
+  for (let i = 0; i < pool.length; i++) {
+    r -= weights[i];
+    if (r < 0) return pool[i];
+  }
+  return pool[pool.length - 1]; // float-rounding safety: `r` exhausted the walk
+}
+
+/**
  * Pure given `rng`: a uniformly random pitch from `PITCHES`, excluding
  * `previous` when non-null so no two consecutive exercises repeat the same note.
- * `rng` defaults to `Math.random` and is injectable for deterministic tests.
+ * The uniform draw is `weightedNextPitch` with empty weights (every candidate at
+ * the `+1` baseline); this named wrapper keeps the random-slot call site
+ * self-documenting. `rng` defaults to `Math.random` and is injectable for tests.
  */
 export function nextPitch(previous: Pitch | null, rng: () => number = Math.random): Pitch {
-  const pool = previous === null ? PITCHES : PITCHES.filter((p) => p !== previous);
-  const index = Math.floor(rng() * pool.length);
-  return pool[index];
+  return weightedNextPitch(previous, {}, rng);
 }
 
 /**
@@ -169,10 +222,23 @@ function letterToNoteOptions(targetPitch: Pitch, rng: () => number): readonly Pi
  * letter→note exercise derives its prompt letter from the target pitch and gets
  * distinct-letter distractors via `letterToNoteOptions`.
  *
+ * Target-pitch selection is adaptive (S-03 / FR-003): exactly `round(0.7×count)`
+ * slots are "weighted" and draw their pitch in proportion to `error_count + 1`
+ * from `weights` (per exercise type), biasing toward recently-missed notes; the
+ * remaining slots stay uniform. The weighted/random designation is shuffled
+ * independently of the type deck, so it correlates with neither position nor
+ * type. With the default `EMPTY_WEIGHTS` every weight is the `+1` baseline, so
+ * both paths are the same uniform draw and the deck is distributionally identical
+ * to the pre-S-03 behavior — making this inert until real weights are supplied.
+ *
  * Pre-build this once in an event handler (never in render) so the deck is
  * stable across renders — the same discipline the stable save-ids follow.
  */
-export function buildSession(count: 5 | 10 | 20, rng: () => number = Math.random): Exercise[] {
+export function buildSession(
+  count: 5 | 10 | 20,
+  weights: NoteWeights = EMPTY_WEIGHTS,
+  rng: () => number = Math.random,
+): Exercise[] {
   const noteToLetterCount = Math.ceil(count / 2);
   const letterToNoteCount = Math.floor(count / 2);
 
@@ -180,10 +246,22 @@ export function buildSession(count: 5 | 10 | 20, rng: () => number = Math.random
   for (let i = 0; i < noteToLetterCount; i++) types.push(EXERCISE_TYPE_NOTE_TO_LETTER);
   for (let i = 0; i < letterToNoteCount; i++) types.push(EXERCISE_TYPE_LETTER_TO_NOTE);
 
+  // Designate ~70% of slots as weighted, shuffled so the bias does not correlate
+  // with deck position or exercise type. Type order is shuffled independently.
+  const weightedCount = Math.round(0.7 * count);
+  const weightedSlots = shuffle(
+    Array.from({ length: count }, (_, i) => i < weightedCount),
+    rng,
+  );
+  const shuffledTypes = shuffle(types, rng);
+
   const exercises: Exercise[] = [];
   let previousTarget: Pitch | null = null;
-  for (const type of shuffle(types, rng)) {
-    const targetPitch = nextPitch(previousTarget, rng);
+  for (let slot = 0; slot < shuffledTypes.length; slot++) {
+    const type = shuffledTypes[slot];
+    const targetPitch: Pitch = weightedSlots[slot]
+      ? weightedNextPitch(previousTarget, weights[type], rng)
+      : nextPitch(previousTarget, rng);
     if (type === EXERCISE_TYPE_NOTE_TO_LETTER) {
       exercises.push({ type, pitch: targetPitch });
     } else {
