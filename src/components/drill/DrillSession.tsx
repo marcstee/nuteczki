@@ -85,9 +85,8 @@ export default function DrillSession({ weights = EMPTY_WEIGHTS }: DrillSessionPr
     try {
       await saveSession({ sessionId: id, answerIds: ids, exerciseCount: count, startedAt: started, answers: records });
       setSaveState("saved");
-    } catch (error) {
+    } catch {
       setSaveState("error");
-      console.error("Failed to save drill session", error);
     }
   }
 
