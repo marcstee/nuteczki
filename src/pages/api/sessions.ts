@@ -4,8 +4,9 @@ import { type Pitch, PITCHES } from "@/components/staff/pitch";
 import { EXERCISE_TYPE_LETTER_TO_NOTE, EXERCISE_TYPE_NOTE_TO_LETTER } from "@/components/drill/exercises";
 
 /**
- * Persist a completed note→letter session and its answers in one request,
- * scoped to the authenticated user and idempotent under retry.
+ * Persist a completed drill session (note→letter and letter→note) and its
+ * answers in one request, scoped to the authenticated user and idempotent
+ * under retry.
  *
  * The route self-guards auth (returns 401 JSON rather than redirecting like
  * `PROTECTED_ROUTES`, which would be wrong for a `fetch()`), validates the
