@@ -31,7 +31,7 @@ Children learning music lack a simple, focused tool for practising note reading.
 | F-02 | staff-renderer             | (foundation) Reusable music staff component renders notes with correct positioning | —             | FR-004, FR-005                                 | done     |
 | F-03 | pwa-setup                  | (foundation) PWA manifest, service worker, and app icons; installable on home screen | —           | NFR (PWA on iPhone/iPad)                       | ready    |
 | S-01 | basic-drill-note-to-letter | Start a drill, see note-to-letter exercises, get feedback, see session stats       | F-01, F-02    | US-01, FR-002, FR-004, FR-006, FR-007, FR-008  | done     |
-| S-02 | letter-to-note-exercise    | See letter-to-note exercises in drill sessions alongside note-to-letter            | S-01          | US-01, FR-005                                  | proposed |
+| S-02 | letter-to-note-exercise    | See letter-to-note exercises in drill sessions alongside note-to-letter            | S-01          | US-01, FR-005                                  | done     |
 | S-03 | adaptive-selection         | Exercises weighted toward recently missed notes instead of random                  | S-01          | US-01, FR-003                                  | proposed |
 | S-04 | session-history            | See all past sessions with date, correct/incorrect by type, progress indicator     | S-01          | US-02, FR-009                                  | proposed |
 
@@ -122,7 +122,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Low — the staff renderer (F-02) and drill session infrastructure (S-01) are already in place. The main new work is the exercise UI variant (show letter, display 3 note options on staff) and wiring it into the session's exercise pool.
-- **Status:** proposed
+- **Status:** done
 
 ### S-03: Adaptacyjny dobor cwiczen
 
@@ -176,3 +176,4 @@ None. PRD has 0 open questions and no cross-cutting unknowns surfaced during fra
 - **S-01: user can start a drill session by choosing a preset exercise count, see note-to-letter exercises (note displayed on staff, child picks the correct letter name from 7 answer buttons) with random selection, get immediate visual feedback after each answer, and see session stats (correct/incorrect count) when the session auto-finishes** — Archived 2026-06-09 → `context/archive/2026-06-08-basic-drill-note-to-letter/`. Lesson: —.
 - **F-01: (foundation) Supabase tables for drill sessions, individual answers, and per-note error history are defined and migrated; the adaptive algorithm and session stats have a persistence layer to read from and write to.** — Archived 2026-06-09 → `context/archive/2026-05-28-session-data-schema/`. Lesson: —.
 - **F-02: (foundation) A reusable React component renders a five-line music staff with a single note positioned correctly by pitch; the guardrail "musical accuracy is non-negotiable" is satisfied at the component level before any exercise type consumes it.** — Archived 2026-06-09 → `context/archive/2026-06-08-staff-renderer/`. Lesson: —.
+- **S-02: user can see letter-to-note exercises in drill sessions — a letter name is shown, and the child picks the correct note on the staff from 3 visual options — mixed alongside note-to-letter exercises** — Archived 2026-06-09 → `context/archive/2026-06-09-letter-to-note-exercise/`. Lesson: —.

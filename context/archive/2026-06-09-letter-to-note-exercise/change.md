@@ -1,10 +1,10 @@
 ---
 change_id: letter-to-note-exercise
 title: Add letter-to-note exercise type to drill sessions
-status: impl_reviewed
+status: archived
 created: 2026-06-09
 updated: 2026-06-09
-archived_at: null
+archived_at: 2026-06-09T13:21:35Z
 ---
 
 ## Notes
