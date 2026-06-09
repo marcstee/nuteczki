@@ -1,10 +1,10 @@
 ---
 change_id: session-history
 title: "Session history view: past sessions with per-type stats and accuracy"
-status: impl_reviewed
+status: archived
 created: 2026-06-09
 updated: 2026-06-09
-archived_at: null
+archived_at: 2026-06-09T19:05:51Z
 ---
 
 ## Notes
