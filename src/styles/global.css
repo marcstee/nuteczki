@@ -3,76 +3,72 @@
 
 @custom-variant dark (&:is(.dark *));
 
-:root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+/* Fredoka — self-hosted, subsetted (latin + latin-ext for Polish diacritics).
+   Variable weight axis 300–700 served as one file per subset. */
+@font-face {
+  font-family: "Fredoka";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/fredoka-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Fredoka";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/fredoka-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+/* Nuteczki brand palette — single dark theme (flat navy, playful blue/purple/pink).
+   Draft hexes from visual-direction.md converted to oklch. Token names are kept
+   stable so button.tsx and any shadcn primitive inherit the look unchanged. */
+:root {
+  --radius: 1rem;
+  --background: oklch(0.261 0.056 259.3); /* #13243F flat navy canvas */
+  --foreground: oklch(0.973 0.013 266.7); /* #F2F6FF near-white text */
+  --card: oklch(0.317 0.063 259.4); /* #1E3252 one-step-lighter surface */
+  --card-foreground: oklch(0.973 0.013 266.7);
+  --popover: oklch(0.317 0.063 259.4);
+  --popover-foreground: oklch(0.973 0.013 266.7);
+  --primary: oklch(0.767 0.109 224.6); /* #5BC2E7 brand sky blue */
+  --primary-foreground: oklch(0.261 0.056 259.3); /* navy text on primary */
+  --secondary: oklch(0.653 0.168 286.7); /* #8B7CF0 playful purple */
+  --secondary-foreground: oklch(0.973 0.013 266.7);
+  --muted: oklch(0.317 0.063 259.4); /* #1E3252 muted surface */
+  --muted-foreground: oklch(0.774 0.037 262.8); /* #A9B6CE secondary labels */
+  --accent: oklch(0.766 0.128 359); /* #F48FB1 celebration pink */
+  --accent-foreground: oklch(0.261 0.056 259.3); /* navy text on accent */
+  --success: oklch(0.789 0.188 145.7); /* #5BD96A correct feedback */
+  --destructive: oklch(0.735 0.163 21.9); /* #FF7A7A soft coral error */
+  --border: oklch(1 0 0 / 12%); /* subtle light border on navy */
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.767 0.109 224.6); /* focus ring = primary */
+  --chart-1: oklch(0.767 0.109 224.6);
+  --chart-2: oklch(0.653 0.168 286.7);
+  --chart-3: oklch(0.766 0.128 359);
+  --chart-4: oklch(0.789 0.188 145.7);
+  --chart-5: oklch(0.735 0.163 21.9);
+  --sidebar: oklch(0.317 0.063 259.4);
+  --sidebar-foreground: oklch(0.973 0.013 266.7);
+  --sidebar-primary: oklch(0.767 0.109 224.6);
+  --sidebar-primary-foreground: oklch(0.261 0.056 259.3);
+  --sidebar-accent: oklch(0.653 0.168 286.7);
+  --sidebar-accent-foreground: oklch(0.973 0.013 266.7);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.767 0.109 224.6);
 }
 
 @theme inline {
+  --font-sans: "Fredoka", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -91,6 +87,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
@@ -119,6 +116,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
 }
