@@ -1,0 +1,117 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { createClient } from "@/lib/supabase";
+import { summarizeSessions, type SessionSummary } from "@/components/history/sessionSummary";
+
+/**
+ * Session history (S-04 / FR-009): a read-only, zero-client-JS list of the
+ * signed-in parent's finished drill sessions, newest first. Mirrors the
+ * SSR-fetch-in-frontmatter pattern from `drill.astro`: build the cookie-authed
+ * client (null-guarded), run one embedded select, and aggregate in TS via the
+ * pure `summarizeSessions` helper. RLS scopes every row to the caller, so the
+ * result is already account-private.
+ *
+ * Three render states are kept distinct (see plan-review F1): `sessions === null`
+ * is the error / unconfigured-client state (neutral card, no CTA); an empty array
+ * is a confirmed first-run user (empty state with the "Start practising" CTA); a
+ * non-empty array is the list. Collapsing error into empty would tell a returning
+ * parent — mid-outage — that their child never practised, so the split is load-bearing.
+ */
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+
+let sessions: SessionSummary[] | null = null;
+if (supabase) {
+  const { data, error } = await supabase
+    .from("sessions")
+    .select("id, started_at, answers(exercise_type, is_correct)")
+    .not("finished_at", "is", null)
+    .order("started_at", { ascending: false });
+  if (!error) {
+    sessions = summarizeSessions(data);
+  }
+}
+
+/**
+ * Date-only, explicit Europe/Warsaw tz: the frontmatter runs per-request on a
+ * Cloudflare Worker (UTC clock) with zero client JS, so a UTC-formatted date would
+ * show the wrong day near local midnight for the Polish audience (plan-review F2).
+ * Time-of-day is dropped — it would need the visitor's tz, unavailable without an
+ * island. Revisit by moving formatting client-side if the audience goes multi-tz.
+ */
+const dateFormatter = new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Warsaw", dateStyle: "medium" });
+---
+
+<Layout title="Session history">
+  <div class="bg-cosmic min-h-screen p-4">
+    <main class="mx-auto w-full max-w-2xl py-10 text-white">
+      <h1
+        class="mb-8 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-center text-3xl font-bold text-transparent"
+      >
+        Session history
+      </h1>
+
+      {
+        sessions === null ? (
+          <div class="mx-auto max-w-md rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
+            <p class="text-blue-100/80">Couldn&apos;t load your sessions right now. Please try again in a moment.</p>
+          </div>
+        ) : sessions.length === 0 ? (
+          <div class="mx-auto max-w-md rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
+            <p class="text-lg font-medium text-white">No practice sessions yet</p>
+            <p class="mt-2 text-sm text-blue-100/60">Finish a drill and it will show up here.</p>
+            <a
+              href="/drill"
+              class="mt-6 block rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3 text-lg font-bold text-white transition-all hover:from-blue-400 hover:to-purple-400"
+            >
+              Start practising
+            </a>
+          </div>
+        ) : (
+          <ul class="flex flex-col gap-6">
+            {sessions.map((s) => (
+              <li class="rounded-2xl border border-white/10 bg-white/5 p-6">
+                <div class="mb-4 flex items-baseline justify-between gap-4">
+                  <h2 class="text-lg font-semibold text-white">{dateFormatter.format(new Date(s.startedAt))}</h2>
+                  <span class="text-2xl font-bold text-white">{s.accuracyPct}%</span>
+                </div>
+
+                <div class="mb-6">
+                  <div class="h-2 w-full overflow-hidden rounded-full bg-white/10">
+                    <div
+                      class="h-full rounded-full bg-gradient-to-r from-blue-400 to-purple-400"
+                      style={`width: ${s.accuracyPct}%`}
+                    />
+                  </div>
+                  <p class="mt-1 text-right text-xs text-blue-100/50">accuracy</p>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {[
+                    { label: "Note → letter", stats: s.byType.noteToLetter },
+                    { label: "Letter → note", stats: s.byType.letterToNote },
+                  ].map(({ label, stats }) => (
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                      <p class="mb-3 text-center text-xs font-semibold tracking-wide text-blue-100/50 uppercase">
+                        {label}
+                      </p>
+                      <div class="flex justify-around">
+                        <div class="text-center">
+                          <div class="text-3xl font-bold text-green-400">{stats.correct}</div>
+                          <div class="text-sm text-blue-100/60">correct</div>
+                        </div>
+                        <div class="text-center">
+                          <div class="text-3xl font-bold text-red-400">{stats.incorrect}</div>
+                          <div class="text-sm text-blue-100/60">incorrect</div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </main>
+  </div>
+</Layout>

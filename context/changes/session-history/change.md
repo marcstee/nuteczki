@@ -1,7 +1,7 @@
 ---
 change_id: session-history
 title: "Session history view: past sessions with per-type stats and accuracy"
-status: plan_reviewed
+status: implementing
 created: 2026-06-09
 updated: 2026-06-09
 archived_at: null
