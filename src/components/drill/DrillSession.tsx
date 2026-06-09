@@ -2,13 +2,16 @@ import { useState } from "react";
 import type { Pitch } from "@/components/staff/pitch";
 import {
   type AnswerRecord,
+  buildSession,
+  type Exercise,
+  EXERCISE_TYPE_LETTER_TO_NOTE,
   EXERCISE_TYPE_NOTE_TO_LETTER,
   type Letter,
-  nextPitch,
   pitchToLetter,
   summarize,
 } from "@/components/drill/exercises";
 import NoteToLetterExercise from "@/components/drill/NoteToLetterExercise";
+import LetterToNoteExercise from "@/components/drill/LetterToNoteExercise";
 import SessionResults, { type SaveState } from "@/components/drill/SessionResults";
 import { saveSession } from "@/components/drill/saveSession";
 
@@ -19,21 +22,34 @@ type ExerciseCount = (typeof COUNTS)[number];
 type Phase = "setup" | "active" | "finished";
 
 /**
+ * Which card/letter the child tapped for the current exercise, discriminated to
+ * match the active exercise type, or `null` before answering. Distinguishes
+ * "not answered yet" from a chosen answer so the active view locks and shows
+ * feedback. In-memory only — the persisted shape is `AnswerRecord`.
+ */
+type Chosen =
+  | { type: typeof EXERCISE_TYPE_NOTE_TO_LETTER; letter: Letter }
+  | { type: typeof EXERCISE_TYPE_LETTER_TO_NOTE; pitch: Pitch };
+
+/**
  * Drill orchestrator island: owns the `setup → active → finished` state machine
- * and drives the note→letter loop entirely in client state. Setup picks a count;
- * each answer is scored locally (`isCorrect = chosen === pitchToLetter(pitch)`)
- * and appended to `answers`; "Next" draws the next pitch via `nextPitch(previous)`
- * (no back-to-back repeats) until the chosen count is reached, then auto-finishes
- * (FR-007) into the results screen. On finish the session is saved in the
- * background (P3): stats render immediately while `saveSession` POSTs the batch;
- * a failed save surfaces a non-blocking "Retry save" without hiding the results.
+ * and drives a balanced mixed deck of both exercise types entirely in client
+ * state. Setup picks a count, then `buildSession(count)` pre-builds the ordered
+ * deck (in the event handler, never render — keeps it stable and react-compiler
+ * clean). The loop walks the deck by index, rendering the matching component per
+ * step; each answer is scored locally by type and appended to `answers`. After
+ * the last exercise it auto-finishes (FR-007) into the results screen, which
+ * shows overall accuracy plus per-type counts (FR-008). On finish the session is
+ * saved in the background: stats render immediately while `saveSession` POSTs the
+ * batch; a failed save surfaces a non-blocking "Retry save" without hiding them.
  */
 export default function DrillSession() {
   const [phase, setPhase] = useState<Phase>("setup");
   const [exerciseCount, setExerciseCount] = useState<ExerciseCount>(5);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
-  const [currentPitch, setCurrentPitch] = useState<Pitch | null>(null);
-  const [chosenLetter, setChosenLetter] = useState<Letter | null>(null);
+  const [chosen, setChosen] = useState<Chosen | null>(null);
   const [startedAt, setStartedAt] = useState("");
   // Stable ids for the save: generated once on the transition into `finished`
   // (never in render — that would defeat idempotency and break react-compiler)
@@ -42,7 +58,7 @@ export default function DrillSession() {
   const [answerIds, setAnswerIds] = useState<readonly string[]>([]);
   const [saveState, setSaveState] = useState<SaveState>("saving");
 
-  const answered = chosenLetter !== null;
+  const answered = chosen !== null;
 
   async function persist(
     id: string,
@@ -63,21 +79,34 @@ export default function DrillSession() {
 
   function handleStart(count: ExerciseCount) {
     setExerciseCount(count);
+    setExercises(buildSession(count));
+    setCurrentIndex(0);
     setAnswers([]);
-    setChosenLetter(null);
-    setCurrentPitch(nextPitch(null));
+    setChosen(null);
     setStartedAt(new Date().toISOString());
     setPhase("active");
   }
 
-  function handleAnswer(letter: Letter) {
-    if (currentPitch === null || chosenLetter !== null) return;
-    const isCorrect = letter === pitchToLetter(currentPitch);
+  function handleAnswerLetter(letter: Letter) {
+    const current = exercises[currentIndex];
+    if (chosen !== null || current.type !== EXERCISE_TYPE_NOTE_TO_LETTER) return;
+    const isCorrect = letter === pitchToLetter(current.pitch);
     setAnswers((prev) => [
       ...prev,
-      { note: currentPitch, chosenLetter: letter, isCorrect, exerciseType: EXERCISE_TYPE_NOTE_TO_LETTER },
+      { exerciseType: EXERCISE_TYPE_NOTE_TO_LETTER, note: current.pitch, chosenLetter: letter, isCorrect },
     ]);
-    setChosenLetter(letter);
+    setChosen({ type: EXERCISE_TYPE_NOTE_TO_LETTER, letter });
+  }
+
+  function handleAnswerPitch(pitch: Pitch) {
+    const current = exercises[currentIndex];
+    if (chosen !== null || current.type !== EXERCISE_TYPE_LETTER_TO_NOTE) return;
+    const isCorrect = pitchToLetter(pitch) === current.promptLetter;
+    setAnswers((prev) => [
+      ...prev,
+      { exerciseType: EXERCISE_TYPE_LETTER_TO_NOTE, note: current.targetPitch, chosenPitch: pitch, isCorrect },
+    ]);
+    setChosen({ type: EXERCISE_TYPE_LETTER_TO_NOTE, pitch });
   }
 
   function handleNext() {
@@ -92,8 +121,8 @@ export default function DrillSession() {
       void persist(id, ids, startedAt, exerciseCount, answers);
       return;
     }
-    setCurrentPitch((prev) => nextPitch(prev));
-    setChosenLetter(null);
+    setCurrentIndex((i) => i + 1);
+    setChosen(null);
   }
 
   function handleRetrySave() {
@@ -102,9 +131,10 @@ export default function DrillSession() {
   }
 
   function handleAgain() {
+    setExercises([]);
+    setCurrentIndex(0);
     setAnswers([]);
-    setChosenLetter(null);
-    setCurrentPitch(null);
+    setChosen(null);
     setSessionId(null);
     setAnswerIds([]);
     setSaveState("saving");
@@ -140,12 +170,15 @@ export default function DrillSession() {
   }
 
   if (phase === "finished") {
-    const stats = summarize(answers);
+    const noteToLetter = summarize(answers.filter((a) => a.exerciseType === EXERCISE_TYPE_NOTE_TO_LETTER));
+    const letterToNote = summarize(answers.filter((a) => a.exerciseType === EXERCISE_TYPE_LETTER_TO_NOTE));
     return (
       <SessionResults
-        correct={stats.correct}
-        incorrect={stats.incorrect}
-        accuracyPct={stats.accuracyPct}
+        accuracyPct={summarize(answers).accuracyPct}
+        byType={{
+          noteToLetter: { correct: noteToLetter.correct, incorrect: noteToLetter.incorrect },
+          letterToNote: { correct: letterToNote.correct, incorrect: letterToNote.incorrect },
+        }}
         onAgain={handleAgain}
         onDone={handleDone}
         saveState={saveState}
@@ -155,15 +188,31 @@ export default function DrillSession() {
   }
 
   // phase === "active"
-  if (currentPitch === null) return null;
+  const current = exercises[currentIndex];
+  const progress = { index: currentIndex, total: exerciseCount };
+
+  if (current.type === EXERCISE_TYPE_NOTE_TO_LETTER) {
+    return (
+      <NoteToLetterExercise
+        pitch={current.pitch}
+        answered={answered}
+        chosenLetter={chosen?.type === EXERCISE_TYPE_NOTE_TO_LETTER ? chosen.letter : null}
+        onAnswer={handleAnswerLetter}
+        onNext={handleNext}
+        progress={progress}
+      />
+    );
+  }
+
   return (
-    <NoteToLetterExercise
-      pitch={currentPitch}
+    <LetterToNoteExercise
+      promptLetter={current.promptLetter}
+      options={current.options}
       answered={answered}
-      chosenLetter={chosenLetter}
-      onAnswer={handleAnswer}
+      chosenPitch={chosen?.type === EXERCISE_TYPE_LETTER_TO_NOTE ? chosen.pitch : null}
+      onAnswer={handleAnswerPitch}
       onNext={handleNext}
-      progress={{ index: answered ? answers.length - 1 : answers.length, total: exerciseCount }}
+      progress={progress}
     />
   );
 }

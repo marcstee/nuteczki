@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
 import { type Pitch, PITCHES } from "@/components/staff/pitch";
-import { EXERCISE_TYPE_NOTE_TO_LETTER } from "@/components/drill/exercises";
+import { EXERCISE_TYPE_LETTER_TO_NOTE, EXERCISE_TYPE_NOTE_TO_LETTER } from "@/components/drill/exercises";
 
 /**
  * Persist a completed note→letter session and its answers in one request,
@@ -21,7 +21,7 @@ type ExerciseCount = (typeof EXERCISE_COUNTS)[number];
 
 interface AnswerPayload {
   id: string;
-  exercise_type: typeof EXERCISE_TYPE_NOTE_TO_LETTER;
+  exercise_type: typeof EXERCISE_TYPE_NOTE_TO_LETTER | typeof EXERCISE_TYPE_LETTER_TO_NOTE;
   note: Pitch;
   is_correct: boolean;
 }
@@ -64,7 +64,7 @@ function parseBody(body: unknown): SessionPayload | null {
     if (typeof raw !== "object" || raw === null) return null;
     const { id: answerId, exercise_type, note, is_correct } = raw as Record<string, unknown>;
     if (typeof answerId !== "string" || answerId.length === 0) return null;
-    if (exercise_type !== EXERCISE_TYPE_NOTE_TO_LETTER) return null;
+    if (exercise_type !== EXERCISE_TYPE_NOTE_TO_LETTER && exercise_type !== EXERCISE_TYPE_LETTER_TO_NOTE) return null;
     if (!isPitch(note)) return null;
     if (typeof is_correct !== "boolean") return null;
     parsed.push({ id: answerId, exercise_type, note, is_correct });

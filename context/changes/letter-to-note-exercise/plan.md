@@ -218,32 +218,32 @@ None — no schema, dependency, or config changes. The F-01 schema already permi
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npx astro check`
-- [x] 1.2 Linting passes: `npm run lint`
+- [x] 1.1 Type checking passes: `npx astro check` — 4bb0367
+- [x] 1.2 Linting passes: `npm run lint` — 4bb0367
 
 #### Manual
 
-- [x] 1.3 `buildSession` returns `count` exercises with the balanced split (5→3/2, 10→5/5, 20→10/10)
-- [x] 1.4 Every letter→note exercise has 3 distinct-letter options, exactly one matching `promptLetter`, with `targetPitch` among them
-- [x] 1.5 No two consecutive exercises share the same target note, across repeated builds
-- [x] 1.6 Both `AnswerRecord` union members expose `note`/`exerciseType`/`isCorrect` (save mapping type-checks)
+- [x] 1.3 `buildSession` returns `count` exercises with the balanced split (5→3/2, 10→5/5, 20→10/10) — 4bb0367
+- [x] 1.4 Every letter→note exercise has 3 distinct-letter options, exactly one matching `promptLetter`, with `targetPitch` among them — 4bb0367
+- [x] 1.5 No two consecutive exercises share the same target note, across repeated builds — 4bb0367
+- [x] 1.6 Both `AnswerRecord` union members expose `note`/`exerciseType`/`isCorrect` (save mapping type-checks) — 4bb0367
 
 ### Phase 2: Mixed drill UI + persistence widening
 
 #### Automated
 
-- [ ] 2.1 Type checking passes: `npx astro check`
-- [ ] 2.2 Linting passes: `npm run lint` (react-compiler clean)
-- [ ] 2.3 Build passes: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro check`
+- [x] 2.2 Linting passes: `npm run lint` (react-compiler clean)
+- [x] 2.3 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 2.4 A session interleaves both types (~half each); both appear within one session
-- [ ] 2.5 Letter→note shows caption + large letter + 3 distinct-letter staff cards; matching-letter card scores correct (any octave), non-matching scores wrong
-- [ ] 2.6 Letter→note feedback locks/greens correct card, reds wrong pick, shows ✓/✗; "Next" advances; note→letter unchanged
-- [ ] 2.7 No two consecutive exercises drill the same note, across either type
-- [ ] 2.8 Auto-finish shows accuracy % + two per-type stat blocks with counts matching play; "Practice again" resets; "Done" → `/dashboard`
-- [ ] 2.9 Mixed session writes 1 `sessions` row + N `answers` rows with mixed `exercise_type`, scoped to the user; second account can't see them (RLS)
-- [ ] 2.10 Failed save still shows stats + "Retry save"; retry persists with no duplicate rows
-- [ ] 2.11 Unauthenticated POST → 401; valid mixed payload → 200; unknown `exercise_type`/bad `note` → 400
-- [ ] 2.12 Option cards comfortably tappable at phone width (child motor-skill NFR)
+- [x] 2.4 A session interleaves both types (~half each); both appear within one session
+- [x] 2.5 Letter→note shows caption + large letter + 3 distinct-letter staff cards; matching-letter card scores correct (any octave), non-matching scores wrong
+- [x] 2.6 Letter→note feedback locks/greens correct card, reds wrong pick, shows ✓/✗; "Next" advances; note→letter unchanged
+- [x] 2.7 No two consecutive exercises drill the same note, across either type
+- [x] 2.8 Auto-finish shows accuracy % + two per-type stat blocks with counts matching play; "Practice again" resets; "Done" → `/dashboard`
+- [x] 2.9 Mixed session writes 1 `sessions` row + N `answers` rows with mixed `exercise_type`, scoped to the user; second account can't see them (RLS)
+- [x] 2.10 Failed save still shows stats + "Retry save"; retry persists with no duplicate rows
+- [x] 2.11 Unauthenticated POST → 401; valid mixed payload → 200; unknown `exercise_type`/bad `note` → 400
+- [x] 2.12 Option cards comfortably tappable at phone width (child motor-skill NFR)

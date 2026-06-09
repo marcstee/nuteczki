@@ -1,13 +1,20 @@
 /** Background persistence status for the just-finished session. */
 export type SaveState = "saving" | "saved" | "error";
 
-interface Props {
-  /** Number of correct answers this session. */
+/** Correct / incorrect counts for one exercise type. */
+interface TypeStats {
   correct: number;
-  /** Number of incorrect answers this session. */
   incorrect: number;
-  /** Integer accuracy percentage (0–100). */
+}
+
+interface Props {
+  /** Integer accuracy percentage (0–100) across both exercise types. */
   accuracyPct: number;
+  /** Per-type correct/incorrect tallies (FR-008). */
+  byType: {
+    noteToLetter: TypeStats;
+    letterToNote: TypeStats;
+  };
   /** Restart the drill from the count-picker. */
   onAgain: () => void;
   /** Leave the drill — navigates to /dashboard. */
@@ -18,23 +25,34 @@ interface Props {
   onRetrySave: () => void;
 }
 
+/** One labeled correct/incorrect stat block for a single exercise type. */
+function StatBlock({ label, stats }: { label: string; stats: TypeStats }) {
+  return (
+    <div className="w-full rounded-2xl border border-white/10 bg-white/5 p-6">
+      <p className="mb-3 text-center text-xs font-semibold tracking-wide text-blue-100/50 uppercase">{label}</p>
+      <div className="flex justify-around">
+        <div className="text-center">
+          <div className="text-3xl font-bold text-green-400">{stats.correct}</div>
+          <div className="text-sm text-blue-100/60">correct</div>
+        </div>
+        <div className="text-center">
+          <div className="text-3xl font-bold text-red-400">{stats.incorrect}</div>
+          <div className="text-sm text-blue-100/60">incorrect</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /**
- * End-of-session results: correct / incorrect counts and accuracy %, plus the
- * two exit actions. The per-type tally is labeled "Note → letter" so S-02 can
- * add a second line for letter→note without restructuring. The save status is a
- * quiet indicator while saving/saved; on `error` it shows a non-blocking message
- * plus a "Retry save" button. Stats are visible regardless of `saveState` — the
- * results screen never blocks on the network.
+ * End-of-session results: overall accuracy % plus a per-type correct/incorrect
+ * breakdown — one block per exercise type (note→letter and letter→note, FR-008) —
+ * and the two exit actions. The save status is a quiet indicator while
+ * saving/saved; on `error` it shows a non-blocking message plus a "Retry save"
+ * button. Stats are visible regardless of `saveState` — the results screen never
+ * blocks on the network.
  */
-export default function SessionResults({
-  correct,
-  incorrect,
-  accuracyPct,
-  onAgain,
-  onDone,
-  saveState,
-  onRetrySave,
-}: Props) {
+export default function SessionResults({ accuracyPct, byType, onAgain, onDone, saveState, onRetrySave }: Props) {
   return (
     <div className="flex w-full max-w-md flex-col items-center gap-8">
       <h2 className="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
@@ -46,18 +64,9 @@ export default function SessionResults({
         <p className="text-sm font-medium text-blue-100/60">accuracy</p>
       </div>
 
-      <div className="w-full rounded-2xl border border-white/10 bg-white/5 p-6">
-        <p className="mb-3 text-center text-xs font-semibold tracking-wide text-blue-100/50 uppercase">Note → letter</p>
-        <div className="flex justify-around">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-green-400">{correct}</div>
-            <div className="text-sm text-blue-100/60">correct</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-red-400">{incorrect}</div>
-            <div className="text-sm text-blue-100/60">incorrect</div>
-          </div>
-        </div>
+      <div className="flex w-full flex-col gap-4">
+        <StatBlock label="Note → letter" stats={byType.noteToLetter} />
+        <StatBlock label="Letter → note" stats={byType.letterToNote} />
       </div>
 
       {saveState === "error" ? (
