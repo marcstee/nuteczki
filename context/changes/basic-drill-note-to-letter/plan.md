@@ -292,30 +292,30 @@ None — no schema, dependency, or config changes. The F-01 migration already pr
 
 #### Automated
 
-- [x] 2.1 Type checking passes: `npx astro check`
-- [x] 2.2 Linting passes: `npm run lint` (react-compiler clean)
-- [x] 2.3 Build passes: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro check` — d68fbf9
+- [x] 2.2 Linting passes: `npm run lint` (react-compiler clean) — d68fbf9
+- [x] 2.3 Build passes: `npm run build` — d68fbf9
 
 #### Manual
 
-- [x] 2.4 `/drill` redirects when logged out, loads when logged in; dashboard CTA reaches it
-- [x] 2.5 Picking 5 runs a 5-exercise loop; each shows a staff note + 7 letter buttons
-- [x] 2.6 Answering locks/colors buttons, shows ✓/✗ cue; "Next" advances; no back-to-back repeats
-- [x] 2.7 `B4` scored correct only on "H"; correct-answer highlight lands on "H"
-- [x] 2.8 Auto-finish shows counts + accuracy %; "Practice again" resets; "Done" → `/dashboard`
-- [x] 2.9 Buttons comfortably tappable at phone width (child motor-skill NFR)
+- [x] 2.4 `/drill` redirects when logged out, loads when logged in; dashboard CTA reaches it — d68fbf9
+- [x] 2.5 Picking 5 runs a 5-exercise loop; each shows a staff note + 7 letter buttons — d68fbf9
+- [x] 2.6 Answering locks/colors buttons, shows ✓/✗ cue; "Next" advances; no back-to-back repeats — d68fbf9
+- [x] 2.7 `B4` scored correct only on "H"; correct-answer highlight lands on "H" — d68fbf9
+- [x] 2.8 Auto-finish shows counts + accuracy %; "Practice again" resets; "Done" → `/dashboard` — d68fbf9
+- [x] 2.9 Buttons comfortably tappable at phone width (child motor-skill NFR) — d68fbf9
 
 ### Phase 3: Session persistence + save UX
 
 #### Automated
 
-- [ ] 3.1 Type checking passes: `npx astro check`
-- [ ] 3.2 Linting passes: `npm run lint`
-- [ ] 3.3 Build passes: `npm run build`
+- [x] 3.1 Type checking passes: `npx astro check`
+- [x] 3.2 Linting passes: `npm run lint`
+- [x] 3.3 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 3.4 Completing a session writes 1 `sessions` row + N `answers` rows scoped to the user, values matching play
-- [ ] 3.5 A second account cannot see the first account's rows (RLS holds)
-- [ ] 3.6 Failed save still shows stats + error + "Retry save"; retry persists with no duplicate rows
-- [ ] 3.7 Unauthenticated POST → 401; malformed payload → 400
+- [x] 3.4 Completing a session writes 1 `sessions` row + N `answers` rows scoped to the user, values matching play
+- [x] 3.5 A second account cannot see the first account's rows (RLS holds)
+- [x] 3.6 Failed save still shows stats + error + "Retry save"; retry persists with no duplicate rows
+- [x] 3.7 Unauthenticated POST → 401; malformed payload → 400
