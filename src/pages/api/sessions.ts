@@ -55,6 +55,7 @@ function parseBody(body: unknown): SessionPayload | null {
 
   if (typeof id !== "string" || id.length === 0) return null;
   if (typeof started_at !== "string" || started_at.length === 0) return null;
+  if (Number.isNaN(Date.parse(started_at))) return null;
   if (!isExerciseCount(exercise_count)) return null;
   if (!Array.isArray(answers) || answers.length !== exercise_count) return null;
 
