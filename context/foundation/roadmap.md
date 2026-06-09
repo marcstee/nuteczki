@@ -28,7 +28,7 @@ Children learning music lack a simple, focused tool for practising note reading.
 | ID   | Change ID                  | Outcome (user can ...)                                                             | Prerequisites | PRD refs                                       | Status   |
 | ---- | -------------------------- | ---------------------------------------------------------------------------------- | ------------- | ---------------------------------------------- | -------- |
 | F-01 | session-data-schema        | (foundation) Supabase tables for sessions, answers, and exercise history           | —             | FR-001, FR-003, FR-008, FR-009                 | done     |
-| F-02 | staff-renderer             | (foundation) Reusable music staff component renders notes with correct positioning | —             | FR-004, FR-005                                 | ready    |
+| F-02 | staff-renderer             | (foundation) Reusable music staff component renders notes with correct positioning | —             | FR-004, FR-005                                 | done     |
 | F-03 | pwa-setup                  | (foundation) PWA manifest, service worker, and app icons; installable on home screen | —           | NFR (PWA on iPhone/iPad)                       | ready    |
 | S-01 | basic-drill-note-to-letter | Start a drill, see note-to-letter exercises, get feedback, see session stats       | F-01, F-02    | US-01, FR-002, FR-004, FR-006, FR-007, FR-008  | done     |
 | S-02 | letter-to-note-exercise    | See letter-to-note exercises in drill sessions alongside note-to-letter            | S-01          | US-01, FR-005                                  | proposed |
@@ -83,7 +83,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** This is the identified top blocker (skills). Notation rendering is specialized UI work — the note positions on the staff must be musically correct for the beginner range (first lower to first upper ledger line). Sequenced in parallel with F-01 so the riskiest skill gap surfaces as early as possible.
-- **Status:** ready
+- **Status:** done
 
 ### F-03: PWA — manifest, service worker, ikony
 
@@ -175,3 +175,4 @@ None. PRD has 0 open questions and no cross-cutting unknowns surfaced during fra
 
 - **S-01: user can start a drill session by choosing a preset exercise count, see note-to-letter exercises (note displayed on staff, child picks the correct letter name from 7 answer buttons) with random selection, get immediate visual feedback after each answer, and see session stats (correct/incorrect count) when the session auto-finishes** — Archived 2026-06-09 → `context/archive/2026-06-08-basic-drill-note-to-letter/`. Lesson: —.
 - **F-01: (foundation) Supabase tables for drill sessions, individual answers, and per-note error history are defined and migrated; the adaptive algorithm and session stats have a persistence layer to read from and write to.** — Archived 2026-06-09 → `context/archive/2026-05-28-session-data-schema/`. Lesson: —.
+- **F-02: (foundation) A reusable React component renders a five-line music staff with a single note positioned correctly by pitch; the guardrail "musical accuracy is non-negotiable" is satisfied at the component level before any exercise type consumes it.** — Archived 2026-06-09 → `context/archive/2026-06-08-staff-renderer/`. Lesson: —.
