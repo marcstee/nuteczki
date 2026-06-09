@@ -232,18 +232,18 @@ None — no schema, dependency, or config changes. The F-01 schema already permi
 
 #### Automated
 
-- [x] 2.1 Type checking passes: `npx astro check`
-- [x] 2.2 Linting passes: `npm run lint` (react-compiler clean)
-- [x] 2.3 Build passes: `npm run build`
+- [x] 2.1 Type checking passes: `npx astro check` — 3962949
+- [x] 2.2 Linting passes: `npm run lint` (react-compiler clean) — 3962949
+- [x] 2.3 Build passes: `npm run build` — 3962949
 
 #### Manual
 
-- [x] 2.4 A session interleaves both types (~half each); both appear within one session
-- [x] 2.5 Letter→note shows caption + large letter + 3 distinct-letter staff cards; matching-letter card scores correct (any octave), non-matching scores wrong
-- [x] 2.6 Letter→note feedback locks/greens correct card, reds wrong pick, shows ✓/✗; "Next" advances; note→letter unchanged
-- [x] 2.7 No two consecutive exercises drill the same note, across either type
-- [x] 2.8 Auto-finish shows accuracy % + two per-type stat blocks with counts matching play; "Practice again" resets; "Done" → `/dashboard`
-- [x] 2.9 Mixed session writes 1 `sessions` row + N `answers` rows with mixed `exercise_type`, scoped to the user; second account can't see them (RLS)
-- [x] 2.10 Failed save still shows stats + "Retry save"; retry persists with no duplicate rows
-- [x] 2.11 Unauthenticated POST → 401; valid mixed payload → 200; unknown `exercise_type`/bad `note` → 400
-- [x] 2.12 Option cards comfortably tappable at phone width (child motor-skill NFR)
+- [x] 2.4 A session interleaves both types (~half each); both appear within one session — 3962949
+- [x] 2.5 Letter→note shows caption + large letter + 3 distinct-letter staff cards; matching-letter card scores correct (any octave), non-matching scores wrong — 3962949
+- [x] 2.6 Letter→note feedback locks/greens correct card, reds wrong pick, shows ✓/✗; "Next" advances; note→letter unchanged — 3962949
+- [x] 2.7 No two consecutive exercises drill the same note, across either type — 3962949
+- [x] 2.8 Auto-finish shows accuracy % + two per-type stat blocks with counts matching play; "Practice again" resets; "Done" → `/dashboard` — 3962949
+- [x] 2.9 Mixed session writes 1 `sessions` row + N `answers` rows with mixed `exercise_type`, scoped to the user; second account can't see them (RLS) — 3962949
+- [x] 2.10 Failed save still shows stats + "Retry save"; retry persists with no duplicate rows — 3962949
+- [x] 2.11 Unauthenticated POST → 401; valid mixed payload → 200; unknown `exercise_type`/bad `note` → 400 — 3962949
+- [x] 2.12 Option cards comfortably tappable at phone width (child motor-skill NFR) — 3962949
