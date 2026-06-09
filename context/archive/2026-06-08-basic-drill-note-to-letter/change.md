@@ -1,10 +1,10 @@
 ---
 change_id: basic-drill-note-to-letter
 title: "Basic drill: note-to-letter exercises with feedback and session stats"
-status: impl_reviewed
+status: archived
 created: 2026-06-08
 updated: 2026-06-09
-archived_at: null
+archived_at: 2026-06-09T09:28:16Z
 ---
 
 ## Notes
