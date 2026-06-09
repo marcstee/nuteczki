@@ -309,13 +309,13 @@ None — no schema, dependency, or config changes. The F-01 migration already pr
 
 #### Automated
 
-- [x] 3.1 Type checking passes: `npx astro check`
-- [x] 3.2 Linting passes: `npm run lint`
-- [x] 3.3 Build passes: `npm run build`
+- [x] 3.1 Type checking passes: `npx astro check` — ef7fc82
+- [x] 3.2 Linting passes: `npm run lint` — ef7fc82
+- [x] 3.3 Build passes: `npm run build` — ef7fc82
 
 #### Manual
 
-- [x] 3.4 Completing a session writes 1 `sessions` row + N `answers` rows scoped to the user, values matching play
-- [x] 3.5 A second account cannot see the first account's rows (RLS holds)
-- [x] 3.6 Failed save still shows stats + error + "Retry save"; retry persists with no duplicate rows
-- [x] 3.7 Unauthenticated POST → 401; malformed payload → 400
+- [x] 3.4 Completing a session writes 1 `sessions` row + N `answers` rows scoped to the user, values matching play — ef7fc82
+- [x] 3.5 A second account cannot see the first account's rows (RLS holds) — ef7fc82
+- [x] 3.6 Failed save still shows stats + error + "Retry save"; retry persists with no duplicate rows — ef7fc82
+- [x] 3.7 Unauthenticated POST → 401; malformed payload → 400 — ef7fc82
