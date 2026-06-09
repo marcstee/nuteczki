@@ -35,6 +35,9 @@ Roadmap items from `roadmap.md` migrated to GitHub Issues with labels and milest
 | #5 | S-02 | `letter-to-note-exercise` | slice | #4 |
 | #6 | S-03 | `adaptive-selection` | slice | #4 |
 | #7 | S-04 | `session-history` | slice | #4 |
+| #8 | S-05 | `ui-redesign` | slice | #4 |
+
+> #8 (S-05) is intentionally **un-milestoned** — it is net-new beyond PRD v1 and outside the "MVP Drill" milestone (scoped to S-01–S-04). Assign to a future v2/polish milestone if it is confirmed for scope.
 
 ## Dependency graph
 
@@ -42,6 +45,7 @@ Roadmap items from `roadmap.md` migrated to GitHub Issues with labels and milest
 F-01 ──┐
        ├──> S-01 ──┬──> S-02
 F-02 ──┘           ├──> S-03
-                   └──> S-04
+                   ├──> S-04
+                   └──> S-05
 F-03 (parallel, no dependents)
 ```

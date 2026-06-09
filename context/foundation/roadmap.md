@@ -32,8 +32,9 @@ Children learning music lack a simple, focused tool for practising note reading.
 | F-03 | pwa-setup                  | (foundation) PWA manifest, service worker, and app icons; installable on home screen | —           | NFR (PWA on iPhone/iPad)                       | ready    |
 | S-01 | basic-drill-note-to-letter | Start a drill, see note-to-letter exercises, get feedback, see session stats       | F-01, F-02    | US-01, FR-002, FR-004, FR-006, FR-007, FR-008  | done     |
 | S-02 | letter-to-note-exercise    | See letter-to-note exercises in drill sessions alongside note-to-letter            | S-01          | US-01, FR-005                                  | done     |
-| S-03 | adaptive-selection         | Exercises weighted toward recently missed notes instead of random                  | S-01          | US-01, FR-003                                  | proposed |
+| S-03 | adaptive-selection         | Exercises weighted toward recently missed notes instead of random                  | S-01          | US-01, FR-003                                  | done     |
 | S-04 | session-history            | See all past sessions with date, correct/incorrect by type, progress indicator     | S-01          | US-02, FR-009                                  | proposed |
+| S-05 | ui-redesign                | Use a redesigned, child-friendly UI with all interface copy in Polish               | S-01          | — (net-new, beyond PRD v1)                      | proposed |
 
 ## Streams
 
@@ -44,6 +45,7 @@ Navigation aid — groups items that share a Prerequisites chain. Canonical orde
 | A      | Data, drill, enrich    | `F-01` -> `S-01` -> `S-02` / `S-03` / `S-04` | Core chain; S-01 is the north star. S-02, S-03, S-04 parallel after S-01.  |
 | B      | Notation rendering     | `F-02`                                        | Joins Stream A at `S-01`. De-risks the top blocker (skills) early.         |
 | C      | Installability         | `F-03`                                        | Standalone. Enables PWA testing on real devices; parallel with everything.  |
+| D      | UI redesign            | `S-05`                                        | Cross-cutting redesign + Polish copy across all screens. Best after Stream A's feature slices so every screen exists to redesign once. |
 
 ## Baseline
 
@@ -134,7 +136,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** The algorithm consumes answer history from the last 3-5 sessions. If the data schema (F-01) does not support efficient per-note error queries, this slice will need a migration. Sequenced after S-01 so there is real answer data to test against.
-- **Status:** proposed
+- **Status:** done
 
 ### S-04: Rodzic przeglada historie sesji
 
@@ -148,6 +150,18 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Risk:** Low technical risk — standard list UI over persisted data. Depends on S-01 because the user story's precondition is "a parent who has completed at least one session." Parallel with S-02 and S-03 because it is independent work.
 - **Status:** proposed
 
+### S-05: Przeprojektowanie interfejsu
+
+- **Outcome:** user can use a redesigned, more child-friendly interface across all screens (drill, feedback, session stats, history), with every UI string in Polish — single-language, no internationalization machinery (no locale switcher, no string-extraction framework)
+- **Change ID:** ui-redesign
+- **PRD refs:** — (net-new, beyond PRD v1 — not covered by any FR/NFR or Non-Goal)
+- **Prerequisites:** S-01
+- **Parallel with:** — (cross-cutting; touches every UI surface)
+- **Blockers:** —
+- **Unknowns:** Needs a concrete design reference (mockups / visual direction) before `/10x-plan` — full redesign is confirmed, but the target look is not yet specified.
+- **Risk:** A full visual/UX redesign is open-ended. Best sequenced after the feature slices (S-02 / S-03 / S-04) so every screen exists to be redesigned in a single pass, avoiding rework on screens added later. Polish-only copy keeps this simple — no i18n framework, just ensuring all interface text is Polish as part of the redesign. Net-new beyond PRD v1 — confirm it belongs in MVP scope, or park for v2.
+- **Status:** proposed
+
 ## Backlog Handoff
 
 | Roadmap ID | Change ID                  | Suggested issue title                            | Ready for `/10x-plan` | Notes                                        |
@@ -159,6 +173,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 | S-02       | letter-to-note-exercise    | Add letter-to-note exercise type to drill sessions | no                 | Blocked on S-01                              |
 | S-03       | adaptive-selection         | Implement adaptive exercise weighting algorithm  | no                    | Blocked on S-01                              |
 | S-04       | session-history            | Implement session history view                   | no                    | Blocked on S-01                              |
+| S-05       | ui-redesign                | Redesign the UI (Polish copy throughout)          | no                    | Blocked on S-01; best after S-02/S-03/S-04   |
 
 ## Open Roadmap Questions
 
@@ -177,3 +192,4 @@ None. PRD has 0 open questions and no cross-cutting unknowns surfaced during fra
 - **F-01: (foundation) Supabase tables for drill sessions, individual answers, and per-note error history are defined and migrated; the adaptive algorithm and session stats have a persistence layer to read from and write to.** — Archived 2026-06-09 → `context/archive/2026-05-28-session-data-schema/`. Lesson: —.
 - **F-02: (foundation) A reusable React component renders a five-line music staff with a single note positioned correctly by pitch; the guardrail "musical accuracy is non-negotiable" is satisfied at the component level before any exercise type consumes it.** — Archived 2026-06-09 → `context/archive/2026-06-08-staff-renderer/`. Lesson: —.
 - **S-02: user can see letter-to-note exercises in drill sessions — a letter name is shown, and the child picks the correct note on the staff from 3 visual options — mixed alongside note-to-letter exercises** — Archived 2026-06-09 → `context/archive/2026-06-09-letter-to-note-exercise/`. Lesson: —.
+- **S-03: user experiences exercises weighted toward recently missed notes (approximately 70% weak spots, 30% random) instead of purely random selection, so each drill targets the child's weakest spots** — Archived 2026-06-09 → `context/archive/2026-06-09-adaptive-selection/`. Lesson: —.
