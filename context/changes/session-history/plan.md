@@ -218,11 +218,11 @@ None. No schema changes; this is a read-only view over existing tables.
 
 #### Automated
 
-- [x] 2.1 Linting passes: `npm run lint`
-- [x] 2.2 Production build succeeds: `npm run build`
+- [x] 2.1 Linting passes: `npm run lint` — aaa4de8
+- [x] 2.2 Production build succeeds: `npm run build` — aaa4de8
 
 #### Manual
 
-- [x] 2.3 Dashboard "Session history" link navigates to `/history`
-- [x] 2.4 History back link returns to `/dashboard` from both list and empty states
-- [x] 2.5 Dashboard history link reads as secondary to "Start practising"
+- [x] 2.3 Dashboard "Session history" link navigates to `/history` — aaa4de8
+- [x] 2.4 History back link returns to `/dashboard` from both list and empty states — aaa4de8
+- [x] 2.5 Dashboard history link reads as secondary to "Start practising" — aaa4de8
