@@ -20,6 +20,12 @@ const { user } = Astro.locals;
       >
         Start practising
       </a>
+      <a
+        href="/history"
+        class="mt-3 block rounded-xl border border-white/20 bg-white/5 px-6 py-3 text-lg font-semibold text-white transition-colors hover:bg-white/10"
+      >
+        Session history
+      </a>
       <form method="POST" action="/api/auth/signout" class="mt-6">
         <button
           type="submit"

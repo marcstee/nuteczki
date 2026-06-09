@@ -201,28 +201,28 @@ None. No schema changes; this is a read-only view over existing tables.
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npx astro check`
-- [x] 1.2 Linting passes: `npm run lint`
-- [x] 1.3 Production build succeeds: `npm run build`
+- [x] 1.1 Type checking passes: `npx astro check` — 3677350
+- [x] 1.2 Linting passes: `npm run lint` — 3677350
+- [x] 1.3 Production build succeeds: `npm run build` — 3677350
 
 #### Manual
 
-- [x] 1.4 `/history` lists finished sessions newest-first with correct per-type counts and accuracy
-- [x] 1.5 Accuracy bar width tracks the percentage
-- [x] 1.6 Zero-session user sees the empty state with a working "Start practising" CTA
-- [x] 1.7 Signed-out access to `/history` redirects to `/auth/signin`
-- [x] 1.8 Layout matches the cosmic/glass style at phone/tablet widths
-- [x] 1.9 Query failure / null client renders the neutral error card without the "Start practising" CTA
+- [x] 1.4 `/history` lists finished sessions newest-first with correct per-type counts and accuracy — 3677350
+- [x] 1.5 Accuracy bar width tracks the percentage — 3677350
+- [x] 1.6 Zero-session user sees the empty state with a working "Start practising" CTA — 3677350
+- [x] 1.7 Signed-out access to `/history` redirects to `/auth/signin` — 3677350
+- [x] 1.8 Layout matches the cosmic/glass style at phone/tablet widths — 3677350
+- [x] 1.9 Query failure / null client renders the neutral error card without the "Start practising" CTA — 3677350
 
 ### Phase 2: Navigation Wiring
 
 #### Automated
 
-- [ ] 2.1 Linting passes: `npm run lint`
-- [ ] 2.2 Production build succeeds: `npm run build`
+- [x] 2.1 Linting passes: `npm run lint`
+- [x] 2.2 Production build succeeds: `npm run build`
 
 #### Manual
 
-- [ ] 2.3 Dashboard "Session history" link navigates to `/history`
-- [ ] 2.4 History back link returns to `/dashboard` from both list and empty states
-- [ ] 2.5 Dashboard history link reads as secondary to "Start practising"
+- [x] 2.3 Dashboard "Session history" link navigates to `/history`
+- [x] 2.4 History back link returns to `/dashboard` from both list and empty states
+- [x] 2.5 Dashboard history link reads as secondary to "Start practising"
