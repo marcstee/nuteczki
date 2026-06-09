@@ -201,14 +201,14 @@ None. No schema change; the `note_error_stats` view and tables already exist fro
 
 #### Automated
 
-- [x] 2.1 Type checking passes: `npx astro check`
-- [x] 2.2 Linting passes: `npm run lint`
-- [x] 2.3 Build passes: `npm run build`
-- [x] 2.4 No leftover `console.log` (`no-console` clean)
+- [x] 2.1 Type checking passes: `npx astro check` — a33f833
+- [x] 2.2 Linting passes: `npm run lint` — a33f833
+- [x] 2.3 Build passes: `npm run build` — a33f833
+- [x] 2.4 No leftover `console.log` (`no-console` clean) — a33f833
 
 #### Manual
 
-- [x] 2.5 Adaptivity observable: at count=20, a single deliberately-missed note recurs ~3–4× more often after reload (14 weighted slots confirmed via dev log)
-- [x] 2.6 Cold start safe: new account gets a varied first drill
-- [x] 2.7 Graceful fallback: unconfigured Supabase still runs a uniform drill
-- [x] 2.8 Feedback latency unaffected (<200 ms per answer)
+- [x] 2.5 Adaptivity observable: at count=20, a single deliberately-missed note recurs ~3–4× more often after reload (14 weighted slots confirmed via dev log) — a33f833
+- [x] 2.6 Cold start safe: new account gets a varied first drill — a33f833
+- [x] 2.7 Graceful fallback: unconfigured Supabase still runs a uniform drill — a33f833
+- [x] 2.8 Feedback latency unaffected (<200 ms per answer) — a33f833
