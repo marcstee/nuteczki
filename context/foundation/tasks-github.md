@@ -22,7 +22,7 @@ Roadmap items from `roadmap.md` migrated to GitHub Issues with labels and milest
 | Milestone | Issues |
 |-----------|--------|
 | Foundations | #1, #2, #3 |
-| MVP Drill | #4, #5, #6, #7 |
+| MVP Drill | #4, #5, #6, #7, #8 |
 
 ## Issues
 
@@ -37,7 +37,7 @@ Roadmap items from `roadmap.md` migrated to GitHub Issues with labels and milest
 | #7 | S-04 | `session-history` | slice | #4 |
 | #8 | S-05 | `ui-redesign` | slice | #4 |
 
-> #8 (S-05) is intentionally **un-milestoned** — it is net-new beyond PRD v1 and outside the "MVP Drill" milestone (scoped to S-01–S-04). Assign to a future v2/polish milestone if it is confirmed for scope.
+> #8 (S-05) is net-new beyond PRD v1 but pulled into the **MVP Drill** milestone by decision.
 
 ## Dependency graph
 
