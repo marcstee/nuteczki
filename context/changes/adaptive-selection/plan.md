@@ -189,26 +189,26 @@ None. No schema change; the `note_error_stats` view and tables already exist fro
 
 #### Automated
 
-- [x] 1.1 Type checking passes: `npx astro check`
-- [x] 1.2 Linting passes: `npm run lint`
-- [x] 1.3 Build passes: `npm run build`
+- [x] 1.1 Type checking passes: `npx astro check` — b190bd0
+- [x] 1.2 Linting passes: `npm run lint` — b190bd0
+- [x] 1.3 Build passes: `npm run build` — b190bd0
 
 #### Manual
 
-- [x] 1.4 Existing drill unchanged without weights (Phase 1 inert; no consecutive-note repeats)
+- [x] 1.4 Existing drill unchanged without weights (Phase 1 inert; no consecutive-note repeats) — b190bd0
 
 ### Phase 2: Activate via SSR weights
 
 #### Automated
 
-- [ ] 2.1 Type checking passes: `npx astro check`
-- [ ] 2.2 Linting passes: `npm run lint`
-- [ ] 2.3 Build passes: `npm run build`
-- [ ] 2.4 No leftover `console.log` (`no-console` clean)
+- [x] 2.1 Type checking passes: `npx astro check`
+- [x] 2.2 Linting passes: `npm run lint`
+- [x] 2.3 Build passes: `npm run build`
+- [x] 2.4 No leftover `console.log` (`no-console` clean)
 
 #### Manual
 
-- [ ] 2.5 Adaptivity observable: at count=20, a single deliberately-missed note recurs ~3–4× more often after reload (14 weighted slots confirmed via dev log)
-- [ ] 2.6 Cold start safe: new account gets a varied first drill
-- [ ] 2.7 Graceful fallback: unconfigured Supabase still runs a uniform drill
-- [ ] 2.8 Feedback latency unaffected (<200 ms per answer)
+- [x] 2.5 Adaptivity observable: at count=20, a single deliberately-missed note recurs ~3–4× more often after reload (14 weighted slots confirmed via dev log)
+- [x] 2.6 Cold start safe: new account gets a varied first drill
+- [x] 2.7 Graceful fallback: unconfigured Supabase still runs a uniform drill
+- [x] 2.8 Feedback latency unaffected (<200 ms per answer)

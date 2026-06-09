@@ -3,10 +3,12 @@ import type { Pitch } from "@/components/staff/pitch";
 import {
   type AnswerRecord,
   buildSession,
+  EMPTY_WEIGHTS,
   type Exercise,
   EXERCISE_TYPE_LETTER_TO_NOTE,
   EXERCISE_TYPE_NOTE_TO_LETTER,
   type Letter,
+  type NoteWeights,
   pitchToLetter,
   summarize,
 } from "@/components/drill/exercises";
@@ -20,6 +22,18 @@ const COUNTS = [5, 10, 20] as const;
 type ExerciseCount = (typeof COUNTS)[number];
 
 type Phase = "setup" | "active" | "finished";
+
+interface DrillSessionProps {
+  /**
+   * Per-(exercise_type, note) error-count weights computed server-side at page
+   * load (S-03 / FR-003), biasing each deck's target pitches toward the notes
+   * this child misses most. Defaults to EMPTY_WEIGHTS so the island stays valid
+   * (and uniform) if rendered standalone. The same value is reused across
+   * in-session "play again" — accepted stale-by-one-session; a full page reload
+   * refreshes it.
+   */
+  weights?: NoteWeights;
+}
 
 /**
  * Which card/letter the child tapped for the current exercise, discriminated to
@@ -43,7 +57,7 @@ type Chosen =
  * saved in the background: stats render immediately while `saveSession` POSTs the
  * batch; a failed save surfaces a non-blocking "Retry save" without hiding them.
  */
-export default function DrillSession() {
+export default function DrillSession({ weights = EMPTY_WEIGHTS }: DrillSessionProps) {
   const [phase, setPhase] = useState<Phase>("setup");
   const [exerciseCount, setExerciseCount] = useState<ExerciseCount>(5);
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -79,7 +93,7 @@ export default function DrillSession() {
 
   function handleStart(count: ExerciseCount) {
     setExerciseCount(count);
-    setExercises(buildSession(count));
+    setExercises(buildSession(count, weights));
     setCurrentIndex(0);
     setAnswers([]);
     setChosen(null);

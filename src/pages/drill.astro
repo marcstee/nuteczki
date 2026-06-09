@@ -1,10 +1,53 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import DrillSession from "@/components/drill/DrillSession";
+import { createClient } from "@/lib/supabase";
+import { type Pitch, PITCHES } from "@/components/staff/pitch";
+import {
+  type NoteWeights,
+  EMPTY_WEIGHTS,
+  EXERCISE_TYPE_LETTER_TO_NOTE,
+  EXERCISE_TYPE_NOTE_TO_LETTER,
+} from "@/components/drill/exercises";
+
+/**
+ * Build the per-(exercise_type, note) error-count weights that bias target-pitch
+ * selection toward the notes this child misses most (S-03 / FR-003). The
+ * `note_error_stats` view is `security_invoker`, so a plain select is already
+ * scoped to the caller's last-5-session rows — no manual user_id filter. Each
+ * nullable row is guarded and any note outside PITCHES is dropped before it lands
+ * in the map. Falls back to EMPTY_WEIGHTS (a uniform, today's-behavior draw) when
+ * Supabase is unconfigured, the query errors, or there is no error history — the
+ * cold-start / graceful-fallback path. Runs once per page load, not per answer.
+ */
+function isPitch(value: string | null): value is Pitch {
+  return value !== null && (PITCHES as readonly string[]).includes(value);
+}
+
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+
+let weights: NoteWeights = EMPTY_WEIGHTS;
+if (supabase) {
+  const { data, error } = await supabase.from("note_error_stats").select("note, exercise_type, error_count");
+  if (!error) {
+    const built: NoteWeights = {
+      [EXERCISE_TYPE_NOTE_TO_LETTER]: {},
+      [EXERCISE_TYPE_LETTER_TO_NOTE]: {},
+    };
+    for (const row of data) {
+      if (typeof row.error_count !== "number" || row.error_count <= 0) continue;
+      if (!isPitch(row.note)) continue;
+      if (row.exercise_type === EXERCISE_TYPE_NOTE_TO_LETTER || row.exercise_type === EXERCISE_TYPE_LETTER_TO_NOTE) {
+        built[row.exercise_type][row.note] = row.error_count;
+      }
+    }
+    weights = built;
+  }
+}
 ---
 
 <Layout title="Practice">
   <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
-    <DrillSession client:load />
+    <DrillSession client:load weights={weights} />
   </div>
 </Layout>
