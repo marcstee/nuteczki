@@ -69,13 +69,16 @@ if (redirectTo) {
 }
 
 /**
- * Date-only, explicit Europe/Warsaw tz: the frontmatter runs per-request on a
- * Cloudflare Worker (UTC clock) with zero client JS, so a UTC-formatted date would
- * show the wrong day near local midnight for the Polish audience (plan-review F2).
- * Time-of-day is dropped — it would need the visitor's tz, unavailable without an
- * island. Revisit by moving formatting client-side if the audience goes multi-tz.
+ * Date + time, explicit Europe/Warsaw tz: the frontmatter runs per-request on a
+ * Cloudflare Worker (UTC clock) with zero client JS, so a UTC-formatted timestamp
+ * would show the wrong day near local midnight for the Polish audience.
+ * Revisit by moving formatting client-side if the audience goes multi-tz.
  */
-const dateFormatter = new Intl.DateTimeFormat("pl-PL", { timeZone: "Europe/Warsaw", dateStyle: "medium" });
+const dateFormatter = new Intl.DateTimeFormat("pl-PL", {
+  timeZone: "Europe/Warsaw",
+  dateStyle: "medium",
+  timeStyle: "short",
+});
 ---
 
 <Layout title="Historia sesji">

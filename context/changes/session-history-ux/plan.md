@@ -256,37 +256,37 @@ One additive, non-destructive migration (a new `delete` policy). No data migrati
 
 #### Manual
 
-- [x] 2.5 `DELETE /api/sessions?id=<own>` returns 200 and removes the session
-- [x] 2.6 The session's answers rows are gone (cascade verified)
-- [x] 2.7 No-auth → 401; missing id → 400; other user's id → 200 no-op (RLS)
-- [x] 2.8 Adaptive weights no longer reflect the deleted session's answers
+- [x] 2.5 `DELETE /api/sessions?id=<own>` returns 200 and removes the session — 7c88db2
+- [x] 2.6 The session's answers rows are gone (cascade verified) — 7c88db2
+- [x] 2.7 No-auth → 401; missing id → 400; other user's id → 200 no-op (RLS) — 7c88db2
+- [x] 2.8 Adaptive weights no longer reflect the deleted session's answers — 7c88db2
 
 ### Phase 3: Delete UI (AlertDialog island)
 
 #### Automated
 
-- [x] 3.1 Lint passes (react-compiler + jsx-a11y): `npm run lint`
-- [x] 3.2 Type/astro check passes: `npx astro check`
-- [x] 3.3 Production build succeeds: `npm run build`
+- [x] 3.1 Lint passes (react-compiler + jsx-a11y): `npm run lint` — 7c88db2
+- [x] 3.2 Type/astro check passes: `npx astro check` — 7c88db2
+- [x] 3.3 Production build succeeds: `npm run build` — 7c88db2
 
 #### Manual
 
-- [x] 3.4 Ghost trash icon top-right of each card opens the Polish confirm dialog
-- [x] 3.5 Anuluj / Esc / outside-click closes without deleting
-- [x] 3.6 Usuń deletes: pending state → list re-renders without the card, answers gone
-- [x] 3.7 Deleting last card on page 2 lands on page 1; deleting the only session shows empty state
-- [x] 3.8 Failed delete shows inline error and keeps the card
-- [x] 3.9 Touch-reachable on iPhone/iPad Safari (no hover dependency)
+- [x] 3.4 Ghost trash icon top-right of each card opens the Polish confirm dialog — 7c88db2
+- [x] 3.5 Anuluj / Esc / outside-click closes without deleting — 7c88db2
+- [x] 3.6 Usuń deletes: pending state → list re-renders without the card, answers gone — 7c88db2
+- [x] 3.7 Deleting last card on page 2 lands on page 1; deleting the only session shows empty state — 7c88db2
+- [x] 3.8 Failed delete shows inline error and keeps the card — 7c88db2
+- [x] 3.9 Touch-reachable on iPhone/iPad Safari (no hover dependency) — 7c88db2
 
 ### Phase 4: Date + Time Display
 
 #### Automated
 
-- [ ] 4.1 Lint passes: `npm run lint`
-- [ ] 4.2 Type/astro check passes: `npx astro check`
-- [ ] 4.3 Production build succeeds: `npm run build`
+- [x] 4.1 Lint passes: `npm run lint`
+- [x] 4.2 Type/astro check passes: `npx astro check`
+- [x] 4.3 Production build succeeds: `npm run build`
 
 #### Manual
 
-- [ ] 4.4 Session cards show date and time (e.g. "10 cze 2026, 14:30") in Europe/Warsaw tz
-- [ ] 4.5 Confirm dialog and aria-label use the same date+time string
+- [x] 4.4 Session cards show date and time (e.g. "10 cze 2026, 14:30") in Europe/Warsaw tz
+- [x] 4.5 Confirm dialog and aria-label use the same date+time string
