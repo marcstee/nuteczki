@@ -3,7 +3,7 @@ project: "Nuteczki"
 version: 4
 status: draft
 created: 2026-05-27
-updated: 2026-06-10
+updated: 2026-06-11
 prd_version: 1
 main_goal: market-feedback
 top_blocker: skills
@@ -36,6 +36,7 @@ Children learning music lack a simple, focused tool for practising note reading.
 | S-04 | session-history            | See all past sessions with date, correct/incorrect by type, progress indicator     | S-01          | US-02, FR-009                                  | done     |
 | S-05 | ui-redesign                | Use a redesigned, child-friendly UI with all interface copy in Polish               | S-01          | — (net-new, beyond PRD v1)                      | done     |
 | S-06 | session-history-ux         | Page through session history and delete individual sessions                         | S-04          | US-02, FR-009                                  | ready    |
+| S-07 | responsive-exercise-scaling | Exercise area fills the full viewport on iPhone/iPad so staff lines are large enough for children to read and tap accurately | S-02, S-05 | NFR (PWA on iPhone/iPad) | ready    |
 
 ## Streams
 
@@ -48,6 +49,7 @@ Navigation aid — groups items that share a Prerequisites chain. Canonical orde
 | C      | Installability         | `F-03`                                        | Standalone. Enables PWA testing on real devices; parallel with everything.  |
 | D      | UI redesign            | `S-05`                                        | Cross-cutting redesign + Polish copy across all screens. Best after Stream A's feature slices so every screen exists to redesign once. |
 | E      | History UX             | `S-04` -> `S-06`                              | Follow-on to Stream A's S-04. Pagination + delete; adopts the S-05 redesign patterns.  |
+| F      | Responsive layout      | `S-02` + `S-05` -> `S-07`                    | Viewport-filling exercise layout for iPhone/iPad. Unlocked once both exercise types and the redesign are in place.  |
 
 ## Baseline
 
@@ -176,6 +178,18 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Risk:** Low — extends an already-shipped list view (S-04) over data that is already persisted. Pagination is a standard offset/limit query concern. Delete is the product's first destructive action: it needs a confirmation step and must cascade to the session's answer rows (F-01 schema) so no orphaned answers — or skewed adaptive history (S-03 reads recent answers) — remain. Sequenced after S-04 and the S-05 redesign so the page controls and delete affordance adopt the redesigned history UI rather than being restyled later.
 - **Status:** ready
 
+### S-07: Responsywne skalowanie cwiczen
+
+- **Outcome:** user can complete drill exercises on an iPhone or iPad with the exercise area filling the full viewport — the music staff and answer controls scale to the available screen space, staff lines are clearly legible, and tap targets are large enough for a child's finger; both exercise types (note-to-letter and letter-to-note) are covered
+- **Change ID:** responsive-exercise-scaling
+- **PRD refs:** NFR (PWA on iPhone/iPad via Safari) — net-new UX extension (viewport-filling layout for exercises)
+- **Prerequisites:** S-02, S-05
+- **Parallel with:** S-06
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** The primary failure mode is under-scaling: if the staff component uses fixed pixel sizes or viewport units that assume a desktop viewport, it stays small on iPad/iPhone regardless of surrounding layout changes. The fix must touch the staff renderer (F-02) or its consuming exercise components, not just the page wrapper. The second failure mode is over-scaling on desktop — the same scaling logic must not break the larger-screen layout. Testing on a real device (or Safari DevTools responsive mode at 390 × 844 for iPhone 14 and 820 × 1180 for iPad Air) is required before marking done.
+- **Status:** ready
+
 ## Backlog Handoff
 
 | Roadmap ID | Change ID                  | Suggested issue title                            | Ready for `/10x-plan` | Notes                                        |
@@ -189,6 +203,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 | S-04       | session-history            | Implement session history view                   | no                    | Blocked on S-01                              |
 | S-05       | ui-redesign                | Redesign the UI (Polish copy throughout)          | no                    | Blocked on S-01; best after S-02/S-03/S-04   |
 | S-06       | session-history-ux         | Add pagination and delete to session history      | yes                   | Run `/10x-plan session-history-ux` (S-04 done) |
+| S-07       | responsive-exercise-scaling | Scale exercises to fill viewport on iPhone/iPad  | yes                   | Run `/10x-plan responsive-exercise-scaling` (S-02 + S-05 done) |
 
 ## Open Roadmap Questions
 

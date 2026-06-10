@@ -36,7 +36,7 @@ Verify by: paging through a >10-session account; deleting a session and confirmi
 - No changes to the adaptive algorithm or the `note_error_stats` view — the existing cascade keeps it correct.
 - No session detail view, editing, or renaming.
 - No new test-runner setup — that is the test-plan's job, not this slice.
-- No change to date formatting or the `summarizeSessions` aggregation math.
+- No change to the `summarizeSessions` aggregation math. (Date formatting was extended in Phase 4 to add time of day — `timeStyle: "short"` — so session cards show e.g. "10 cze 2026, 14:30"; unplanned addition reconciled via Phase 4 addendum below.)
 
 ## Implementation Approach
 
@@ -63,6 +63,8 @@ Add `?page=N` offset pagination to the history page: 10 sessions per page, an ex
 **Intent**: Read and validate a `page` query param, fetch only that page's slice plus the total count, and redirect out-of-range pages to the last valid page before rendering. Preserve the existing `null` / empty / list render-state split.
 
 **Contract**: A `PAGE_SIZE = 10` constant. Parse `Astro.url.searchParams.get("page")` to a positive integer, defaulting/clamping invalid values (NaN, `< 1`) to `1`. Extend the existing select with `{ count: "exact" }` and `.range(from, to)` where `from = (page - 1) * PAGE_SIZE` and `to = from + PAGE_SIZE - 1`. Compute `totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE))`. If the query errored, keep `sessions === null` (error state unchanged). If `count > 0` and `page > totalPages`, `return Astro.redirect(\`/history?page=${totalPages}\`)` before rendering. The empty state remains `count === 0`.
+
+**Addendum**: The `return Astro.redirect()` pattern in the Astro frontmatter triggered a crash in `astro-eslint-parser` under the `@typescript-eslint/no-misused-promises` rule. As a workaround, `@typescript-eslint/no-misused-promises` was disabled project-wide for all `.astro` files in `eslint.config.js`. This removes a type-safety net across every `.astro` file (not just `history.astro`). The relaxation is intentional; track [astro-eslint-parser](https://github.com/ota-meshi/astro-eslint-parser) for a fix so the rule can be re-enabled later.
 
 #### 2. History page — Prev/Next pagination controls
 
@@ -157,6 +159,8 @@ Add the shadcn `alert-dialog` primitive and a focused `DeleteSessionButton` isla
 
 **Contract**: `npx shadcn@latest add alert-dialog` — lands `src/components/ui/alert-dialog.tsx` and adds the `@radix-ui/react-alert-dialog` dependency. No hand-editing beyond what the generator produces.
 
+**Addendum**: The generator also regenerated `src/components/ui/button.tsx` to the current shadcn baseline: removed `shadow-xs` from the default/destructive/outline/secondary variants, added xs/icon-xs/icon-sm/icon-lg sizes, switched the `Slot` import to the unified `radix-ui` package, and added `data-variant`/`data-size` attributes. This unscoped visual change was accepted as the new baseline after verifying key screens (history, dashboard, drill, auth) — nothing was functionally broken and the regenerated component is internally consistent with current shadcn convention.
+
 #### 2. DeleteSessionButton island
 
 **File**: `src/components/history/DeleteSessionButton.tsx` (new)
@@ -194,9 +198,44 @@ Add the shadcn `alert-dialog` primitive and a focused `DeleteSessionButton` isla
 
 ---
 
+## Phase 4: Date + Time Display
+
+### Overview
+
+Extend the session card date formatter to show time of day alongside the date, so parents can distinguish multiple sessions on the same day. Unplanned addition that shipped in commit dc62174 after Phases 1–3 were complete.
+
+### Changes Required:
+
+#### 1. Add `timeStyle: "short"` to the date formatter
+
+**File**: `src/pages/history.astro`
+
+**Intent**: Surface both date and time on each session card (and in the confirm dialog copy and aria-label) using `Europe/Warsaw` timezone already in use.
+
+**Contract**: Add `timeStyle: "short"` to the existing `Intl.DateTimeFormat` options object that defines `dateFormatter`. All downstream uses — card header, `DeleteSessionButton`'s `sessionDate` prop (confirm dialog title + aria-label) — pick up the change automatically. No other files require modification.
+
+### Success Criteria:
+
+#### Automated Verification:
+
+- [x] Lint passes: `npm run lint` — dc62174
+- [x] Type/astro check passes: `npx astro check` — dc62174
+- [x] Production build succeeds: `npm run build` — dc62174
+
+#### Manual Verification:
+
+- [x] Session cards show date and time (e.g. "10 cze 2026, 14:30") in Europe/Warsaw tz — dc62174
+- [x] Confirm dialog and aria-label use the same date+time string — dc62174
+
+---
+
 ## Testing Strategy
 
 There is no test runner in this project (no vitest/playwright), so automated coverage is limited to lint, `astro check` (typecheck), and `build`. Behavioral correctness is verified manually per phase.
+
+**Priority risks for `context/foundation/test-plan.md`**: This slice introduced the product's first irreversible operation. When `/10x-test-plan` is run, flag these as high-priority test scenarios:
+- **Delete-with-cascade**: a deleted session removes its answers rows and drops out of the adaptive drill weights — the core correctness guarantee of the delete feature.
+- **Pagination-clamp + redirect**: deleting the last card on a non-first page must redirect to the last valid page rather than serving an empty dead-end; this SSR redirect behaviour has no automated guard today.
 
 ### Manual Testing Steps:
 
