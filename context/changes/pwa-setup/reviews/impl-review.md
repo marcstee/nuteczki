@@ -96,7 +96,7 @@
   - Tradeoff: More SW code; relies on the redirected-flag reasoning rather than removing the redirect.
   - Confidence: MED — correct in principle, more surface area.
   - Blind spot: Not exercised on a real Chromium navigation.
-- **Decision**: FIXED via Fix A — added `"html_handling": "none"` to the `assets` block in `wrangler.jsonc` with an explanatory comment. **Re-deploy + re-curl `/offline.html` for 200 still required** to confirm live.
+- **Decision**: FIXED via Fix A and VERIFIED live (2026-06-10) — added `"html_handling": "none"` to the `assets` block in `wrangler.jsonc`. After re-deploy, `curl` of `/offline.html` returns **200, 0 redirects** (was 307), and all 8 precache assets return 200/0-redirects; `/offline` now 404s (harmless — the SW never references it). Offline fallback no longer relies on a redirected response.
 
 ## Positive note
 
