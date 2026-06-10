@@ -22,7 +22,7 @@ Roadmap items from `roadmap.md` migrated to GitHub Issues with labels and milest
 | Milestone | Issues |
 |-----------|--------|
 | Foundations | #1, #2, #3 |
-| MVP Drill | #4, #5, #6, #7, #8 |
+| MVP Drill | #4, #5, #6, #7, #8, #9 |
 
 ## Issues
 
@@ -36,8 +36,10 @@ Roadmap items from `roadmap.md` migrated to GitHub Issues with labels and milest
 | #6 | S-03 | `adaptive-selection` | slice | #4 |
 | #7 | S-04 | `session-history` | slice | #4 |
 | #8 | S-05 | `ui-redesign` | slice | #4 |
+| #9 | S-06 | `session-history-ux` | slice | #7 |
 
 > #8 (S-05) is net-new beyond PRD v1 but pulled into the **MVP Drill** milestone by decision.
+> #9 (S-06) is a post-MVP UX enhancement (pagination + delete), also pulled into **MVP Drill** by decision.
 
 ## Dependency graph
 
@@ -45,7 +47,7 @@ Roadmap items from `roadmap.md` migrated to GitHub Issues with labels and milest
 F-01 ──┐
        ├──> S-01 ──┬──> S-02
 F-02 ──┘           ├──> S-03
-                   ├──> S-04
+                   ├──> S-04 ──> S-06
                    └──> S-05
 F-03 (parallel, no dependents)
 ```

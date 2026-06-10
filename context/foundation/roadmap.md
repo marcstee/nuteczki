@@ -1,6 +1,6 @@
 ---
 project: "Nuteczki"
-version: 3
+version: 4
 status: draft
 created: 2026-05-27
 updated: 2026-06-10
@@ -35,6 +35,7 @@ Children learning music lack a simple, focused tool for practising note reading.
 | S-03 | adaptive-selection         | Exercises weighted toward recently missed notes instead of random                  | S-01          | US-01, FR-003                                  | done     |
 | S-04 | session-history            | See all past sessions with date, correct/incorrect by type, progress indicator     | S-01          | US-02, FR-009                                  | done     |
 | S-05 | ui-redesign                | Use a redesigned, child-friendly UI with all interface copy in Polish               | S-01          | — (net-new, beyond PRD v1)                      | done     |
+| S-06 | session-history-ux         | Page through session history and delete individual sessions                         | S-04          | US-02, FR-009                                  | ready    |
 
 ## Streams
 
@@ -46,6 +47,7 @@ Navigation aid — groups items that share a Prerequisites chain. Canonical orde
 | B      | Notation rendering     | `F-02`                                        | Joins Stream A at `S-01`. De-risks the top blocker (skills) early.         |
 | C      | Installability         | `F-03`                                        | Standalone. Enables PWA testing on real devices; parallel with everything.  |
 | D      | UI redesign            | `S-05`                                        | Cross-cutting redesign + Polish copy across all screens. Best after Stream A's feature slices so every screen exists to redesign once. |
+| E      | History UX             | `S-04` -> `S-06`                              | Follow-on to Stream A's S-04. Pagination + delete; adopts the S-05 redesign patterns.  |
 
 ## Baseline
 
@@ -162,6 +164,18 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Risk:** A full visual/UX redesign is open-ended. Best sequenced after the feature slices (S-02 / S-03 / S-04) so every screen exists to be redesigned in a single pass, avoiding rework on screens added later. Polish-only copy keeps this simple — no i18n framework, just ensuring all interface text is Polish as part of the redesign. Net-new beyond PRD v1 — confirm it belongs in MVP scope, or park for v2.
 - **Status:** done
 
+### S-06: Paginacja i usuwanie sesji w historii
+
+- **Outcome:** user can page through their session history instead of scrolling one unbounded list, and delete an individual session from history (with a confirmation step), so the list stays manageable as sessions accumulate
+- **Change ID:** session-history-ux
+- **PRD refs:** US-02, FR-009 — net-new UX extension (pagination + delete, beyond PRD v1)
+- **Prerequisites:** S-04
+- **Parallel with:** — (follow-on to S-04; the S-05 redesign already shipped)
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** Low — extends an already-shipped list view (S-04) over data that is already persisted. Pagination is a standard offset/limit query concern. Delete is the product's first destructive action: it needs a confirmation step and must cascade to the session's answer rows (F-01 schema) so no orphaned answers — or skewed adaptive history (S-03 reads recent answers) — remain. Sequenced after S-04 and the S-05 redesign so the page controls and delete affordance adopt the redesigned history UI rather than being restyled later.
+- **Status:** ready
+
 ## Backlog Handoff
 
 | Roadmap ID | Change ID                  | Suggested issue title                            | Ready for `/10x-plan` | Notes                                        |
@@ -174,6 +188,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 | S-03       | adaptive-selection         | Implement adaptive exercise weighting algorithm  | no                    | Blocked on S-01                              |
 | S-04       | session-history            | Implement session history view                   | no                    | Blocked on S-01                              |
 | S-05       | ui-redesign                | Redesign the UI (Polish copy throughout)          | no                    | Blocked on S-01; best after S-02/S-03/S-04   |
+| S-06       | session-history-ux         | Add pagination and delete to session history      | yes                   | Run `/10x-plan session-history-ux` (S-04 done) |
 
 ## Open Roadmap Questions
 
