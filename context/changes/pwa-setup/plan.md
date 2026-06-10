@@ -295,13 +295,13 @@ Run the chosen gate — file/code review + clean production build — and tidy u
 
 #### Automated
 
-- [x] 3.1 Full build clean (`npm run build`)
-- [x] 3.2 Lint clean (`npm run lint`)
-- [x] 3.3 Format clean (`prettier --check .`)
-- [x] 3.4 Typecheck clean (`npx astro check`)
-- [x] 3.5 All four artifacts present in `dist/`
+- [x] 3.1 Full build clean (`npm run build`) — 8f0b5a9
+- [x] 3.2 Lint clean (`npm run lint`) — 8f0b5a9
+- [x] 3.3 Format clean (`prettier --check .`) — 8f0b5a9
+- [x] 3.4 Typecheck clean (`npx astro check`) — 8f0b5a9
+- [x] 3.5 All four artifacts present in `dist/`) — 8f0b5a9
 
 #### Manual
 
-- [x] 3.6 File/code review checklist passes
-- [x] 3.7 (Optional, non-gating) Real iPhone + iPad install + offline page verified
+- [x] 3.6 File/code review checklist passes — 8f0b5a9
+- [x] 3.7 (Optional, non-gating) Real iPhone + iPad install + offline page verified — 8f0b5a9
