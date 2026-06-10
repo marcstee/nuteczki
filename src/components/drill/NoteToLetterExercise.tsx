@@ -31,12 +31,13 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
 
   return (
     <div className="flex w-full max-w-md flex-col items-center gap-6">
-      <p className="text-sm font-medium text-blue-100/60">
-        Exercise {progress.index + 1} of {progress.total}
+      <p className="text-muted-foreground text-sm font-medium">
+        Ćwiczenie {progress.index + 1} z {progress.total}
       </p>
 
-      {/* White "paper" card so the currentColor staff renders dark and legible. */}
-      <div className="w-full rounded-2xl bg-white p-6 text-slate-900 shadow-lg">
+      {/* White "paper" card so the currentColor staff renders dark and legible;
+          the brand ring frames it as an intentional panel on the navy canvas. */}
+      <div className="ring-primary/30 w-full rounded-2xl bg-white p-6 text-slate-900 shadow-lg ring-4">
         <Staff note={pitch} className="mx-auto w-56" />
       </div>
 
@@ -45,14 +46,14 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
           const isAnswerLetter = letter === correctLetter;
           const isWrongPick = answered && letter === chosenLetter && !isAnswerLetter;
 
-          let stateClasses = "bg-white/10 text-white hover:bg-white/20 active:scale-95 border border-white/20";
+          let stateClasses = "bg-card text-card-foreground border border-border hover:bg-primary/10 active:scale-95";
           if (answered) {
             if (isAnswerLetter) {
-              stateClasses = "bg-green-500 text-white border border-green-300";
+              stateClasses = "bg-success text-primary-foreground border border-success";
             } else if (isWrongPick) {
-              stateClasses = "bg-red-500 text-white border border-red-300";
+              stateClasses = "bg-destructive text-primary-foreground border border-destructive";
             } else {
-              stateClasses = "bg-white/5 text-white/40 border border-white/10";
+              stateClasses = "bg-card text-muted-foreground border border-border opacity-40";
             }
           }
 
@@ -74,15 +75,15 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
 
       {answered && (
         <div className="flex w-full flex-col items-center gap-4">
-          <p className={`text-3xl font-bold ${isCorrect ? "text-green-400" : "text-red-400"}`}>
-            {isCorrect ? "✓ Correct!" : `✗ It was ${correctLetter}`}
+          <p className={`text-3xl font-bold ${isCorrect ? "text-success" : "text-destructive"}`}>
+            {isCorrect ? "✓ Brawo!" : `✗ To było ${correctLetter}`}
           </p>
           <button
             type="button"
             onClick={onNext}
-            className="h-14 w-full rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-xl font-bold text-white transition-all hover:from-blue-400 hover:to-purple-400 active:scale-95"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 w-full rounded-2xl text-xl font-bold transition-all active:scale-95"
           >
-            Next
+            Dalej
           </button>
         </div>
       )}

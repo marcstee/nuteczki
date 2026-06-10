@@ -653,33 +653,33 @@ change.
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Astro check passes: `npx astro check`
-- [x] 2.3 Build passes: `npm run build`
-- [x] 2.4 No cosmic utilities in Welcome/Topbar/dashboard (grep empty)
+- [x] 2.1 Lint passes: `npm run lint` — fd011ba
+- [x] 2.2 Astro check passes: `npx astro check` — fd011ba
+- [x] 2.3 Build passes: `npm run build` — fd011ba
+- [x] 2.4 No cosmic utilities in Welcome/Topbar/dashboard (grep empty) — fd011ba
 
 #### Manual
 
-- [x] 2.5 `/` logged out shows mascot + Polish home; no starter text
-- [x] 2.6 `/` logged in redirects to /dashboard
-- [x] 2.7 Dashboard on-brand + Polish; sign-out works
-- [x] 2.8 Topbar links work and read in Polish
+- [x] 2.5 `/` logged out shows mascot + Polish home; no starter text — fd011ba
+- [x] 2.6 `/` logged in redirects to /dashboard — fd011ba
+- [x] 2.7 Dashboard on-brand + Polish; sign-out works — fd011ba
+- [x] 2.8 Topbar links work and read in Polish — fd011ba
 
 ### Phase 3: Drill Flow
 
 #### Automated
 
-- [ ] 3.1 Lint passes: `npm run lint`
-- [ ] 3.2 Astro check passes: `npx astro check`
-- [ ] 3.3 Build passes: `npm run build`
-- [ ] 3.4 No cosmic utilities in drill cluster (grep empty)
+- [x] 3.1 Lint passes: `npm run lint`
+- [x] 3.2 Astro check passes: `npx astro check`
+- [x] 3.3 Build passes: `npm run build`
+- [x] 3.4 No cosmic utilities in drill cluster (grep empty)
 
 #### Manual
 
-- [ ] 3.5 Full session runs end-to-end; state machine + scoring unchanged
-- [ ] 3.6 Staff card framed; notes black-on-white + musically correct
-- [ ] 3.7 Feedback uses success/error tokens; Polish child-warm copy
-- [ ] 3.8 Mascot on results; retry-save works; touch targets large
+- [x] 3.5 Full session runs end-to-end; state machine + scoring unchanged
+- [x] 3.6 Staff card framed; notes black-on-white + musically correct
+- [x] 3.7 Feedback uses success/error tokens; Polish child-warm copy
+- [x] 3.8 Mascot on results; retry-save works; touch targets large
 
 ### Phase 4: History & Auth
 

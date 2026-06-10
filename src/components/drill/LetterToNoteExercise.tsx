@@ -40,15 +40,13 @@ export default function LetterToNoteExercise({
 
   return (
     <div className="flex w-full max-w-md flex-col items-center gap-6">
-      <p className="text-sm font-medium text-blue-100/60">
-        Exercise {progress.index + 1} of {progress.total}
+      <p className="text-muted-foreground text-sm font-medium">
+        Ćwiczenie {progress.index + 1} z {progress.total}
       </p>
 
       <div className="flex flex-col items-center gap-2">
-        <p className="text-sm font-medium text-blue-100/60">Find this note</p>
-        <div className="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-8xl font-bold text-transparent">
-          {promptLetter}
-        </div>
+        <p className="text-muted-foreground text-sm font-medium">Znajdź tę nutkę</p>
+        <div className="text-primary text-8xl font-bold">{promptLetter}</div>
       </div>
 
       <div className="grid w-full grid-cols-3 gap-3">
@@ -61,9 +59,9 @@ export default function LetterToNoteExercise({
           let stateClasses = "border-transparent hover:scale-[1.02] active:scale-95";
           if (answered) {
             if (isAnswerOption) {
-              stateClasses = "border-green-400 ring-4 ring-green-400/40";
+              stateClasses = "border-success ring-4 ring-success/40";
             } else if (isWrongPick) {
-              stateClasses = "border-red-400 ring-4 ring-red-400/40";
+              stateClasses = "border-destructive ring-4 ring-destructive/40";
             } else {
               stateClasses = "border-transparent opacity-40";
             }
@@ -87,15 +85,15 @@ export default function LetterToNoteExercise({
 
       {answered && (
         <div className="flex w-full flex-col items-center gap-4">
-          <p className={`text-3xl font-bold ${isCorrect ? "text-green-400" : "text-red-400"}`}>
-            {isCorrect ? "✓ Correct!" : "✗ Not quite"}
+          <p className={`text-3xl font-bold ${isCorrect ? "text-success" : "text-destructive"}`}>
+            {isCorrect ? "✓ Brawo!" : "✗ Prawie!"}
           </p>
           <button
             type="button"
             onClick={onNext}
-            className="h-14 w-full rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-xl font-bold text-white transition-all hover:from-blue-400 hover:to-purple-400 active:scale-95"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 w-full rounded-2xl text-xl font-bold transition-all active:scale-95"
           >
-            Next
+            Dalej
           </button>
         </div>
       )}
