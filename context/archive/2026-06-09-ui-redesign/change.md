@@ -1,10 +1,10 @@
 ---
 change_id: ui-redesign
 title: Child-friendly UI redesign with Polish copy across all screens
-status: impl_reviewed
+status: archived
 created: 2026-06-09
 updated: 2026-06-10
-archived_at: null
+archived_at: 2026-06-10T09:18:23Z
 ---
 
 ## Notes

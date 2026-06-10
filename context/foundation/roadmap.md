@@ -3,7 +3,7 @@ project: "Nuteczki"
 version: 3
 status: draft
 created: 2026-05-27
-updated: 2026-06-09
+updated: 2026-06-10
 prd_version: 1
 main_goal: market-feedback
 top_blocker: skills
@@ -34,7 +34,7 @@ Children learning music lack a simple, focused tool for practising note reading.
 | S-02 | letter-to-note-exercise    | See letter-to-note exercises in drill sessions alongside note-to-letter            | S-01          | US-01, FR-005                                  | done     |
 | S-03 | adaptive-selection         | Exercises weighted toward recently missed notes instead of random                  | S-01          | US-01, FR-003                                  | done     |
 | S-04 | session-history            | See all past sessions with date, correct/incorrect by type, progress indicator     | S-01          | US-02, FR-009                                  | done     |
-| S-05 | ui-redesign                | Use a redesigned, child-friendly UI with all interface copy in Polish               | S-01          | — (net-new, beyond PRD v1)                      | proposed |
+| S-05 | ui-redesign                | Use a redesigned, child-friendly UI with all interface copy in Polish               | S-01          | — (net-new, beyond PRD v1)                      | done     |
 
 ## Streams
 
@@ -160,7 +160,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** Needs a concrete design reference (mockups / visual direction) before `/10x-plan` — full redesign is confirmed, but the target look is not yet specified.
 - **Risk:** A full visual/UX redesign is open-ended. Best sequenced after the feature slices (S-02 / S-03 / S-04) so every screen exists to be redesigned in a single pass, avoiding rework on screens added later. Polish-only copy keeps this simple — no i18n framework, just ensuring all interface text is Polish as part of the redesign. Net-new beyond PRD v1 — confirm it belongs in MVP scope, or park for v2.
-- **Status:** proposed
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -194,3 +194,4 @@ None. PRD has 0 open questions and no cross-cutting unknowns surfaced during fra
 - **S-02: user can see letter-to-note exercises in drill sessions — a letter name is shown, and the child picks the correct note on the staff from 3 visual options — mixed alongside note-to-letter exercises** — Archived 2026-06-09 → `context/archive/2026-06-09-letter-to-note-exercise/`. Lesson: —.
 - **S-03: user experiences exercises weighted toward recently missed notes (approximately 70% weak spots, 30% random) instead of purely random selection, so each drill targets the child's weakest spots** — Archived 2026-06-09 → `context/archive/2026-06-09-adaptive-selection/`. Lesson: —.
 - **S-04: user can navigate to session history and see all past sessions listed in reverse chronological order, with date, correct/incorrect counts per exercise type, and a simple progress indicator (accuracy percentage per session)** — Archived 2026-06-09 → `context/archive/2026-06-09-session-history/`. Lesson: —.
+- **S-05: user can use a redesigned, more child-friendly interface across all screens (drill, feedback, session stats, history), with every UI string in Polish — single-language, no internationalization machinery (no locale switcher, no string-extraction framework)** — Archived 2026-06-10 → `context/archive/2026-06-09-ui-redesign/`. Lesson: —.
