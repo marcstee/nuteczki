@@ -39,14 +39,14 @@ export default function LetterToNoteExercise({
   const isCorrect = answered && chosenPitch !== null && pitchToLetter(chosenPitch) === promptLetter;
 
   return (
-    <div className="flex w-full max-w-md flex-col items-center gap-6">
+    <div className="flex w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-6">
       <p className="text-muted-foreground text-sm font-medium">
         Ćwiczenie {progress.index + 1} z {progress.total}
       </p>
 
       <div className="flex flex-col items-center gap-2">
-        <p className="text-muted-foreground text-sm font-medium">Znajdź tę nutkę</p>
-        <div className="text-primary text-8xl font-bold">{promptLetter}</div>
+        <p className="text-muted-foreground text-[length:var(--drill-caption-text)] font-medium">Znajdź tę nutkę</p>
+        <div className="text-primary text-[length:var(--drill-prompt-text)] font-bold">{promptLetter}</div>
       </div>
 
       <div className="grid w-full grid-cols-3 gap-3">
@@ -85,13 +85,15 @@ export default function LetterToNoteExercise({
 
       {answered && (
         <div className="flex w-full flex-col items-center gap-4">
-          <p className={`text-3xl font-bold ${isCorrect ? "text-success" : "text-destructive"}`}>
+          <p
+            className={`text-[length:var(--drill-feedback-text)] font-bold ${isCorrect ? "text-success" : "text-destructive"}`}
+          >
             {isCorrect ? "✓ Brawo!" : "✗ Prawie!"}
           </p>
           <button
             type="button"
             onClick={onNext}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 w-full rounded-2xl text-xl font-bold transition-all active:scale-95"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 h-[var(--drill-action-h)] w-full rounded-2xl text-xl font-bold transition-all active:scale-95"
           >
             Dalej
           </button>

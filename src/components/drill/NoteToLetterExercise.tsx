@@ -30,7 +30,7 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
   const isCorrect = answered && chosenLetter === correctLetter;
 
   return (
-    <div className="flex w-full max-w-md flex-col items-center gap-6">
+    <div className="flex w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-6">
       <p className="text-muted-foreground text-sm font-medium">
         Ćwiczenie {progress.index + 1} z {progress.total}
       </p>
@@ -38,7 +38,7 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
       {/* White "paper" card so the currentColor staff renders dark and legible;
           the brand ring frames it as an intentional panel on the navy canvas. */}
       <div className="ring-primary/30 w-full rounded-2xl bg-white p-6 text-slate-900 shadow-lg ring-4">
-        <Staff note={pitch} className="mx-auto w-56" />
+        <Staff note={pitch} className="mx-auto w-[var(--drill-staff-w)]" />
       </div>
 
       <div className="grid w-full grid-cols-4 gap-3">
@@ -65,7 +65,7 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
               onClick={() => {
                 onAnswer(letter);
               }}
-              className={`flex h-16 items-center justify-center rounded-xl text-2xl font-bold transition-all disabled:pointer-events-none ${stateClasses}`}
+              className={`flex h-[var(--drill-tap-h)] items-center justify-center rounded-xl text-[length:var(--drill-tap-text)] font-bold transition-all disabled:pointer-events-none ${stateClasses}`}
             >
               {letter}
             </button>
@@ -75,13 +75,15 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
 
       {answered && (
         <div className="flex w-full flex-col items-center gap-4">
-          <p className={`text-3xl font-bold ${isCorrect ? "text-success" : "text-destructive"}`}>
+          <p
+            className={`text-[length:var(--drill-feedback-text)] font-bold ${isCorrect ? "text-success" : "text-destructive"}`}
+          >
             {isCorrect ? "✓ Brawo!" : `✗ To było ${correctLetter}`}
           </p>
           <button
             type="button"
             onClick={onNext}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 w-full rounded-2xl text-xl font-bold transition-all active:scale-95"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 h-[var(--drill-action-h)] w-full rounded-2xl text-xl font-bold transition-all active:scale-95"
           >
             Dalej
           </button>

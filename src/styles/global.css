@@ -17,6 +17,19 @@
    stable so button.tsx and any shadcn primitive inherit the look unchanged. */
 :root {
   --radius: 1rem;
+
+  /* Drill responsive scaling (S-07): grow toward near-full-width on iPhone/iPad,
+     cap on desktop. Tune against Safari DevTools 390×844, 820×1180, 1180×820.
+     The staff is fixed-aspect (~1.22:1), so --drill-staff-w's max is height-bound
+     in landscape — keep it conservative. */
+  --drill-shell-max: clamp(28rem, 92vw, 60rem);
+  --drill-staff-w: clamp(14rem, 52vw, 30rem);
+  --drill-tap-h: clamp(4rem, 9vw, 6rem);
+  --drill-tap-text: clamp(1.5rem, 3.2vw, 2.5rem);
+  --drill-prompt-text: clamp(6rem, 20vw, 11rem);
+  --drill-feedback-text: clamp(1.875rem, 5.5vw, 3rem);
+  --drill-caption-text: clamp(1rem, 2.5vw, 1.25rem);
+  --drill-action-h: clamp(3.5rem, 8vw, 5rem);
   --background: oklch(0.261 0.056 259.3); /* #13243F flat navy canvas */
   --foreground: oklch(0.973 0.013 266.7); /* #F2F6FF near-white text */
   --card: oklch(0.317 0.063 259.4); /* #1E3252 one-step-lighter surface */

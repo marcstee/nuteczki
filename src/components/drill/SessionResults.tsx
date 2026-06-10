@@ -54,7 +54,7 @@ function StatBlock({ label, stats }: { label: string; stats: TypeStats }) {
  */
 export default function SessionResults({ accuracyPct, byType, onAgain, onDone, saveState, onRetrySave }: Props) {
   return (
-    <div className="flex w-full max-w-md flex-col items-center gap-8">
+    <div className="flex w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-8">
       <img
         src="/mascot.webp"
         alt="Maskotka Nuteczek świętuje ukończoną sesję"
@@ -97,14 +97,14 @@ export default function SessionResults({ accuracyPct, byType, onAgain, onDone, s
         <button
           type="button"
           onClick={onAgain}
-          className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 w-full rounded-2xl text-xl font-bold transition-all active:scale-95"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 h-[var(--drill-action-h)] w-full rounded-2xl text-xl font-bold transition-all active:scale-95"
         >
           Jeszcze raz
         </button>
         <button
           type="button"
           onClick={onDone}
-          className="border-border bg-card text-foreground hover:bg-muted h-12 w-full rounded-2xl border text-lg font-medium transition-colors"
+          className="border-border bg-card text-foreground hover:bg-muted h-[var(--drill-action-h)] w-full rounded-2xl border text-lg font-medium transition-colors"
         >
           Gotowe
         </button>
