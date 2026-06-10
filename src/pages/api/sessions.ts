@@ -132,3 +132,29 @@ export const POST: APIRoute = async (context) => {
 
   return json({ ok: true }, 200);
 };
+
+export const DELETE: APIRoute = async (context) => {
+  const supabase = createClient(context.request.headers, context.cookies);
+  if (!supabase) {
+    return json({ error: "Supabase is not configured" }, 503);
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return json({ error: "Not authenticated" }, 401);
+  }
+
+  const id = context.url.searchParams.get("id");
+  if (!id || id.length === 0) {
+    return json({ error: "Missing session id" }, 400);
+  }
+
+  const { error } = await supabase.from("sessions").delete().eq("id", id);
+  if (error) {
+    return json({ error: "Failed to delete session" }, 500);
+  }
+
+  return json({ ok: true }, 200);
+};

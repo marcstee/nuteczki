@@ -234,25 +234,25 @@ One additive, non-destructive migration (a new `delete` policy). No data migrati
 
 #### Automated
 
-- [x] 1.1 Lint passes: `npm run lint`
-- [x] 1.2 Type/astro check passes: `npx astro check`
-- [x] 1.3 Production build succeeds: `npm run build`
+- [x] 1.1 Lint passes: `npm run lint` — f2bdc65
+- [x] 1.2 Type/astro check passes: `npx astro check` — f2bdc65
+- [x] 1.3 Production build succeeds: `npm run build` — f2bdc65
 
 #### Manual
 
-- [x] 1.4 >10 sessions: 10 cards newest-first, Prev/Next + "Strona X z Y" appear
-- [x] 1.5 Next/Prev navigate; controls disabled at first/last page
-- [x] 1.6 Out-of-range `?page=999` redirects to the last valid page
-- [x] 1.7 ≤10 sessions hide controls; empty state + CTA intact; error state unaffected
+- [x] 1.4 >10 sessions: 10 cards newest-first, Prev/Next + "Strona X z Y" appear — f2bdc65
+- [x] 1.5 Next/Prev navigate; controls disabled at first/last page — f2bdc65
+- [x] 1.6 Out-of-range `?page=999` redirects to the last valid page — f2bdc65
+- [x] 1.7 ≤10 sessions hide controls; empty state + CTA intact; error state unaffected — f2bdc65
 
 ### Phase 2: Delete Backend (RLS policy + DELETE API)
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Type/astro check passes: `npx astro check`
-- [ ] 2.3 Production build succeeds: `npm run build`
-- [ ] 2.4 Migration applies cleanly: `supabase migration up` (or `supabase db reset`)
+- [x] 2.1 Lint passes: `npm run lint`
+- [x] 2.2 Type/astro check passes: `npx astro check`
+- [x] 2.3 Production build succeeds: `npm run build`
+- [x] 2.4 Migration applies cleanly: `supabase migration up` (or `supabase db reset`)
 
 #### Manual
 
