@@ -5,7 +5,7 @@
 Replace the inherited 10x Astro starter look (cosmic theme + English copy +
 leftover marketing content) with a deliberate, child-friendly visual identity
 for Nuteczki: a flat dark-navy canvas, a playful blue/purple/pink palette, a
-rounded font (Fredoka), an AI-generated mascot, and Polish copy throughout —
+rounded font (Baloo 2), an AI-generated mascot, and Polish copy throughout —
 single-language, no i18n machinery.
 
 The frame brief (`frame.md`) established that the real problem is not "repaint
@@ -61,7 +61,7 @@ consumes them; it does not re-derive the design.
 
 Every screen in the app — landing, dashboard, drill flow, session results,
 history, and auth — renders on a flat dark-navy canvas with the playful
-blue/purple/pink palette, Fredoka type, the mascot on the three designated
+blue/purple/pink palette, Baloo 2 type, the mascot on the three designated
 screens, and Polish copy (playful for the child on drills, neutral for the
 parent on history/auth). The cosmic theme and all starter content are gone. The
 palette, radii, and font are defined once in `src/styles/global.css` and every
@@ -136,7 +136,7 @@ Each phase is independently shippable and visually verifiable, so
   values to the navy palette and delete the `.dark` block — the app has one
   theme. `@theme inline` already exposes the tokens as `--color-*` utilities;
   add `--color-success` for the new success token and set `--font-sans` to
-  Fredoka so the default font flows through `body`. Express colors as oklch
+  Baloo 2 so the default font flows through `body`. Express colors as oklch
   (convert from the draft hex in the palette table below; refine against the
   mascot). Keep token **names** stable so `button.tsx` keeps working.
 - **Staff card framing.** The staff stays black-on-white via `currentColor`; the
@@ -154,7 +154,7 @@ Each phase is independently shippable and visually verifiable, so
 ### Overview
 
 Establish the single source of truth: redefine the token layer to the navy
-brand palette, self-host Fredoka and make it the default font, set the document
+brand palette, self-host Baloo 2 and make it the default font, set the document
 language to Polish, and align the standalone Banner palette. After this phase the
 base canvas is on-brand; screens still carry local cosmic wrappers (removed in
 later phases).
@@ -194,7 +194,7 @@ against the mascot during implementation.
 | `--border` / `--input` | subtle light border on navy | `oklch(1 0 0 / 12%)` |
 | `--ring` | focus ring = primary | `#5BC2E7` |
 
-#### 2. Expose success token + Fredoka as default font
+#### 2. Expose success token + Baloo 2 as default font
 
 **File**: `src/styles/global.css`
 
@@ -202,18 +202,23 @@ against the mascot during implementation.
 theme so they're available as utilities and as the default body font.
 
 **Contract**: In `@theme inline`, add `--color-success: var(--success);` and set
-`--font-sans` to a Fredoka-first stack. Ensure `body` (in `@layer base`) renders
+`--font-sans` to a Baloo 2-first stack. Ensure `body` (in `@layer base`) renders
 in the sans stack (`@apply font-sans` or `font-family: var(--font-sans)`). Keep
 `bg-cosmic` utility in place for now.
 
-#### 3. Self-host Fredoka
+#### 3. Self-host Baloo 2
+
+> **Note (2026-06-10, impl):** This plan originally specified **Fredoka**; the
+> shipped font is **Baloo 2** (commit eb1539f). Fredoka lacks full Polish glyph
+> coverage (ł/ą/ę/ś/ż/ź/ć/ń/ó); Baloo 2 covers it. All Fredoka references in this
+> plan were renamed to Baloo 2 to match what shipped.
 
 **File**: `public/fonts/` (new) + `src/styles/global.css`
 
-**Intent**: Ship Fredoka offline-first (PWA / instant-feel NFR) with no
+**Intent**: Ship Baloo 2 offline-first (PWA / instant-feel NFR) with no
 third-party request.
 
-**Contract**: Add subsetted Fredoka `woff2` file(s) with Latin-Extended coverage
+**Contract**: Add subsetted Baloo 2 `woff2` file(s) with Latin-Extended coverage
 (Polish diacritics ł/ą/ę/ś/ż/ź/ć/ń/ó) to `public/fonts/`. Declare `@font-face`
 in `global.css` (or an imported css) referencing `/fonts/...` with
 `font-display: swap`. Weights: at least a regular and a bold/semibold for
@@ -244,12 +249,12 @@ the navy canvas — or convert to token classes. No copy change.
 - Lint passes: `npm run lint`
 - Type/astro check passes: `npx astro check`
 - Build passes: `npm run build`
-- Fredoka woff2 exists: `ls public/fonts/*.woff2`
+- Baloo 2 woff2 exists: `ls public/fonts/*.woff2`
 - `.dark` block removed: `grep -c "^.dark" src/styles/global.css` returns `0`
 
 #### Manual Verification:
 
-- Loading any existing screen shows the navy background and Fredoka text (even
+- Loading any existing screen shows the navy background and Baloo 2 text (even
   before that screen is retrofitted, the body canvas is navy).
 - No FOUT/flash of a fallback font on reload; Polish diacritics render correctly.
 - The config Banner (when triggered) is legible against the navy canvas.
@@ -292,6 +297,12 @@ warm/welcoming register.
 
 **Contract**: In frontmatter, if `Astro.locals.user` exists,
 `return Astro.redirect("/dashboard")`; otherwise render `<Welcome />`.
+
+> **Addendum (2026-06-10, impl):** Implemented in `src/middleware.ts:25-27`
+> instead of `index.astro` frontmatter — an exact-path + authenticated guard that
+> redirects `/`→`/dashboard` before render (no flash), with a hardcoded target
+> (no open-redirect) and `PROTECTED_ROUTES` logic intact. `index.astro` just
+> renders `<Welcome />`. Same contract, better location.
 
 #### 3. Topbar
 
@@ -564,7 +575,7 @@ excluding code identifiers, comments, and the intentional `lang`/`alt` text.
 
 - Walk every screen (landing, dashboard, drill setup, both exercises, results,
   history empty + populated, signin, signup, confirm-email) at 375px width: each
-  is on-brand navy, uses Fredoka, and has no cosmic/English remnant.
+  is on-brand navy, uses Baloo 2, and has no cosmic/English remnant.
 - The white staff card reads as intentional on every drill screen.
 - The mascot appears on landing, dashboard, and results.
 - Touch targets and spacing remain child-appropriate (NFR); feedback still feels
@@ -589,7 +600,7 @@ change.
 
 ### Manual Testing Steps:
 
-1. Phase 1: load any page → navy canvas + Fredoka; diacritics render; no FOUT.
+1. Phase 1: load any page → navy canvas + Baloo 2; diacritics render; no FOUT.
 2. Phase 2: `/` logged out shows mascot home; logged in redirects to dashboard;
    dashboard + topbar on-brand and Polish.
 3. Phase 3: run a full drill session both exercise types → results; staff stays
@@ -602,7 +613,7 @@ change.
 
 ## Performance Considerations
 
-- Self-hosted, subsetted Fredoka woff2 with `font-display: swap` avoids a
+- Self-hosted, subsetted Baloo 2 woff2 with `font-display: swap` avoids a
   render-blocking third-party request and keeps the PWA usable offline — aligned
   with the "instant feel" (200ms) NFR. Preload the primary weight if FOUT is
   noticeable.
@@ -640,12 +651,12 @@ change.
 - [x] 1.1 Lint passes: `npm run lint` — 8429e5e
 - [x] 1.2 Astro check passes: `npx astro check` — 8429e5e
 - [x] 1.3 Build passes: `npm run build` — 8429e5e
-- [x] 1.4 Fredoka woff2 exists: `ls public/fonts/*.woff2` — 8429e5e
+- [x] 1.4 Baloo 2 woff2 exists: `ls public/fonts/*.woff2` — 8429e5e
 - [x] 1.5 `.dark` block removed from global.css — 8429e5e
 
 #### Manual
 
-- [x] 1.6 Any screen shows navy canvas + Fredoka text — 8429e5e
+- [x] 1.6 Any screen shows navy canvas + Baloo 2 text — 8429e5e
 - [x] 1.7 No FOUT on reload; Polish diacritics render correctly — 8429e5e
 - [x] 1.8 Config Banner legible against navy — 8429e5e
 

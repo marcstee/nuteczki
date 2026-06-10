@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 /* Baloo 2 — self-hosted, subsetted (Basic Latin + Latin-1 + Latin Extended-A for
    full Polish coverage ł/ą/ę/ś/ż/ź/ć/ń/ó, plus dashes/ellipsis). Variable weight
    axis 400–800 in a single file. Replaced Fredoka, which lacks Polish glyphs. */
