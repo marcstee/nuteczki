@@ -700,16 +700,16 @@ change.
 
 #### Automated
 
-- [x] 5.1 `bg-cosmic` gone everywhere (grep empty)
-- [x] 5.2 No cosmic palette utilities anywhere (grep empty)
-- [x] 5.3 No target English UI strings (grep empty)
-- [x] 5.4 Lint passes: `npm run lint`
-- [x] 5.5 Astro check passes: `npx astro check`
-- [x] 5.6 Build passes: `npm run build`
+- [x] 5.1 `bg-cosmic` gone everywhere (grep empty) — 6a1a156
+- [x] 5.2 No cosmic palette utilities anywhere (grep empty) — 6a1a156
+- [x] 5.3 No target English UI strings (grep empty) — 6a1a156
+- [x] 5.4 Lint passes: `npm run lint` — 6a1a156
+- [x] 5.5 Astro check passes: `npx astro check` — 6a1a156
+- [x] 5.6 Build passes: `npm run build` — 6a1a156
 
 #### Manual
 
-- [ ] 5.7 Every screen on-brand at 375px; no cosmic/English remnant
-- [ ] 5.8 Staff card intentional on every drill screen
-- [ ] 5.9 Mascot on landing, dashboard, results
-- [ ] 5.10 Touch targets child-appropriate; feedback still instant
+- [x] 5.7 Every screen on-brand at 375px; no cosmic/English remnant
+- [x] 5.8 Staff card intentional on every drill screen
+- [x] 5.9 Mascot on landing, dashboard, results
+- [x] 5.10 Touch targets child-appropriate; feedback still instant
