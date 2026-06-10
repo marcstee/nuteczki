@@ -36,7 +36,7 @@ Children learning music lack a simple, focused tool for practising note reading.
 | S-04 | session-history            | See all past sessions with date, correct/incorrect by type, progress indicator     | S-01          | US-02, FR-009                                  | done     |
 | S-05 | ui-redesign                | Use a redesigned, child-friendly UI with all interface copy in Polish               | S-01          | — (net-new, beyond PRD v1)                      | done     |
 | S-06 | session-history-ux         | Page through session history and delete individual sessions                         | S-04          | US-02, FR-009                                  | done     |
-| S-07 | responsive-exercise-scaling | Exercise area fills the full viewport on iPhone/iPad so staff lines are large enough for children to read and tap accurately | S-02, S-05 | NFR (PWA on iPhone/iPad) | ready    |
+| S-07 | responsive-exercise-scaling | Exercise area fills the full viewport on iPhone/iPad so staff lines are large enough for children to read and tap accurately | S-02, S-05 | NFR (PWA on iPhone/iPad) | done     |
 
 ## Streams
 
@@ -188,7 +188,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** The primary failure mode is under-scaling: if the staff component uses fixed pixel sizes or viewport units that assume a desktop viewport, it stays small on iPad/iPhone regardless of surrounding layout changes. The fix must touch the staff renderer (F-02) or its consuming exercise components, not just the page wrapper. The second failure mode is over-scaling on desktop — the same scaling logic must not break the larger-screen layout. Testing on a real device (or Safari DevTools responsive mode at 390 × 844 for iPhone 14 and 820 × 1180 for iPad Air) is required before marking done.
-- **Status:** ready
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -227,3 +227,4 @@ None. PRD has 0 open questions and no cross-cutting unknowns surfaced during fra
 - **S-05: user can use a redesigned, more child-friendly interface across all screens (drill, feedback, session stats, history), with every UI string in Polish — single-language, no internationalization machinery (no locale switcher, no string-extraction framework)** — Archived 2026-06-10 → `context/archive/2026-06-09-ui-redesign/`. Lesson: —.
 - **F-03: (foundation) The app is installable on iPhone and iPad home screens via Safari; a PWA manifest, service worker with basic caching, and app icons are configured.** — Archived 2026-06-10 → `context/archive/2026-06-10-pwa-setup/`. Lesson: —.
 - **S-06: user can page through their session history instead of scrolling one unbounded list, and delete an individual session from history (with a confirmation step), so the list stays manageable as sessions accumulate** — Archived 2026-06-10 → `context/archive/2026-06-10-session-history-ux/`. Lesson: —.
+- **S-07: user can complete drill exercises on an iPhone or iPad with the exercise area filling the full viewport — the music staff and answer controls scale to the available screen space, staff lines are clearly legible, and tap targets are large enough for a child's finger; both exercise types (note-to-letter and letter-to-note) are covered** — Archived 2026-06-10 → `context/archive/2026-06-10-responsive-exercise-scaling/`. Lesson: —.

@@ -1,10 +1,10 @@
 ---
 change_id: responsive-exercise-scaling
 title: Scale exercise area to fill viewport on iPhone and iPad
-status: impl_reviewed
+status: archived
 created: 2026-06-10
 updated: 2026-06-10
-archived_at: null
+archived_at: 2026-06-10T19:00:11Z
 ---
 
 ## Notes
