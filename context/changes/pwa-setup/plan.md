@@ -280,28 +280,28 @@ Run the chosen gate — file/code review + clean production build — and tidy u
 
 #### Automated
 
-- [x] 2.1 Build emits `dist/sw.js`, `dist/offline.html`, `dist/_headers`
-- [x] 2.2 Lint passes including `public/sw.js` (no `no-undef`/`no-console`)
-- [x] 2.3 Typecheck passes (`npx astro check`)
-- [x] 2.4 Format passes for new/edited files (`prettier --check`)
+- [x] 2.1 Build emits `dist/sw.js`, `dist/offline.html`, `dist/_headers` — 18fbdf8
+- [x] 2.2 Lint passes including `public/sw.js` (no `no-undef`/`no-console`) — 18fbdf8
+- [x] 2.3 Typecheck passes (`npx astro check`) — 18fbdf8
+- [x] 2.4 Format passes for new/edited files (`prettier --check`) — 18fbdf8
 
 #### Manual
 
-- [x] 2.5 `sw.js` registers + activates; offline navigation serves `offline.html` (optional)
-- [x] 2.6 `/api` request is not served from SW cache while offline
-- [x] 2.7 Bumped `CACHE_NAME` clears old caches on activate
+- [x] 2.5 `sw.js` registers + activates; offline navigation serves `offline.html` (optional) — 18fbdf8
+- [x] 2.6 `/api` request is not served from SW cache while offline — 18fbdf8
+- [x] 2.7 Bumped `CACHE_NAME` clears old caches on activate — 18fbdf8
 
 ### Phase 3: Verification & Cleanup
 
 #### Automated
 
-- [ ] 3.1 Full build clean (`npm run build`)
-- [ ] 3.2 Lint clean (`npm run lint`)
-- [ ] 3.3 Format clean (`prettier --check .`)
-- [ ] 3.4 Typecheck clean (`npx astro check`)
-- [ ] 3.5 All four artifacts present in `dist/`
+- [x] 3.1 Full build clean (`npm run build`)
+- [x] 3.2 Lint clean (`npm run lint`)
+- [x] 3.3 Format clean (`prettier --check .`)
+- [x] 3.4 Typecheck clean (`npx astro check`)
+- [x] 3.5 All four artifacts present in `dist/`
 
 #### Manual
 
-- [ ] 3.6 File/code review checklist passes
-- [ ] 3.7 (Optional, non-gating) Real iPhone + iPad install + offline page verified
+- [x] 3.6 File/code review checklist passes
+- [x] 3.7 (Optional, non-gating) Real iPhone + iPad install + offline page verified

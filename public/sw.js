@@ -2,6 +2,7 @@ const CACHE_NAME = "nuteczki-v1";
 
 const PRECACHE_ASSETS = [
   "/offline.html",
+  "/mascot.webp",
   "/fonts/baloo2-latin-pl.woff2",
   "/manifest.webmanifest",
   "/apple-touch-icon.png",
