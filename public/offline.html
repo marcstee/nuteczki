@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Nuteczki – brak połączenia</title>
     <style>
+      /* Baloo 2 — self-hosted, subsetted, variable weight 400–800. Inlined here
+         (not via global.css) so the brand font renders when this page is served
+         offline from the SW precache. Matches src/styles/global.css. */
+      @font-face {
+        font-family: "Baloo 2";
+        font-style: normal;
+        font-weight: 400 800;
+        font-display: swap;
+        src: url("/fonts/baloo2-latin-pl.woff2") format("woff2");
+      }
+
       *,
       *::before,
       *::after {

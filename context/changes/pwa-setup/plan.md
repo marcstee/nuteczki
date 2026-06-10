@@ -16,7 +16,8 @@ The project already has most static PWA assets in place, but no service worker a
 
 **Architecture constraints discovered:**
 
-- **SSR on Cloudflare Workers**: `astro.config.mjs` sets `output: "server"` with `@astrojs/cloudflare`. `wrangler.jsonc` serves static assets from `./dist` via the `ASSETS` binding with `not_found_handling: "404-page"`. Static files in `public/` (including a future `sw.js`, `offline.html`, `_headers`) are copied to `dist/` and served at root scope.
+- **SSR on Cloudflare Workers**: `astro.config.mjs` sets `output: "server"` with `@astrojs/cloudflare`. `wrangler.jsonc` serves static assets from `./dist` via the `ASSETS` binding with `not_found_handling: "404-page"`. Static files in `public/` (including a future `sw.js`, `offline.html`, `_headers`) are copied to `dist/client/` by the adapter and assumed to be served at root scope.
+  > **Verified against live deploy (2026-06-10):** `wrangler.jsonc` keeps `assets.directory: "./dist"` while the adapter emits assets under `./dist/client/`, but production serves them correctly at root — `curl` of `/sw.js`, `/favicon.ico`, `/manifest.webmanifest`, `/fonts/baloo2-latin-pl.woff2`, `/mascot.webp`, and all icons returned **200**. The adapter resolves the `/client` prefix internally, so the path mismatch is cosmetic. **One exception found:** `/offline.html` **307**-redirected to `/offline` (Cloudflare's `.html`-stripping), which made the SW's precached offline fallback a redirected response that Chromium refuses to serve to navigations. Fixed by adding `assets.html_handling: "none"` to `wrangler.jsonc` — **re-deploy required** to take effect, then re-curl `/offline.html` for a 200. See impl-review F5.
 - **Pages are auth-gated and dynamic**: `src/middleware.ts` protects `/dashboard`, `/drill`, `/history` and redirects logged-in users hitting `/` to `/dashboard`. Server-rendered HTML is per-session — so it must **not** be precached or cache-served, or a stale/wrong-session page could be shown.
 - **ESLint covers `public/*.js`**: `eslint.config.js` globs `**/*.{js,jsx,ts,tsx}` with `no-console: "warn"`. A service worker uses globals (`self`, `caches`, `clients`, `skipWaiting`) that will trip `no-undef`, so the SW file needs a dedicated config block.
 - **Brand assets for offline page**: `public/mascot.webp` and `public/fonts/baloo2-latin-pl.woff2` exist and can be referenced by a cached offline page.
@@ -28,7 +29,7 @@ After this plan:
 - The browser/devtools install prompt is available; the manifest passes installability checks (valid `start_url`/`scope`/`icons`/`display`).
 - On iOS Safari (iPhone + iPad), "Add to Home Screen" produces a standalone app with the correct icon, name, and theme color — no browser chrome on launch.
 - A registered service worker caches static assets (hashed JS/CSS bundles, fonts, icons) and serves a branded offline page when a navigation fails offline, while **never** caching `/api`, auth responses, or server-rendered protected HTML.
-- `npm run build` emits `sw.js`, `offline.html`, the completed `manifest.webmanifest`, and `_headers` into `dist/`.
+- `npm run build` emits `sw.js`, `offline.html`, the completed `manifest.webmanifest`, and `_headers` into `dist/client/`.
 - Lint, format, and typecheck pass.
 
 Verified by: file/code review against the checklist below + a clean production build (the chosen gate). A real-device install is recommended as an optional, non-gating manual check.
@@ -92,7 +93,7 @@ Complete the web app manifest and add the iOS/standalone meta tags so the app is
 #### Automated Verification:
 
 - Manifest is valid JSON: `npx tsc --noEmit` is unaffected; `node -e "JSON.parse(require('fs').readFileSync('public/manifest.webmanifest','utf8'))"` exits 0
-- Production build succeeds and copies the manifest to `dist/`: `npm run build`
+- Production build succeeds and copies the manifest to `dist/client/`: `npm run build`
 - Lint passes: `npm run lint`
 - Format passes: `npx prettier --check public/manifest.webmanifest src/layouts/Layout.astro`
 
@@ -161,7 +162,7 @@ Add a hand-rolled service worker that precaches stable static assets, runtime-ca
 
 #### Automated Verification:
 
-- Build emits the SW, offline page, and headers into `dist/`: `npm run build` then confirm `dist/sw.js`, `dist/offline.html`, `dist/_headers` exist (`ls dist/sw.js dist/offline.html dist/_headers`)
+- Build emits the SW, offline page, and headers into `dist/client/`: `npm run build` then confirm `dist/client/sw.js`, `dist/client/offline.html`, `dist/client/_headers` exist (`ls dist/client/sw.js dist/client/offline.html dist/client/_headers`)
 - Lint passes including `public/sw.js` (no `no-undef`, no `no-console`): `npm run lint`
 - Typecheck passes: `npx astro check` / `npx tsc --noEmit`
 - Format passes: `npx prettier --check "public/**/*.{js,html}" src/layouts/Layout.astro eslint.config.js`
@@ -188,9 +189,9 @@ Run the chosen gate — file/code review + clean production build — and tidy u
 
 **File**: (no source change) — verification pass
 
-**Intent**: Confirm the full slice produces the expected `dist/` artifacts and passes all gates.
+**Intent**: Confirm the full slice produces the expected `dist/client/` artifacts and passes all gates.
 
-**Contract**: A clean `npm run build`, `npm run lint`, format check, and typecheck, plus presence of `dist/manifest.webmanifest`, `dist/sw.js`, `dist/offline.html`, `dist/_headers`.
+**Contract**: A clean `npm run build`, `npm run lint`, format check, and typecheck, plus presence of `dist/client/manifest.webmanifest`, `dist/client/sw.js`, `dist/client/offline.html`, `dist/client/_headers`.
 
 #### 2. File/code review checklist
 
@@ -208,7 +209,7 @@ Run the chosen gate — file/code review + clean production build — and tidy u
 - Lint clean: `npm run lint`
 - Format clean: `npm run format -- --check` (or `npx prettier --check .`)
 - Typecheck clean: `npx astro check`
-- All four artifacts present in `dist/`
+- All four artifacts present in `dist/client/`
 
 #### Manual Verification:
 
@@ -267,7 +268,7 @@ Run the chosen gate — file/code review + clean production build — and tidy u
 #### Automated
 
 - [x] 1.1 Manifest is valid JSON (`node -e JSON.parse(...)` exits 0) — 919840b
-- [x] 1.2 Production build succeeds and copies manifest to `dist/` (`npm run build`) — 919840b
+- [x] 1.2 Production build succeeds and copies manifest to `dist/client/` (`npm run build`) — 919840b
 - [x] 1.3 Lint passes (`npm run lint`) — 919840b
 - [x] 1.4 Format passes for manifest + Layout (`prettier --check`) — 919840b
 
@@ -280,7 +281,7 @@ Run the chosen gate — file/code review + clean production build — and tidy u
 
 #### Automated
 
-- [x] 2.1 Build emits `dist/sw.js`, `dist/offline.html`, `dist/_headers` — 18fbdf8
+- [x] 2.1 Build emits `dist/client/sw.js`, `dist/client/offline.html`, `dist/client/_headers` — 18fbdf8
 - [x] 2.2 Lint passes including `public/sw.js` (no `no-undef`/`no-console`) — 18fbdf8
 - [x] 2.3 Typecheck passes (`npx astro check`) — 18fbdf8
 - [x] 2.4 Format passes for new/edited files (`prettier --check`) — 18fbdf8
@@ -299,7 +300,7 @@ Run the chosen gate — file/code review + clean production build — and tidy u
 - [x] 3.2 Lint clean (`npm run lint`) — 8f0b5a9
 - [x] 3.3 Format clean (`prettier --check .`) — 8f0b5a9
 - [x] 3.4 Typecheck clean (`npx astro check`) — 8f0b5a9
-- [x] 3.5 All four artifacts present in `dist/`) — 8f0b5a9
+- [x] 3.5 All four artifacts present in `dist/client/`) — 8f0b5a9
 
 #### Manual
 

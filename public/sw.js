@@ -11,7 +11,7 @@ const PRECACHE_ASSETS = [
   "/favicon.ico",
 ];
 
-const AUTH_PATHS = ["/login", "/register", "/auth"];
+const AUTH_PATHS = ["/auth"];
 
 function shouldBypass(request) {
   if (request.method !== "GET") return true;

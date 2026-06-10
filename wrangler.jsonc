@@ -8,6 +8,12 @@
     "binding": "ASSETS",
     "directory": "./dist",
     "not_found_handling": "404-page",
+    // Serve static .html assets at their exact path (no .html-stripping redirect).
+    // Without this, Cloudflare 307-redirects /offline.html -> /offline, which makes
+    // the service worker's precached offline fallback a redirected response that
+    // Chromium refuses to serve to navigations. Only static HTML asset is offline.html;
+    // all real pages are SSR, so this has no effect on routing.
+    "html_handling": "none",
   },
   "observability": {
     "enabled": true,
