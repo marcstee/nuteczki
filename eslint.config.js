@@ -68,6 +68,22 @@ const astroConfig = tseslint.config({
   },
 });
 
+const swConfig = tseslint.config({
+  files: ["public/sw.js"],
+  extends: [tseslint.configs.disableTypeChecked],
+  languageOptions: {
+    globals: {
+      self: true,
+      caches: true,
+      clients: true,
+      fetch: true,
+      Response: true,
+      URL: true,
+      Promise: true,
+    },
+  },
+});
+
 export default tseslint.config(
   includeIgnoreFile(gitignorePath),
   { ignores: ["src/db/database.types.ts"] },
@@ -76,5 +92,6 @@ export default tseslint.config(
   eslintPluginAstro.configs["flat/recommended"],
   ...eslintPluginAstro.configs["flat/jsx-a11y-recommended"],
   astroConfig,
+  ...swConfig,
   eslintPluginPrettier,
 );

@@ -266,30 +266,30 @@ Run the chosen gate — file/code review + clean production build — and tidy u
 
 #### Automated
 
-- [x] 1.1 Manifest is valid JSON (`node -e JSON.parse(...)` exits 0)
-- [x] 1.2 Production build succeeds and copies manifest to `dist/` (`npm run build`)
-- [x] 1.3 Lint passes (`npm run lint`)
-- [x] 1.4 Format passes for manifest + Layout (`prettier --check`)
+- [x] 1.1 Manifest is valid JSON (`node -e JSON.parse(...)` exits 0) — 919840b
+- [x] 1.2 Production build succeeds and copies manifest to `dist/` (`npm run build`) — 919840b
+- [x] 1.3 Lint passes (`npm run lint`) — 919840b
+- [x] 1.4 Format passes for manifest + Layout (`prettier --check`) — 919840b
 
 #### Manual
 
-- [x] 1.5 DevTools → Manifest shows all fields resolved, no installability errors (optional)
-- [x] 1.6 Page source shows new `apple-mobile-web-app-*` and `theme-color` meta tags
+- [x] 1.5 DevTools → Manifest shows all fields resolved, no installability errors (optional) — 919840b
+- [x] 1.6 Page source shows new `apple-mobile-web-app-*` and `theme-color` meta tags — 919840b
 
 ### Phase 2: Service Worker & Offline Fallback
 
 #### Automated
 
-- [ ] 2.1 Build emits `dist/sw.js`, `dist/offline.html`, `dist/_headers`
-- [ ] 2.2 Lint passes including `public/sw.js` (no `no-undef`/`no-console`)
-- [ ] 2.3 Typecheck passes (`npx astro check`)
-- [ ] 2.4 Format passes for new/edited files (`prettier --check`)
+- [x] 2.1 Build emits `dist/sw.js`, `dist/offline.html`, `dist/_headers`
+- [x] 2.2 Lint passes including `public/sw.js` (no `no-undef`/`no-console`)
+- [x] 2.3 Typecheck passes (`npx astro check`)
+- [x] 2.4 Format passes for new/edited files (`prettier --check`)
 
 #### Manual
 
-- [ ] 2.5 `sw.js` registers + activates; offline navigation serves `offline.html` (optional)
-- [ ] 2.6 `/api` request is not served from SW cache while offline
-- [ ] 2.7 Bumped `CACHE_NAME` clears old caches on activate
+- [x] 2.5 `sw.js` registers + activates; offline navigation serves `offline.html` (optional)
+- [x] 2.6 `/api` request is not served from SW cache while offline
+- [x] 2.7 Bumped `CACHE_NAME` clears old caches on activate
 
 ### Phase 3: Verification & Cleanup
 
