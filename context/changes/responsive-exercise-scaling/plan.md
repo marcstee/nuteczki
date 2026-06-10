@@ -231,14 +231,14 @@ ships zero additional JS.
 
 #### Automated
 
-- [x] 1.1 Linting passes: `npm run lint`
-- [x] 1.2 Type checking passes: `npx astro check`
-- [x] 1.3 Production build succeeds: `npm run build`
+- [x] 1.1 Linting passes: `npm run lint` — 00bd4a1
+- [x] 1.2 Type checking passes: `npx astro check` — 00bd4a1
+- [x] 1.3 Production build succeeds: `npm run build` — 00bd4a1
 
 #### Manual
 
-- [x] 1.4 iPhone 14 (390×844): both exercise types, setup, results fill width; no horizontal scroll
-- [x] 1.5 iPad portrait (820×1180): near-full-width, no vertical scroll on any view
-- [x] 1.6 iPad landscape (1180×820): both exercise views fit height with no vertical scroll
-- [x] 1.7 Desktop (~1440px): layout caps, no over-scaling or scrollbar, no regression
-- [x] 1.8 Both exercise types + setup + results all covered
+- [x] 1.4 iPhone 14 (390×844): both exercise types, setup, results fill width; no horizontal scroll — 00bd4a1
+- [x] 1.5 iPad portrait (820×1180): near-full-width, no vertical scroll on any view — 00bd4a1
+- [x] 1.6 iPad landscape (1180×820): both exercise views fit height with no vertical scroll — 00bd4a1
+- [x] 1.7 Desktop (~1440px): layout caps, no over-scaling or scrollbar, no regression — 00bd4a1
+- [x] 1.8 Both exercise types + setup + results all covered — 00bd4a1
