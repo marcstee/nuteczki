@@ -21,5 +21,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
   }
 
+  // Logged-in users hitting the landing page go straight to their dashboard.
+  if (context.url.pathname === "/" && context.locals.user) {
+    return context.redirect("/dashboard");
+  }
+
   return next();
 });

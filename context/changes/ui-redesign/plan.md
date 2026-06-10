@@ -637,33 +637,33 @@ change.
 
 #### Automated
 
-- [x] 1.1 Lint passes: `npm run lint`
-- [x] 1.2 Astro check passes: `npx astro check`
-- [x] 1.3 Build passes: `npm run build`
-- [x] 1.4 Fredoka woff2 exists: `ls public/fonts/*.woff2`
-- [x] 1.5 `.dark` block removed from global.css
+- [x] 1.1 Lint passes: `npm run lint` — 8429e5e
+- [x] 1.2 Astro check passes: `npx astro check` — 8429e5e
+- [x] 1.3 Build passes: `npm run build` — 8429e5e
+- [x] 1.4 Fredoka woff2 exists: `ls public/fonts/*.woff2` — 8429e5e
+- [x] 1.5 `.dark` block removed from global.css — 8429e5e
 
 #### Manual
 
-- [x] 1.6 Any screen shows navy canvas + Fredoka text
-- [x] 1.7 No FOUT on reload; Polish diacritics render correctly
-- [x] 1.8 Config Banner legible against navy
+- [x] 1.6 Any screen shows navy canvas + Fredoka text — 8429e5e
+- [x] 1.7 No FOUT on reload; Polish diacritics render correctly — 8429e5e
+- [x] 1.8 Config Banner legible against navy — 8429e5e
 
 ### Phase 2: Entry & Shell
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Astro check passes: `npx astro check`
-- [ ] 2.3 Build passes: `npm run build`
-- [ ] 2.4 No cosmic utilities in Welcome/Topbar/dashboard (grep empty)
+- [x] 2.1 Lint passes: `npm run lint`
+- [x] 2.2 Astro check passes: `npx astro check`
+- [x] 2.3 Build passes: `npm run build`
+- [x] 2.4 No cosmic utilities in Welcome/Topbar/dashboard (grep empty)
 
 #### Manual
 
-- [ ] 2.5 `/` logged out shows mascot + Polish home; no starter text
-- [ ] 2.6 `/` logged in redirects to /dashboard
-- [ ] 2.7 Dashboard on-brand + Polish; sign-out works
-- [ ] 2.8 Topbar links work and read in Polish
+- [x] 2.5 `/` logged out shows mascot + Polish home; no starter text
+- [x] 2.6 `/` logged in redirects to /dashboard
+- [x] 2.7 Dashboard on-brand + Polish; sign-out works
+- [x] 2.8 Topbar links work and read in Polish
 
 ### Phase 3: Drill Flow
 
