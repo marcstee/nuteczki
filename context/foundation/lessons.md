@@ -19,3 +19,17 @@
   (`new Response(body, {status: 200})`) to strip the redirected flag.
 - **Applies to**: Service workers / PWA precaching; any static host (Cloudflare Workers/Pages,
   Netlify, etc.) that rewrites `.html` or trailing slashes.
+
+## In Tailwind v4, CSS-variable font sizes need the `length:` type hint
+
+- **Context**: `src/components/drill/NoteToLetterExercise.tsx`, `LetterToNoteExercise.tsx`,
+  `DrillSession.tsx` — arbitrary `text-[...]` classes referencing CSS custom properties.
+- **Problem**: The plan's example wrote `text-[var(--drill-tap-text)]`. In Tailwind v4 a
+  bare `text-[var(...)]` is ambiguous between color and font-size, so the `length:` data-type
+  hint is required for the size to compile correctly. Without it the utility may silently
+  resolve to the wrong property.
+- **Rule**: Always write `text-[length:var(--token)]` (not `text-[var(--token)]`) when a CSS
+  variable holds a font-size value in Tailwind v4. The `length:` type-hint resolves the
+  color vs. font-size ambiguity and is required for the size utility to compile correctly.
+- **Applies to**: Any Tailwind v4 arbitrary `text-[...]` class that reads a CSS custom
+  property containing a font-size — including `--drill-*` tokens and any future design tokens.

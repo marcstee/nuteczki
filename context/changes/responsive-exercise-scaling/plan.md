@@ -121,6 +121,7 @@ against device testing — the shapes matter more than the exact numbers):
 --drill-prompt-text: clamp(5rem, 14vw, 9rem);        /* letter→note prompt letter */
 --drill-feedback-text: clamp(1.875rem, 4vw, 3rem);   /* ✓/✗ feedback line */
 --drill-action-h: clamp(3.5rem, 8vw, 5rem);          /* Next / primary action height */
+--drill-caption-text: clamp(1rem, 2.5vw, 1.25rem);  /* small captions (e.g. "Znajdź tę nutkę") — added post-impl */
 ```
 
 #### 2. Note→Letter exercise
