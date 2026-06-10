@@ -21,15 +21,36 @@
   /* Drill responsive scaling (S-07): grow toward near-full-width on iPhone/iPad,
      cap on desktop. Tune against Safari DevTools 390×844, 820×1180, 1180×820.
      The staff is fixed-aspect (~1.22:1), so --drill-staff-w's max is height-bound
-     in landscape — keep it conservative. */
+     in landscape — keep it conservative.
+
+     Landscape fit (drill-landscape-fit): each height-driving token is capped by a
+     `dvh` ceiling via `min(<width clamp>, <dvh>)`. In portrait/iPhone/desktop the
+     `dvh` term is the larger value, so `min()` returns the unchanged width clamp →
+     zero regression. In short-height landscape the `dvh` term bites and the staff,
+     prompt letter, and gaps shrink just enough to fit. dvh constants are starting
+     points — tune on the real iPad; the width-clamp-capped-by-dvh *shape* is what's
+     load-bearing. Tap/action heights are floor-guarded (`max(<floor>, <dvh>)`) so a
+     short viewport can never push a target below its child-finger floor. `dvh` (not
+     `vh`) so the layout is correct under Safari's collapsing toolbar; in the
+     installed standalone PWA `dvh == vh`. --drill-shell-max, --drill-tap-text, and
+     --drill-caption-text are width/affordance-driven and stay as-is. */
   --drill-shell-max: clamp(28rem, 92vw, 60rem);
-  --drill-staff-w: clamp(14rem, 52vw, 30rem);
-  --drill-tap-h: clamp(4rem, 9vw, 6rem);
+  --drill-staff-w: min(clamp(14rem, 52vw, 30rem), 55dvh);
+  --drill-tap-h: min(clamp(4rem, 9vw, 6rem), max(4rem, 11dvh));
   --drill-tap-text: clamp(1.5rem, 3.2vw, 2.5rem);
-  --drill-prompt-text: clamp(6rem, 20vw, 11rem);
-  --drill-feedback-text: clamp(1.875rem, 5.5vw, 3rem);
+  --drill-prompt-text: min(clamp(6rem, 20vw, 11rem), 22dvh);
+  --drill-feedback-text: min(clamp(1.875rem, 5.5vw, 3rem), 7dvh);
   --drill-caption-text: clamp(1rem, 2.5vw, 1.25rem);
-  --drill-action-h: clamp(3.5rem, 8vw, 5rem);
+  --drill-action-h: min(clamp(3.5rem, 8vw, 5rem), max(3.5rem, 9dvh));
+
+  /* Vertical-stack gap tokens: each preserves its original Tailwind baseline in
+     portrait (gap-4=1rem, gap-6=1.5rem, gap-8=2rem) via the rem floor, and tightens
+     only in short-height landscape via the proportional `dvh` term (each dvh value
+     equals the baseline at ~820px tall and shrinks below). Grid gaps between tap
+     buttons (gap-3) stay literal — they are width-spacing, not the vertical hog. */
+  --drill-gap-sm: min(1rem, 2dvh);
+  --drill-gap: min(1.5rem, 3dvh);
+  --drill-gap-lg: min(2rem, 4dvh);
   --background: oklch(0.261 0.056 259.3); /* #13243F flat navy canvas */
   --foreground: oklch(0.973 0.013 266.7); /* #F2F6FF near-white text */
   --card: oklch(0.317 0.063 259.4); /* #1E3252 one-step-lighter surface */

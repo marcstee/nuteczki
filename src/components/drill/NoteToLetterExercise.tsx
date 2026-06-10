@@ -30,7 +30,7 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
   const isCorrect = answered && chosenLetter === correctLetter;
 
   return (
-    <div className="flex w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-6">
+    <div className="flex w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-[var(--drill-gap)]">
       <p className="text-muted-foreground text-sm font-medium">
         Ćwiczenie {progress.index + 1} z {progress.total}
       </p>
@@ -74,7 +74,7 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
       </div>
 
       {answered && (
-        <div className="flex w-full flex-col items-center gap-4">
+        <div className="flex w-full flex-col items-center gap-[var(--drill-gap-sm)]">
           <p
             className={`text-[length:var(--drill-feedback-text)] font-bold ${isCorrect ? "text-success" : "text-destructive"}`}
           >

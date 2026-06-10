@@ -160,9 +160,9 @@ export default function DrillSession({ weights = EMPTY_WEIGHTS }: DrillSessionPr
 
   if (phase === "setup") {
     return (
-      <div className="flex w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-8">
+      <div className="flex w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-[var(--drill-gap-lg)]">
         <h2 className="text-foreground text-[length:var(--drill-feedback-text)] font-bold">Ile nutek?</h2>
-        <div className="flex w-full flex-col gap-4">
+        <div className="flex w-full flex-col gap-[var(--drill-gap-sm)]">
           {COUNTS.map((count) => (
             <button
               key={count}

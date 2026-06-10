@@ -28,7 +28,7 @@ interface Props {
 /** One labeled correct/incorrect stat block for a single exercise type. */
 function StatBlock({ label, stats }: { label: string; stats: TypeStats }) {
   return (
-    <div className="border-border bg-card w-full rounded-2xl border p-6">
+    <div className="border-border bg-card w-full rounded-2xl border p-[min(1.5rem,3dvh)]">
       <p className="text-muted-foreground mb-3 text-center text-xs font-semibold tracking-wide uppercase">{label}</p>
       <div className="flex justify-around">
         <div className="text-center">
@@ -54,22 +54,22 @@ function StatBlock({ label, stats }: { label: string; stats: TypeStats }) {
  */
 export default function SessionResults({ accuracyPct, byType, onAgain, onDone, saveState, onRetrySave }: Props) {
   return (
-    <div className="flex w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-8">
+    <div className="flex w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-[var(--drill-gap-lg)]">
       <img
         src="/mascot.webp"
         alt="Maskotka Nuteczek świętuje ukończoną sesję"
         width="160"
         height="160"
-        className="h-28 w-28"
+        className="h-[min(7rem,14dvh)] w-[min(7rem,14dvh)]"
       />
       <h2 className="text-foreground text-3xl font-bold">Koniec sesji!</h2>
 
-      <div className="flex w-full flex-col items-center gap-4">
-        <div className="text-primary text-6xl font-bold">{accuracyPct}%</div>
+      <div className="flex w-full flex-col items-center gap-[var(--drill-gap-sm)]">
+        <div className="text-primary text-[length:min(3.75rem,8dvh)] font-bold">{accuracyPct}%</div>
         <p className="text-muted-foreground text-sm font-medium">celność</p>
       </div>
 
-      <div className="flex w-full flex-col gap-4">
+      <div className="flex w-full flex-col gap-[var(--drill-gap-sm)]">
         <StatBlock label="Nuta → litera" stats={byType.noteToLetter} />
         <StatBlock label="Litera → nuta" stats={byType.letterToNote} />
       </div>
@@ -93,7 +93,7 @@ export default function SessionResults({ accuracyPct, byType, onAgain, onDone, s
         </p>
       )}
 
-      <div className="flex w-full flex-col gap-3">
+      <div className="flex w-full flex-col gap-[min(0.75rem,1.5dvh)]">
         <button
           type="button"
           onClick={onAgain}
