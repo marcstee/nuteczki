@@ -282,11 +282,11 @@ One additive, non-destructive migration (a new `delete` policy). No data migrati
 
 #### Automated
 
-- [x] 4.1 Lint passes: `npm run lint`
-- [x] 4.2 Type/astro check passes: `npx astro check`
-- [x] 4.3 Production build succeeds: `npm run build`
+- [x] 4.1 Lint passes: `npm run lint` — dc62174
+- [x] 4.2 Type/astro check passes: `npx astro check` — dc62174
+- [x] 4.3 Production build succeeds: `npm run build` — dc62174
 
 #### Manual
 
-- [x] 4.4 Session cards show date and time (e.g. "10 cze 2026, 14:30") in Europe/Warsaw tz
-- [x] 4.5 Confirm dialog and aria-label use the same date+time string
+- [x] 4.4 Session cards show date and time (e.g. "10 cze 2026, 14:30") in Europe/Warsaw tz — dc62174
+- [x] 4.5 Confirm dialog and aria-label use the same date+time string — dc62174
