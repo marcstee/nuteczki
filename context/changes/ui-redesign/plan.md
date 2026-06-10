@@ -669,26 +669,26 @@ change.
 
 #### Automated
 
-- [x] 3.1 Lint passes: `npm run lint`
-- [x] 3.2 Astro check passes: `npx astro check`
-- [x] 3.3 Build passes: `npm run build`
-- [x] 3.4 No cosmic utilities in drill cluster (grep empty)
+- [x] 3.1 Lint passes: `npm run lint` — 14fda31
+- [x] 3.2 Astro check passes: `npx astro check` — 14fda31
+- [x] 3.3 Build passes: `npm run build` — 14fda31
+- [x] 3.4 No cosmic utilities in drill cluster (grep empty) — 14fda31
 
 #### Manual
 
-- [x] 3.5 Full session runs end-to-end; state machine + scoring unchanged
-- [x] 3.6 Staff card framed; notes black-on-white + musically correct
-- [x] 3.7 Feedback uses success/error tokens; Polish child-warm copy
-- [x] 3.8 Mascot on results; retry-save works; touch targets large
+- [x] 3.5 Full session runs end-to-end; state machine + scoring unchanged — 14fda31
+- [x] 3.6 Staff card framed; notes black-on-white + musically correct — 14fda31
+- [x] 3.7 Feedback uses success/error tokens; Polish child-warm copy — 14fda31
+- [x] 3.8 Mascot on results; retry-save works; touch targets large — 14fda31
 
 ### Phase 4: History & Auth
 
 #### Automated
 
-- [ ] 4.1 Lint passes: `npm run lint`
-- [ ] 4.2 Astro check passes: `npx astro check`
-- [ ] 4.3 Build passes: `npm run build`
-- [ ] 4.4 No cosmic utilities in history/auth (grep empty)
+- [x] 4.1 Lint passes: `npm run lint`
+- [x] 4.2 Astro check passes: `npx astro check`
+- [x] 4.3 Build passes: `npm run build`
+- [x] 4.4 No cosmic utilities in history/auth (grep empty)
 
 #### Manual
 
