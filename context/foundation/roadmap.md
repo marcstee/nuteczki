@@ -29,7 +29,7 @@ Children learning music lack a simple, focused tool for practising note reading.
 | ---- | -------------------------- | ---------------------------------------------------------------------------------- | ------------- | ---------------------------------------------- | -------- |
 | F-01 | session-data-schema        | (foundation) Supabase tables for sessions, answers, and exercise history           | —             | FR-001, FR-003, FR-008, FR-009                 | done     |
 | F-02 | staff-renderer             | (foundation) Reusable music staff component renders notes with correct positioning | —             | FR-004, FR-005                                 | done     |
-| F-03 | pwa-setup                  | (foundation) PWA manifest, service worker, and app icons; installable on home screen | —           | NFR (PWA on iPhone/iPad)                       | ready    |
+| F-03 | pwa-setup                  | (foundation) PWA manifest, service worker, and app icons; installable on home screen | —           | NFR (PWA on iPhone/iPad)                       | done     |
 | S-01 | basic-drill-note-to-letter | Start a drill, see note-to-letter exercises, get feedback, see session stats       | F-01, F-02    | US-01, FR-002, FR-004, FR-006, FR-007, FR-008  | done     |
 | S-02 | letter-to-note-exercise    | See letter-to-note exercises in drill sessions alongside note-to-letter            | S-01          | US-01, FR-005                                  | done     |
 | S-03 | adaptive-selection         | Exercises weighted toward recently missed notes instead of random                  | S-01          | US-01, FR-003                                  | done     |
@@ -100,7 +100,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Low technical risk — well-documented Astro PWA patterns exist. Not a prerequisite for any slice (the app works in the browser without it), but installing early means every slice is tested in the real delivery form factor. Can be done at any point without blocking the critical path.
-- **Status:** ready
+- **Status:** done
 
 ## Slices
 
@@ -210,3 +210,4 @@ None. PRD has 0 open questions and no cross-cutting unknowns surfaced during fra
 - **S-03: user experiences exercises weighted toward recently missed notes (approximately 70% weak spots, 30% random) instead of purely random selection, so each drill targets the child's weakest spots** — Archived 2026-06-09 → `context/archive/2026-06-09-adaptive-selection/`. Lesson: —.
 - **S-04: user can navigate to session history and see all past sessions listed in reverse chronological order, with date, correct/incorrect counts per exercise type, and a simple progress indicator (accuracy percentage per session)** — Archived 2026-06-09 → `context/archive/2026-06-09-session-history/`. Lesson: —.
 - **S-05: user can use a redesigned, more child-friendly interface across all screens (drill, feedback, session stats, history), with every UI string in Polish — single-language, no internationalization machinery (no locale switcher, no string-extraction framework)** — Archived 2026-06-10 → `context/archive/2026-06-09-ui-redesign/`. Lesson: —.
+- **F-03: (foundation) The app is installable on iPhone and iPad home screens via Safari; a PWA manifest, service worker with basic caching, and app icons are configured.** — Archived 2026-06-10 → `context/archive/2026-06-10-pwa-setup/`. Lesson: —.

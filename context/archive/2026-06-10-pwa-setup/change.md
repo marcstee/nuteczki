@@ -1,10 +1,10 @@
 ---
 change_id: pwa-setup
 title: Configure PWA manifest, service worker, and icons for iPhone/iPad installability
-status: impl_reviewed
+status: archived
 created: 2026-06-10
 updated: 2026-06-10
-archived_at: null
+archived_at: 2026-06-10T13:34:32Z
 ---
 
 ## Notes
