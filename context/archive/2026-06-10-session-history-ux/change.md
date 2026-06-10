@@ -1,10 +1,10 @@
 ---
 change_id: session-history-ux
 title: Add pagination and delete to session history
-status: impl_reviewed
+status: archived
 created: 2026-06-10
 updated: 2026-06-10
-archived_at: null
+archived_at: 2026-06-10T17:58:49Z
 ---
 
 ## Notes

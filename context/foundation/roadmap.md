@@ -3,7 +3,7 @@ project: "Nuteczki"
 version: 4
 status: draft
 created: 2026-05-27
-updated: 2026-06-11
+updated: 2026-06-10
 prd_version: 1
 main_goal: market-feedback
 top_blocker: skills
@@ -35,7 +35,7 @@ Children learning music lack a simple, focused tool for practising note reading.
 | S-03 | adaptive-selection         | Exercises weighted toward recently missed notes instead of random                  | S-01          | US-01, FR-003                                  | done     |
 | S-04 | session-history            | See all past sessions with date, correct/incorrect by type, progress indicator     | S-01          | US-02, FR-009                                  | done     |
 | S-05 | ui-redesign                | Use a redesigned, child-friendly UI with all interface copy in Polish               | S-01          | — (net-new, beyond PRD v1)                      | done     |
-| S-06 | session-history-ux         | Page through session history and delete individual sessions                         | S-04          | US-02, FR-009                                  | ready    |
+| S-06 | session-history-ux         | Page through session history and delete individual sessions                         | S-04          | US-02, FR-009                                  | done     |
 | S-07 | responsive-exercise-scaling | Exercise area fills the full viewport on iPhone/iPad so staff lines are large enough for children to read and tap accurately | S-02, S-05 | NFR (PWA on iPhone/iPad) | ready    |
 
 ## Streams
@@ -176,7 +176,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Low — extends an already-shipped list view (S-04) over data that is already persisted. Pagination is a standard offset/limit query concern. Delete is the product's first destructive action: it needs a confirmation step and must cascade to the session's answer rows (F-01 schema) so no orphaned answers — or skewed adaptive history (S-03 reads recent answers) — remain. Sequenced after S-04 and the S-05 redesign so the page controls and delete affordance adopt the redesigned history UI rather than being restyled later.
-- **Status:** ready
+- **Status:** done
 
 ### S-07: Responsywne skalowanie cwiczen
 
@@ -226,3 +226,4 @@ None. PRD has 0 open questions and no cross-cutting unknowns surfaced during fra
 - **S-04: user can navigate to session history and see all past sessions listed in reverse chronological order, with date, correct/incorrect counts per exercise type, and a simple progress indicator (accuracy percentage per session)** — Archived 2026-06-09 → `context/archive/2026-06-09-session-history/`. Lesson: —.
 - **S-05: user can use a redesigned, more child-friendly interface across all screens (drill, feedback, session stats, history), with every UI string in Polish — single-language, no internationalization machinery (no locale switcher, no string-extraction framework)** — Archived 2026-06-10 → `context/archive/2026-06-09-ui-redesign/`. Lesson: —.
 - **F-03: (foundation) The app is installable on iPhone and iPad home screens via Safari; a PWA manifest, service worker with basic caching, and app icons are configured.** — Archived 2026-06-10 → `context/archive/2026-06-10-pwa-setup/`. Lesson: —.
+- **S-06: user can page through their session history instead of scrolling one unbounded list, and delete an individual session from history (with a confirmation step), so the list stays manageable as sessions accumulate** — Archived 2026-06-10 → `context/archive/2026-06-10-session-history-ux/`. Lesson: —.
