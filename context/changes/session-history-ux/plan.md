@@ -249,31 +249,44 @@ One additive, non-destructive migration (a new `delete` policy). No data migrati
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Type/astro check passes: `npx astro check`
-- [x] 2.3 Production build succeeds: `npm run build`
-- [x] 2.4 Migration applies cleanly: `supabase migration up` (or `supabase db reset`)
+- [x] 2.1 Lint passes: `npm run lint` — 9d1c607
+- [x] 2.2 Type/astro check passes: `npx astro check` — 9d1c607
+- [x] 2.3 Production build succeeds: `npm run build` — 9d1c607
+- [x] 2.4 Migration applies cleanly: `supabase migration up` (or `supabase db reset`) — 9d1c607
 
 #### Manual
 
-- [ ] 2.5 `DELETE /api/sessions?id=<own>` returns 200 and removes the session
-- [ ] 2.6 The session's answers rows are gone (cascade verified)
-- [ ] 2.7 No-auth → 401; missing id → 400; other user's id → 200 no-op (RLS)
-- [ ] 2.8 Adaptive weights no longer reflect the deleted session's answers
+- [x] 2.5 `DELETE /api/sessions?id=<own>` returns 200 and removes the session
+- [x] 2.6 The session's answers rows are gone (cascade verified)
+- [x] 2.7 No-auth → 401; missing id → 400; other user's id → 200 no-op (RLS)
+- [x] 2.8 Adaptive weights no longer reflect the deleted session's answers
 
 ### Phase 3: Delete UI (AlertDialog island)
 
 #### Automated
 
-- [ ] 3.1 Lint passes (react-compiler + jsx-a11y): `npm run lint`
-- [ ] 3.2 Type/astro check passes: `npx astro check`
-- [ ] 3.3 Production build succeeds: `npm run build`
+- [x] 3.1 Lint passes (react-compiler + jsx-a11y): `npm run lint`
+- [x] 3.2 Type/astro check passes: `npx astro check`
+- [x] 3.3 Production build succeeds: `npm run build`
 
 #### Manual
 
-- [ ] 3.4 Ghost trash icon top-right of each card opens the Polish confirm dialog
-- [ ] 3.5 Anuluj / Esc / outside-click closes without deleting
-- [ ] 3.6 Usuń deletes: pending state → list re-renders without the card, answers gone
-- [ ] 3.7 Deleting last card on page 2 lands on page 1; deleting the only session shows empty state
-- [ ] 3.8 Failed delete shows inline error and keeps the card
-- [ ] 3.9 Touch-reachable on iPhone/iPad Safari (no hover dependency)
+- [x] 3.4 Ghost trash icon top-right of each card opens the Polish confirm dialog
+- [x] 3.5 Anuluj / Esc / outside-click closes without deleting
+- [x] 3.6 Usuń deletes: pending state → list re-renders without the card, answers gone
+- [x] 3.7 Deleting last card on page 2 lands on page 1; deleting the only session shows empty state
+- [x] 3.8 Failed delete shows inline error and keeps the card
+- [x] 3.9 Touch-reachable on iPhone/iPad Safari (no hover dependency)
+
+### Phase 4: Date + Time Display
+
+#### Automated
+
+- [ ] 4.1 Lint passes: `npm run lint`
+- [ ] 4.2 Type/astro check passes: `npx astro check`
+- [ ] 4.3 Production build succeeds: `npm run build`
+
+#### Manual
+
+- [ ] 4.4 Session cards show date and time (e.g. "10 cze 2026, 14:30") in Europe/Warsaw tz
+- [ ] 4.5 Confirm dialog and aria-label use the same date+time string

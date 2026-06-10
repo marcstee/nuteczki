@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import { createClient } from "@/lib/supabase";
 import { summarizeSessions, type SessionSummary } from "@/components/history/sessionSummary";
+import DeleteSessionButton from "@/components/history/DeleteSessionButton";
 
 /**
  * Session history (S-04 / FR-009): a read-only, zero-client-JS list of the
@@ -109,9 +110,16 @@ const dateFormatter = new Intl.DateTimeFormat("pl-PL", { timeZone: "Europe/Warsa
             <ul class="flex flex-col gap-6">
               {sessions.map((s) => (
                 <li class="border-border bg-card rounded-2xl border p-6">
-                  <div class="mb-4 flex items-baseline justify-between gap-4">
+                  <div class="mb-4 flex items-center justify-between gap-4">
                     <h2 class="text-foreground text-lg font-semibold">{dateFormatter.format(new Date(s.startedAt))}</h2>
-                    <span class="text-foreground text-2xl font-bold">{s.accuracyPct}%</span>
+                    <div class="flex items-center gap-3">
+                      <span class="text-foreground text-2xl font-bold">{s.accuracyPct}%</span>
+                      <DeleteSessionButton
+                        client:visible
+                        sessionId={s.id}
+                        sessionDate={dateFormatter.format(new Date(s.startedAt))}
+                      />
+                    </div>
                   </div>
 
                   <div class="mb-6">
