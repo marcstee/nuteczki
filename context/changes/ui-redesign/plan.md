@@ -685,27 +685,27 @@ change.
 
 #### Automated
 
-- [x] 4.1 Lint passes: `npm run lint`
-- [x] 4.2 Astro check passes: `npx astro check`
-- [x] 4.3 Build passes: `npm run build`
-- [x] 4.4 No cosmic utilities in history/auth (grep empty)
+- [x] 4.1 Lint passes: `npm run lint` — f99d643
+- [x] 4.2 Astro check passes: `npx astro check` — f99d643
+- [x] 4.3 Build passes: `npm run build` — f99d643
+- [x] 4.4 No cosmic utilities in history/auth (grep empty) — f99d643
 
 #### Manual
 
-- [ ] 4.5 History three states render; pl-PL Warsaw dates; neutral Polish
-- [ ] 4.6 Sign-in / sign-up flows work in Polish (validation, redirect, errors)
-- [ ] 4.7 confirm-email shows correct Polish state; password toggle aria Polish
+- [x] 4.5 History three states render; pl-PL Warsaw dates; neutral Polish — f99d643
+- [x] 4.6 Sign-in / sign-up flows work in Polish (validation, redirect, errors) — f99d643
+- [x] 4.7 confirm-email shows correct Polish state; password toggle aria Polish — f99d643
 
 ### Phase 5: Cleanup & Verification
 
 #### Automated
 
-- [ ] 5.1 `bg-cosmic` gone everywhere (grep empty)
-- [ ] 5.2 No cosmic palette utilities anywhere (grep empty)
-- [ ] 5.3 No target English UI strings (grep empty)
-- [ ] 5.4 Lint passes: `npm run lint`
-- [ ] 5.5 Astro check passes: `npx astro check`
-- [ ] 5.6 Build passes: `npm run build`
+- [x] 5.1 `bg-cosmic` gone everywhere (grep empty)
+- [x] 5.2 No cosmic palette utilities anywhere (grep empty)
+- [x] 5.3 No target English UI strings (grep empty)
+- [x] 5.4 Lint passes: `npm run lint`
+- [x] 5.5 Astro check passes: `npx astro check`
+- [x] 5.6 Build passes: `npm run build`
 
 #### Manual
 
