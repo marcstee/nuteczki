@@ -17,18 +17,54 @@ import { summarizeSessions, type SessionSummary } from "@/components/history/ses
  * non-empty array is the list. Collapsing error into empty would tell a returning
  * parent — mid-outage — that their child never practised, so the split is load-bearing.
  */
+
+const PAGE_SIZE = 10;
+
+const rawPage = Astro.url.searchParams.get("page");
+const parsedPage = parseInt(rawPage ?? "1", 10);
+const page = isNaN(parsedPage) || parsedPage < 1 ? 1 : parsedPage;
+
 const supabase = createClient(Astro.request.headers, Astro.cookies);
 
 let sessions: SessionSummary[] | null = null;
+let totalPages = 1;
+let redirectTo: string | null = null;
+
 if (supabase) {
-  const { data, error } = await supabase
+  // Count first so we can clamp the page before issuing a range query.
+  // A range query for an out-of-bounds page returns a PostgREST 416 error,
+  // which would be indistinguishable from a real DB error.
+  const { count, error: countError } = await supabase
     .from("sessions")
-    .select("id, started_at, answers(exercise_type, is_correct)")
-    .not("finished_at", "is", null)
-    .order("started_at", { ascending: false });
-  if (!error) {
-    sessions = summarizeSessions(data);
+    .select("*", { count: "exact", head: true })
+    .not("finished_at", "is", null);
+
+  if (!countError) {
+    const total = count ?? 0;
+    totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+
+    if (total > 0 && page > totalPages) {
+      redirectTo = `/history?page=${totalPages}`;
+    } else {
+      const from = (page - 1) * PAGE_SIZE;
+      const to = from + PAGE_SIZE - 1;
+
+      const { data, error } = await supabase
+        .from("sessions")
+        .select("id, started_at, answers(exercise_type, is_correct)")
+        .not("finished_at", "is", null)
+        .order("started_at", { ascending: false })
+        .range(from, to);
+
+      if (!error) {
+        sessions = summarizeSessions(data);
+      }
+    }
   }
+}
+
+if (redirectTo) {
+  return Astro.redirect(redirectTo);
 }
 
 /**
@@ -69,46 +105,78 @@ const dateFormatter = new Intl.DateTimeFormat("pl-PL", { timeZone: "Europe/Warsa
             </a>
           </div>
         ) : (
-          <ul class="flex flex-col gap-6">
-            {sessions.map((s) => (
-              <li class="border-border bg-card rounded-2xl border p-6">
-                <div class="mb-4 flex items-baseline justify-between gap-4">
-                  <h2 class="text-foreground text-lg font-semibold">{dateFormatter.format(new Date(s.startedAt))}</h2>
-                  <span class="text-foreground text-2xl font-bold">{s.accuracyPct}%</span>
-                </div>
-
-                <div class="mb-6">
-                  <div class="bg-muted h-2 w-full overflow-hidden rounded-full">
-                    <div class="bg-primary h-full rounded-full" style={`width: ${s.accuracyPct}%`} />
+          <>
+            <ul class="flex flex-col gap-6">
+              {sessions.map((s) => (
+                <li class="border-border bg-card rounded-2xl border p-6">
+                  <div class="mb-4 flex items-baseline justify-between gap-4">
+                    <h2 class="text-foreground text-lg font-semibold">{dateFormatter.format(new Date(s.startedAt))}</h2>
+                    <span class="text-foreground text-2xl font-bold">{s.accuracyPct}%</span>
                   </div>
-                  <p class="text-muted-foreground mt-1 text-right text-xs">celność</p>
-                </div>
 
-                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  {[
-                    { label: "Nuta → litera", stats: s.byType.noteToLetter },
-                    { label: "Litera → nuta", stats: s.byType.letterToNote },
-                  ].map(({ label, stats }) => (
-                    <div class="border-border bg-background rounded-2xl border p-4">
-                      <p class="text-muted-foreground mb-3 text-center text-xs font-semibold tracking-wide uppercase">
-                        {label}
-                      </p>
-                      <div class="flex justify-around">
-                        <div class="text-center">
-                          <div class="text-success text-3xl font-bold">{stats.correct}</div>
-                          <div class="text-muted-foreground text-sm">poprawne</div>
-                        </div>
-                        <div class="text-center">
-                          <div class="text-destructive text-3xl font-bold">{stats.incorrect}</div>
-                          <div class="text-muted-foreground text-sm">błędne</div>
+                  <div class="mb-6">
+                    <div class="bg-muted h-2 w-full overflow-hidden rounded-full">
+                      <div class="bg-primary h-full rounded-full" style={`width: ${s.accuracyPct}%`} />
+                    </div>
+                    <p class="text-muted-foreground mt-1 text-right text-xs">celność</p>
+                  </div>
+
+                  <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {[
+                      { label: "Nuta → litera", stats: s.byType.noteToLetter },
+                      { label: "Litera → nuta", stats: s.byType.letterToNote },
+                    ].map(({ label, stats }) => (
+                      <div class="border-border bg-background rounded-2xl border p-4">
+                        <p class="text-muted-foreground mb-3 text-center text-xs font-semibold tracking-wide uppercase">
+                          {label}
+                        </p>
+                        <div class="flex justify-around">
+                          <div class="text-center">
+                            <div class="text-success text-3xl font-bold">{stats.correct}</div>
+                            <div class="text-muted-foreground text-sm">poprawne</div>
+                          </div>
+                          <div class="text-center">
+                            <div class="text-destructive text-3xl font-bold">{stats.incorrect}</div>
+                            <div class="text-muted-foreground text-sm">błędne</div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </li>
-            ))}
-          </ul>
+                    ))}
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            {totalPages > 1 && (
+              <nav class="mt-8 flex items-center justify-between gap-4" aria-label="Paginacja">
+                {page > 1 ? (
+                  <a
+                    href={`/history?page=${page - 1}`}
+                    class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                  >
+                    ← Poprzednia
+                  </a>
+                ) : (
+                  <span class="text-muted-foreground/40 cursor-default text-sm select-none">← Poprzednia</span>
+                )}
+
+                <span class="text-muted-foreground text-sm">
+                  Strona {page} z {totalPages}
+                </span>
+
+                {page < totalPages ? (
+                  <a
+                    href={`/history?page=${page + 1}`}
+                    class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                  >
+                    Następna →
+                  </a>
+                ) : (
+                  <span class="text-muted-foreground/40 cursor-default text-sm select-none">Następna →</span>
+                )}
+              </nav>
+            )}
+          </>
         )
       }
     </main>
