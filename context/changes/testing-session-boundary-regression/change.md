@@ -1,9 +1,9 @@
 ---
 change_id: testing-session-boundary-regression
 title: Session-boundary regression net (Phase 2)
-status: implemented
+status: impl_reviewed
 created: 2026-06-11
-updated: 2026-06-11 # Phase 3 complete (cookbook + lessons + hand-off)
+updated: 2026-06-11 # triage complete: F1 fixed (framing), F2 fixed (parser consolidation), F3 fixed (satisfies guards), F4 skipped
 archived_at: null
 ---
 
@@ -29,6 +29,10 @@ this change's integration tests (see `[characterization]`-prefixed tests in
 
 **Fix scope**: Drop `ignoreDuplicates` (or replace with update-on-conflict semantics);
 couple the session and answers writes atomically (a Postgres function / RPC, or a
-transaction-aware PostgREST call). The characterization tests must be promoted to
-full assertions once the fix lands. Open with `/10x-frame` to challenge the
-idempotency trade-off before planning.
+transaction-aware PostgREST call). The characterization tests document *schema* behavior via the service-role client —
+they do not call `POST /api/sessions` and will **not** go red when `ignoreDuplicates`
+is dropped from the handler. The fix change must: (1) add handler-level tests (call
+`POST /api/sessions`, assert error→500 on a forced CHECK violation and `finished_at`
+stamp on success) and (2) rewrite or supplement the inline characterization upserts
+so they exercise the handler rather than the schema directly. Open with `/10x-frame`
+to challenge the idempotency trade-off before planning.

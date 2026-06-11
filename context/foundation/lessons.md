@@ -35,10 +35,15 @@
 - **Rule**: Do not interpret a 200 from the save path as proof of persistence.
   The characterization tests in `src/pages/api/sessions.integration.test.ts`
   (names prefixed `[characterization]`) document this as **current, not desired**
-  behavior. Do not "fix" those tests to match a 200-means-success expectation —
-  promote them to assertions once the fix lands (drop `ignoreDuplicates`, couple
-  the session and answers writes in an atomic operation). The follow-up fix
-  change is tracked via the `## Notes` section of
+  behavior. Do not "fix" those tests to match a 200-means-success expectation.
+  Note: the characterization tests insert via the service-role client (not
+  `POST /api/sessions`), so they will **not** go red when `ignoreDuplicates`
+  is dropped from the handler. The fix change must *add* handler-level tests
+  that call `POST`, assert error→500 on a forced CHECK violation, and assert
+  the `finished_at` stamp on success; then rewrite or supplement the inline
+  characterization upserts to exercise the handler, not the schema directly
+  (drop `ignoreDuplicates`, couple session + answers atomically). The follow-up
+  fix change is tracked via the `## Notes` section of
   `context/changes/testing-session-boundary-regression/change.md`.
 - **Applies to**: `src/pages/api/sessions.ts`; anyone reading session history or
   adaptive stats who assumes a session row implies at least one answer row; the

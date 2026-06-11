@@ -20,7 +20,7 @@ import type { Database } from "@/db/database.types";
 
 // Load .dev.vars as a fallback in case vitest workers don't inherit process.env
 // from the vitest config's test.env injection (a known limitation with getViteConfig).
-function parseDevVars(): Partial<Record<string, string>> {
+export function parseDevVars(): Partial<Record<string, string>> {
   try {
     const content = readFileSync(".dev.vars", "utf8");
     const out: Partial<Record<string, string>> = {};

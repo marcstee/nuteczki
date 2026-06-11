@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import type { Database } from "@/db/database.types";
 import { createClient } from "@/lib/supabase";
 import { type Pitch, PITCHES } from "@/components/staff/pitch";
 import { EXERCISE_TYPE_LETTER_TO_NOTE, EXERCISE_TYPE_NOTE_TO_LETTER } from "@/components/drill/exercises";
@@ -107,7 +108,7 @@ export const POST: APIRoute = async (context) => {
       exercise_count: payload.exercise_count,
       started_at: payload.started_at,
       finished_at: new Date().toISOString(),
-    },
+    } satisfies Database["public"]["Tables"]["sessions"]["Insert"],
     { onConflict: "id", ignoreDuplicates: true },
   );
   if (sessionError) {
@@ -115,14 +116,17 @@ export const POST: APIRoute = async (context) => {
   }
 
   // All answers in one upsert = one subrequest; ignore-duplicate keeps retries idempotent.
-  const answerRows = payload.answers.map((a) => ({
-    id: a.id,
-    session_id: payload.id,
-    user_id: user.id,
-    exercise_type: a.exercise_type,
-    note: a.note,
-    is_correct: a.is_correct,
-  }));
+  const answerRows = payload.answers.map(
+    (a) =>
+      ({
+        id: a.id,
+        session_id: payload.id,
+        user_id: user.id,
+        exercise_type: a.exercise_type,
+        note: a.note,
+        is_correct: a.is_correct,
+      }) satisfies Database["public"]["Tables"]["answers"]["Insert"],
+  );
   const { error: answersError } = await supabase
     .from("answers")
     .upsert(answerRows, { onConflict: "id", ignoreDuplicates: true });
