@@ -51,7 +51,7 @@ Commits in scope: `e7bc071` (feat — height-aware tokens + results fit),
   - Tradeoff: None meaningful — scrollbar appears only if shrink bottoms out.
   - Confidence: HIGH — standard flex + min-h-0 + overflow-auto pattern.
   - Blind spot: None significant.
-- **Decision**: PENDING
+- **Decision**: FIXED — added overflow-y-auto to both capped exercise roots.
 
 ### F2 — Layout-mechanism restructure beyond the plan's "no restructure" guardrail
 
@@ -74,7 +74,7 @@ Commits in scope: `e7bc071` (feat — height-aware tokens + results fit),
   - Tradeoff: Tiny doc edit.
   - Confidence: HIGH.
   - Blind spot: None.
-- **Decision**: PENDING
+- **Decision**: FIXED — appended deviation addendum to plan.md.
 
 ### F3 — Manual rows 1.6/1.8/1.9 checked on a global sign-off, not per-item
 
@@ -91,7 +91,7 @@ Commits in scope: `e7bc071` (feat — height-aware tokens + results fit),
 - **Fix**: Re-confirm 1.6/1.8 on the device (or reopen those rows). If results still
   scrolls in landscape and it matters, give it the same `max-h` treatment as the
   exercises.
-- **Decision**: PENDING
+- **Decision**: SKIPPED — global sign-off accepted; rows left checked.
 
 ## Notes
 

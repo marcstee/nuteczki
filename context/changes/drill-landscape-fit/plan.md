@@ -277,3 +277,21 @@ None — no data, schema, or API surface touched. Pure presentation retune.
 - [x] 1.7 Staff legible and tap targets finger-sized in landscape (no target below the 4rem/3.5rem floors)
 - [x] 1.8 Regression: iPhone portrait, iPad portrait, desktop visually identical to post-S-07 baseline
 - [x] 1.9 No regression in the drill flow (answer → feedback → next → results → again/done)
+
+## Addendum — implementation deviation (2026-06-11)
+
+The token-only approach in this plan (height-aware `dvh` tokens, no layout
+restructure) did not fully fit the exercise views in landscape on device. As
+directed during implementation, the fix went beyond "no layout restructure":
+
+- Each exercise root (`NoteToLetterExercise`, `LetterToNoteExercise`) gained a
+  viewport height cap (`max-h-[calc(100dvh-2rem)]`) plus `overflow-y-auto` as the
+  scroll safety-valve, with `shrink-0`/`min-h-0` flex children so the staff
+  shrinks to fit (commit `e573f93`).
+- `LetterToNoteExercise` option cards moved from `grid-cols-3` to a flex row to
+  cooperate with the flex-shrink fit.
+
+This stays within the named guardrails (no two-column layout, no orientation
+breakpoint, single-column centered visual preserved, `Staff.tsx` musical/geometry
+core untouched), but is a mechanism restructure the original "What We're NOT
+Doing" did not anticipate. Recorded here so the plan remains the source of truth.

@@ -30,7 +30,7 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
   const isCorrect = answered && chosenLetter === correctLetter;
 
   return (
-    <div className="flex max-h-[calc(100dvh_-_2rem)] w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-[var(--drill-gap)]">
+    <div className="flex max-h-[calc(100dvh_-_2rem)] w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-[var(--drill-gap)] overflow-y-auto">
       <p className="text-muted-foreground shrink-0 text-sm font-medium">
         Ćwiczenie {progress.index + 1} z {progress.total}
       </p>
