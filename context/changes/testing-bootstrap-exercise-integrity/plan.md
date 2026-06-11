@@ -475,10 +475,10 @@ production code, schema, or env changes.
 
 #### Automated
 
-- [x] 4.1 §6.1 no longer contains "TBD — see §3 Phase 1"
-- [x] 4.2 Full suite still green (`npm run test`)
+- [x] 4.1 §6.1 no longer contains "TBD — see §3 Phase 1" — ec957c3
+- [x] 4.2 Full suite still green (`npm run test`) — ec957c3
 
 #### Manual
 
-- [x] 4.3 Reviewer can add a new unit test from §6.1 alone
-- [x] 4.4 Oracle-discipline rule stated explicitly in §6.1
+- [x] 4.3 Reviewer can add a new unit test from §6.1 alone — ec957c3
+- [x] 4.4 Oracle-discipline rule stated explicitly in §6.1 — ec957c3
