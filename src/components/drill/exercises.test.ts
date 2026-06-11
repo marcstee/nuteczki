@@ -7,9 +7,11 @@ import {
   EMPTY_WEIGHTS,
   EXERCISE_TYPE_NOTE_TO_LETTER,
   EXERCISE_TYPE_LETTER_TO_NOTE,
+  summarize,
+  summarizeByType,
 } from "@/components/drill/exercises";
 import { PITCHES } from "@/components/staff/pitch";
-import type { NoteWeights } from "@/components/drill/exercises";
+import type { AnswerRecord, NoteWeights } from "@/components/drill/exercises";
 import type { Pitch } from "@/components/staff/pitch";
 
 // O(1) oracle lookup keyed by pitch
@@ -135,5 +137,102 @@ describe("exercise winnability (non-empty weights)", () => {
       expect(matching).toHaveLength(1);
       expect(ex.promptLetter).toBe(oracle(ex.targetPitch).letter);
     }
+  });
+});
+
+// ─── Risk #4: summarize and summarizeByType ───────────────────────────────────
+// Oracle values are hand-counted from the fixed answer sequences below — never
+// recomputed from the same reduce the production code uses (anti-tautology, §6.1).
+
+describe("summarize", () => {
+  it("counts correct/incorrect, total, and 75% accuracy for a 4-answer mixed sequence", () => {
+    // Hand-count: 3 correct out of 4 → pct = Math.round(3/4 * 100) = 75
+    const answers = [{ isCorrect: true }, { isCorrect: false }, { isCorrect: true }, { isCorrect: true }];
+    expect(summarize(answers)).toEqual({ correct: 3, incorrect: 1, total: 4, accuracyPct: 75 });
+  });
+
+  it("returns all zeros for an empty session (no divide-by-zero crash)", () => {
+    expect(summarize([])).toEqual({ correct: 0, incorrect: 0, total: 0, accuracyPct: 0 });
+  });
+
+  it("rounds 1/3 correct down to 33%", () => {
+    // Hand-count: 1 correct out of 3 → Math.round(33.333…) = 33
+    const answers = [{ isCorrect: true }, { isCorrect: false }, { isCorrect: false }];
+    expect(summarize(answers)).toEqual({ correct: 1, incorrect: 2, total: 3, accuracyPct: 33 });
+  });
+
+  it("rounds 2/3 correct up to 67%", () => {
+    // Hand-count: 2 correct out of 3 → Math.round(66.666…) = 67
+    const answers = [{ isCorrect: true }, { isCorrect: true }, { isCorrect: false }];
+    expect(summarize(answers)).toEqual({ correct: 2, incorrect: 1, total: 3, accuracyPct: 67 });
+  });
+});
+
+describe("summarizeByType", () => {
+  // Fixed answer sequence: 3 note_to_letter (2 correct, 1 wrong) + 3 letter_to_note (1 correct, 2 wrong)
+  // Hand-counted per-type oracles:
+  //   note_to_letter: correct=2, incorrect=1, total=3, pct=Math.round(2/3*100)=67
+  //   letter_to_note: correct=1, incorrect=2, total=3, pct=Math.round(1/3*100)=33
+  const ntlCorrect: AnswerRecord = {
+    exerciseType: EXERCISE_TYPE_NOTE_TO_LETTER,
+    note: "C4",
+    chosenLetter: "C",
+    isCorrect: true,
+  };
+  const ntlCorrect2: AnswerRecord = {
+    exerciseType: EXERCISE_TYPE_NOTE_TO_LETTER,
+    note: "D4",
+    chosenLetter: "D",
+    isCorrect: true,
+  };
+  const ntlWrong: AnswerRecord = {
+    exerciseType: EXERCISE_TYPE_NOTE_TO_LETTER,
+    note: "E4",
+    chosenLetter: "D",
+    isCorrect: false,
+  };
+  const ltnCorrect: AnswerRecord = {
+    exerciseType: EXERCISE_TYPE_LETTER_TO_NOTE,
+    note: "F4",
+    chosenPitch: "F4",
+    isCorrect: true,
+  };
+  const ltnWrong: AnswerRecord = {
+    exerciseType: EXERCISE_TYPE_LETTER_TO_NOTE,
+    note: "G4",
+    chosenPitch: "A4",
+    isCorrect: false,
+  };
+  const ltnWrong2: AnswerRecord = {
+    exerciseType: EXERCISE_TYPE_LETTER_TO_NOTE,
+    note: "A4",
+    chosenPitch: "C4",
+    isCorrect: false,
+  };
+
+  const mixed = [ntlCorrect, ntlCorrect2, ntlWrong, ltnCorrect, ltnWrong, ltnWrong2];
+
+  it("note_to_letter breakdown: 2 correct, 1 incorrect, 67% accuracy", () => {
+    const result = summarizeByType(mixed);
+    expect(result[EXERCISE_TYPE_NOTE_TO_LETTER]).toEqual({ correct: 2, incorrect: 1, total: 3, accuracyPct: 67 });
+  });
+
+  it("letter_to_note breakdown: 1 correct, 2 incorrect, 33% accuracy", () => {
+    const result = summarizeByType(mixed);
+    expect(result[EXERCISE_TYPE_LETTER_TO_NOTE]).toEqual({ correct: 1, incorrect: 2, total: 3, accuracyPct: 33 });
+  });
+
+  it("returns all zeros for both types on an empty session", () => {
+    const result = summarizeByType([]);
+    expect(result[EXERCISE_TYPE_NOTE_TO_LETTER]).toEqual({ correct: 0, incorrect: 0, total: 0, accuracyPct: 0 });
+    expect(result[EXERCISE_TYPE_LETTER_TO_NOTE]).toEqual({ correct: 0, incorrect: 0, total: 0, accuracyPct: 0 });
+  });
+
+  it("zeroes the absent type when all answers are one type", () => {
+    // Only note_to_letter answers — letter_to_note should be all zeros
+    const ntlOnly = [ntlCorrect, ntlWrong];
+    const result = summarizeByType(ntlOnly);
+    expect(result[EXERCISE_TYPE_NOTE_TO_LETTER]).toEqual({ correct: 1, incorrect: 1, total: 2, accuracyPct: 50 });
+    expect(result[EXERCISE_TYPE_LETTER_TO_NOTE]).toEqual({ correct: 0, incorrect: 0, total: 0, accuracyPct: 0 });
   });
 });

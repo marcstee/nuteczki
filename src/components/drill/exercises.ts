@@ -142,6 +142,23 @@ export function summarize(answers: readonly { isCorrect: boolean }[]): {
 }
 
 /**
+ * Pure: per-exercise-type breakdown. Filters `answers` by `exerciseType` and
+ * delegates to `summarize` — no new counting logic. Keyed by the
+ * `EXERCISE_TYPE_*` constants.
+ */
+export function summarizeByType(
+  answers: readonly AnswerRecord[],
+): Record<
+  typeof EXERCISE_TYPE_NOTE_TO_LETTER | typeof EXERCISE_TYPE_LETTER_TO_NOTE,
+  { correct: number; incorrect: number; total: number; accuracyPct: number }
+> {
+  return {
+    [EXERCISE_TYPE_NOTE_TO_LETTER]: summarize(answers.filter((a) => a.exerciseType === EXERCISE_TYPE_NOTE_TO_LETTER)),
+    [EXERCISE_TYPE_LETTER_TO_NOTE]: summarize(answers.filter((a) => a.exerciseType === EXERCISE_TYPE_LETTER_TO_NOTE)),
+  };
+}
+
+/**
  * One generated exercise in a built session, discriminated on `type`.
  *
  * - note→letter: the child reads `pitch` on the staff and names its letter.

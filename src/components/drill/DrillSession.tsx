@@ -11,6 +11,7 @@ import {
   type NoteWeights,
   pitchToLetter,
   summarize,
+  summarizeByType,
 } from "@/components/drill/exercises";
 import NoteToLetterExercise from "@/components/drill/NoteToLetterExercise";
 import LetterToNoteExercise from "@/components/drill/LetterToNoteExercise";
@@ -181,14 +182,19 @@ export default function DrillSession({ weights = EMPTY_WEIGHTS }: DrillSessionPr
   }
 
   if (phase === "finished") {
-    const noteToLetter = summarize(answers.filter((a) => a.exerciseType === EXERCISE_TYPE_NOTE_TO_LETTER));
-    const letterToNote = summarize(answers.filter((a) => a.exerciseType === EXERCISE_TYPE_LETTER_TO_NOTE));
+    const byType = summarizeByType(answers);
     return (
       <SessionResults
         accuracyPct={summarize(answers).accuracyPct}
         byType={{
-          noteToLetter: { correct: noteToLetter.correct, incorrect: noteToLetter.incorrect },
-          letterToNote: { correct: letterToNote.correct, incorrect: letterToNote.incorrect },
+          noteToLetter: {
+            correct: byType[EXERCISE_TYPE_NOTE_TO_LETTER].correct,
+            incorrect: byType[EXERCISE_TYPE_NOTE_TO_LETTER].incorrect,
+          },
+          letterToNote: {
+            correct: byType[EXERCISE_TYPE_LETTER_TO_NOTE].correct,
+            incorrect: byType[EXERCISE_TYPE_LETTER_TO_NOTE].incorrect,
+          },
         }}
         onAgain={handleAgain}
         onDone={handleDone}
