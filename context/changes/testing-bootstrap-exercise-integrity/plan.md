@@ -431,24 +431,24 @@ production code, schema, or env changes.
 
 #### Automated
 
-- [x] 1.1 Vitest installs cleanly (`npm install`)
-- [x] 1.2 Runner executes with no tests (`npx vitest run --passWithNoTests` exits 0)
-- [x] 1.3 `npm run test` script invokable
-- [x] 1.4 No build/type regression (`npx astro sync && npm run build`)
-- [x] 1.5 Lint passes (`npm run lint`)
+- [x] 1.1 Vitest installs cleanly (`npm install`) — e66b194
+- [x] 1.2 Runner executes with no tests (`npx vitest run --passWithNoTests` exits 0) — e66b194
+- [x] 1.3 `npm run test` script invokable — e66b194
+- [x] 1.4 No build/type regression (`npx astro sync && npm run build`) — e66b194
+- [x] 1.5 Lint passes (`npm run lint`) — e66b194
 
 #### Manual
 
-- [x] 1.6 Reviewer confirms `getViteConfig()` wiring + inherited `@/*` alias
-- [x] 1.7 `.env` / `.dev.vars` untouched by test config
+- [x] 1.6 Reviewer confirms `getViteConfig()` wiring + inherited `@/*` alias — e66b194
+- [x] 1.7 `.env` / `.dev.vars` untouched by test config — e66b194
 
 ### Phase 2: Risk #2 — pitch-position integrity (+ shared oracle)
 
 #### Automated
 
-- [ ] 2.1 Pitch suite runs green (`npm run test`)
-- [ ] 2.2 Typecheck passes (`npx astro check` / build)
-- [ ] 2.3 Lint passes (`npm run lint`)
+- [x] 2.1 Pitch suite runs green (`npm run test`)
+- [x] 2.2 Typecheck passes (`npx astro check` / build)
+- [x] 2.3 Lint passes (`npm run lint`)
 
 #### Manual
 
