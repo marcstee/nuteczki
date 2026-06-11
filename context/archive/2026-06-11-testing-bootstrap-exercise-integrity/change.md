@@ -1,10 +1,10 @@
 ---
 change_id: testing-bootstrap-exercise-integrity
 title: Bootstrap Vitest and cover exercise winnability + pitch-position integrity
-status: impl_reviewed
+status: archived
 created: 2026-06-11
 updated: 2026-06-11
-archived_at: null
+archived_at: 2026-06-11T00:00:00Z
 ---
 
 ## Notes
