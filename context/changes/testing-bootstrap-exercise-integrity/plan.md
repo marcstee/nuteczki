@@ -198,7 +198,7 @@ developer via `npx vitest`.)
 
 - Reviewer confirms `vitest.config.ts` uses `getViteConfig()` and that the `@/*`
   alias is inherited (not re-declared by hand)
-- `.env` / `.dev.vars` are untouched and unreferenced by the test config
+- `.env` / `.dev.vars` are untouched; `.dev.vars` is transitively loaded via `getViteConfig`, harmless for pure-Node tests
 
 **Implementation Note**: After completing this phase and all automated
 verification passes, pause for manual confirmation before proceeding.
@@ -440,7 +440,7 @@ production code, schema, or env changes.
 #### Manual
 
 - [x] 1.6 Reviewer confirms `getViteConfig()` wiring + inherited `@/*` alias — e66b194
-- [x] 1.7 `.env` / `.dev.vars` untouched by test config — e66b194
+- [x] 1.7 `.env` / `.dev.vars` untouched; transitively loaded via `getViteConfig`, harmless for Node tests — e66b194
 
 ### Phase 2: Risk #2 — pitch-position integrity (+ shared oracle)
 
