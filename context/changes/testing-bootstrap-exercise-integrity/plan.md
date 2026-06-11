@@ -446,15 +446,15 @@ production code, schema, or env changes.
 
 #### Automated
 
-- [x] 2.1 Pitch suite runs green (`npm run test`)
-- [x] 2.2 Typecheck passes (`npx astro check` / build)
-- [x] 2.3 Lint passes (`npm run lint`)
+- [x] 2.1 Pitch suite runs green (`npm run test`) — b85692b
+- [x] 2.2 Typecheck passes (`npx astro check` / build) — b85692b
+- [x] 2.3 Lint passes (`npm run lint`) — b85692b
 
 #### Manual
 
-- [ ] 2.4 Reviewer confirms oracle is hand-written, not imported from production tables
-- [ ] 2.5 Mutation sanity: flipping a `STAFF_STEP` literal turns the suite red
-- [ ] 2.6 Ledger assertion fails if `> 8` becomes `>= 8`
+- [x] 2.4 Reviewer confirms oracle is hand-written, not imported from production tables — b85692b
+- [x] 2.5 Mutation sanity: flipping a `STAFF_STEP` literal turns the suite red — b85692b
+- [x] 2.6 Ledger assertion fails if `> 8` becomes `>= 8` — b85692b
 
 ### Phase 3: Risk #1 — exercise winnability
 
