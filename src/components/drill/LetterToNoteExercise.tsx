@@ -54,7 +54,7 @@ export default function LetterToNoteExercise({
           row that gives when the column exceeds the viewport. flex-1 keeps the
           three cards equal-width, identical to the prior grid-cols-3 in portrait. */}
       <div className="flex min-h-0 w-full gap-3">
-        {options.map((option) => {
+        {options.map((option, i) => {
           const isAnswerOption = pitchToLetter(option) === promptLetter;
           const isWrongPick = answered && option === chosenPitch && !isAnswerOption;
 
@@ -75,6 +75,7 @@ export default function LetterToNoteExercise({
             <button
               key={option}
               type="button"
+              aria-label={`Nutka ${i + 1}`}
               disabled={answered}
               onClick={() => {
                 onAnswer(option);
