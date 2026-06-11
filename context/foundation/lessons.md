@@ -8,7 +8,7 @@
   Cloudflare Workers static assets (`wrangler.jsonc` `assets`).
 - **Problem**: The SW precached `/offline.html` and served `caches.match("/offline.html")`
   on offline navigations. Cloudflare's default static-asset `.html`-stripping **307-redirects**
-  `/offline.html` → `/offline`, so the precached entry became a *redirected* response. Chromium
+  `/offline.html` → `/offline`, so the precached entry became a _redirected_ response. Chromium
   refuses to serve a redirected response to a navigation request, so the branded offline page
   silently failed in production on Chromium-based browsers. It worked under `astro dev` (serves
   `/offline.html` 200, no redirect) and on Safari (more lenient), so dev and device testing missed it.
@@ -19,6 +19,30 @@
   (`new Response(body, {status: 200})`) to strip the redirected flag.
 - **Applies to**: Service workers / PWA precaching; any static host (Cloudflare Workers/Pages,
   Netlify, etc.) that rewrites `.html` or trailing slashes.
+
+## Risk #3 structural gap: ignore-duplicate no-op and non-transactional partial write
+
+- **Context**: `src/pages/api/sessions.ts` — the drill-session save endpoint issues
+  two sequential `upsert` calls with `{ onConflict: "id", ignoreDuplicates: true }`:
+  one for `sessions`, one for `answers`. The design is intentionally idempotent
+  under client retry.
+- **Problem**: `ignoreDuplicates: true` turns a colliding-id write into a silent
+  no-op: PostgREST returns `error === null` (HTTP 200) while persisting nothing new.
+  The two upserts are not wrapped in a transaction, so a partial write — a
+  `finished_at`-stamped session with zero answers — is representable in the schema
+  and silently treated as valid by the history and adaptive views. **A HTTP 200
+  from `POST /api/sessions` does not guarantee that answers were persisted.**
+- **Rule**: Do not interpret a 200 from the save path as proof of persistence.
+  The characterization tests in `src/pages/api/sessions.integration.test.ts`
+  (names prefixed `[characterization]`) document this as **current, not desired**
+  behavior. Do not "fix" those tests to match a 200-means-success expectation —
+  promote them to assertions once the fix lands (drop `ignoreDuplicates`, couple
+  the session and answers writes in an atomic operation). The follow-up fix
+  change is tracked via the `## Notes` section of
+  `context/changes/testing-session-boundary-regression/change.md`.
+- **Applies to**: `src/pages/api/sessions.ts`; anyone reading session history or
+  adaptive stats who assumes a session row implies at least one answer row; the
+  eventual fix change (drop/replace `ignoreDuplicates`; atomic session+answers write).
 
 ## In Tailwind v4, CSS-variable font sizes need the `length:` type hint
 

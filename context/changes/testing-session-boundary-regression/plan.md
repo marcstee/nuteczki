@@ -488,26 +488,26 @@ behavior-preserving.
 
 #### Automated
 
-- [x] 2.1 With local Supabase running, integration suite passes: `npm run test`
-- [x] 2.2 With local Supabase not running, `npm run test` exits 0 with integration suite skipped (reason reported)
-- [x] 2.3 Type checking passes, including payload-type guard: `astro check`
-- [x] 2.4 Linting passes: `npm run lint`
+- [x] 2.1 With local Supabase running, integration suite passes: `npm run test` — 4d814ee
+- [x] 2.2 With local Supabase not running, `npm run test` exits 0 with integration suite skipped (reason reported) — 4d814ee
+- [x] 2.3 Type checking passes, including payload-type guard: `astro check` — 4d814ee
+- [x] 2.4 Linting passes: `npm run lint` — 4d814ee
 
 #### Manual
 
-- [x] 2.5 `supabase db reset` applies `seed.sql` cleanly
-- [x] 2.6 Characterization tests clearly labelled as current (not desired) behavior
-- [x] 2.7 RLS negative test genuinely uses a non-service-role client
+- [x] 2.5 `supabase db reset` applies `seed.sql` cleanly — 4d814ee
+- [x] 2.6 Characterization tests clearly labelled as current (not desired) behavior — 4d814ee
+- [x] 2.7 RLS negative test genuinely uses a non-service-role client — 4d814ee
 
 ### Phase 3: Cookbook, Lessons & Gap Hand-off
 
 #### Automated
 
-- [ ] 3.1 §6.2 and §6.4 no longer contain "TBD — see §3 Phase 2"
-- [ ] 3.2 §3 Phase 2 row reads `complete`
-- [ ] 3.3 Markdown lint/format passes
+- [x] 3.1 §6.2 and §6.4 no longer contain "TBD — see §3 Phase 2"
+- [x] 3.2 §3 Phase 2 row reads `complete`
+- [x] 3.3 Markdown lint/format passes
 
 #### Manual
 
-- [ ] 3.4 lessons.md entry frames the gap as known-and-deferred, readable cold
-- [ ] 3.5 Follow-up fix is discoverable (chip or change.md note present)
+- [x] 3.4 lessons.md entry frames the gap as known-and-deferred, readable cold
+- [x] 3.5 Follow-up fix is discoverable (chip or change.md note present)
