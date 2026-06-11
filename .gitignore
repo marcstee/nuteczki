@@ -32,3 +32,5 @@ pnpm-debug.log*
 
 .playwright-cli
 playwright/.auth
+playwright-report
+test-results
