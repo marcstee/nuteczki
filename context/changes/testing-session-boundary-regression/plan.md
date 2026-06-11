@@ -503,11 +503,11 @@ behavior-preserving.
 
 #### Automated
 
-- [x] 3.1 §6.2 and §6.4 no longer contain "TBD — see §3 Phase 2"
-- [x] 3.2 §3 Phase 2 row reads `complete`
-- [x] 3.3 Markdown lint/format passes
+- [x] 3.1 §6.2 and §6.4 no longer contain "TBD — see §3 Phase 2" — 1ecd882
+- [x] 3.2 §3 Phase 2 row reads `complete` — 1ecd882
+- [x] 3.3 Markdown lint/format passes — 1ecd882
 
 #### Manual
 
-- [x] 3.4 lessons.md entry frames the gap as known-and-deferred, readable cold
-- [x] 3.5 Follow-up fix is discoverable (chip or change.md note present)
+- [x] 3.4 lessons.md entry frames the gap as known-and-deferred, readable cold — 1ecd882
+- [x] 3.5 Follow-up fix is discoverable (chip or change.md note present) — 1ecd882
