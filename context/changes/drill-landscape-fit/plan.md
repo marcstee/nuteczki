@@ -271,9 +271,9 @@ None — no data, schema, or API surface touched. Pure presentation retune.
 
 #### Manual
 
-- [ ] 1.4 note→letter view fits landscape (no scroll, no clipped "Dalej"), before and after answering
-- [ ] 1.5 letter→note view fits landscape (prompt, option cards, feedback, "Dalej" all visible, no scroll)
-- [ ] 1.6 setup and results screens fit landscape (no scroll, no clipped buttons)
-- [ ] 1.7 Staff legible and tap targets finger-sized in landscape (no target below the 4rem/3.5rem floors)
-- [ ] 1.8 Regression: iPhone portrait, iPad portrait, desktop visually identical to post-S-07 baseline
-- [ ] 1.9 No regression in the drill flow (answer → feedback → next → results → again/done)
+- [x] 1.4 note→letter view fits landscape (no scroll, no clipped "Dalej"), before and after answering
+- [x] 1.5 letter→note view fits landscape (prompt, option cards, feedback, "Dalej" all visible, no scroll)
+- [x] 1.6 setup and results screens fit landscape (no scroll, no clipped buttons)
+- [x] 1.7 Staff legible and tap targets finger-sized in landscape (no target below the 4rem/3.5rem floors)
+- [x] 1.8 Regression: iPhone portrait, iPad portrait, desktop visually identical to post-S-07 baseline
+- [x] 1.9 No regression in the drill flow (answer → feedback → next → results → again/done)
