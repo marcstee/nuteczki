@@ -460,25 +460,25 @@ production code, schema, or env changes.
 
 #### Automated
 
-- [x] 3.1 Winnability suite green and deterministic (`npm run test`, stable on rerun)
-- [x] 3.2 Full suite under ~1s
-- [x] 3.3 Typecheck passes (`npx astro check` / build)
-- [x] 3.4 Lint passes (`npm run lint`)
+- [x] 3.1 Winnability suite green and deterministic (`npm run test`, stable on rerun) — fb35a63
+- [x] 3.2 Full suite under ~1s — fb35a63
+- [x] 3.3 Typecheck passes (`npx astro check` / build) — fb35a63
+- [x] 3.4 Lint passes (`npm run lint`) — fb35a63
 
 #### Manual
 
-- [x] 3.5 Reviewer confirms letter oracle is independent (no `pitchToLetter` as expected value)
-- [x] 3.6 Mutation sanity: wrong `PITCH_LETTER` row and distractor regression each turn suite red
-- [x] 3.7 Coverage assertion fails if a pitch is starved from the sample
+- [x] 3.5 Reviewer confirms letter oracle is independent (no `pitchToLetter` as expected value) — fb35a63
+- [x] 3.6 Mutation sanity: wrong `PITCH_LETTER` row and distractor regression each turn suite red — fb35a63
+- [x] 3.7 Coverage assertion fails if a pitch is starved from the sample — fb35a63
 
 ### Phase 4: Cookbook §6.1 + wrap-up
 
 #### Automated
 
-- [ ] 4.1 §6.1 no longer contains "TBD — see §3 Phase 1"
-- [ ] 4.2 Full suite still green (`npm run test`)
+- [x] 4.1 §6.1 no longer contains "TBD — see §3 Phase 1"
+- [x] 4.2 Full suite still green (`npm run test`)
 
 #### Manual
 
-- [ ] 4.3 Reviewer can add a new unit test from §6.1 alone
-- [ ] 4.4 Oracle-discipline rule stated explicitly in §6.1
+- [x] 4.3 Reviewer can add a new unit test from §6.1 alone
+- [x] 4.4 Oracle-discipline rule stated explicitly in §6.1
