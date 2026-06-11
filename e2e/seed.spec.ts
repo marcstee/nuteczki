@@ -1,18 +1,11 @@
 // Risk #7: Broken assembled session flow — proves a user can start a drill session,
 // advance through every exercise, reach auto-finish, and see the summary screen.
 //
+// Auth is handled once by e2e/auth.setup.ts (storageState); no sign-in here.
 // Requires env vars: E2E_EMAIL, E2E_PASSWORD (credentials for a local test account).
-// Run after `supabase start` and `npm run dev` (or `wrangler dev`).
+// Run after `supabase start` and `npm run dev`.
 
 import { test, expect, type Page } from "@playwright/test";
-
-async function signIn(page: Page) {
-  await page.goto("/auth/signin");
-  await page.getByLabel("E-mail").fill(process.env.E2E_EMAIL ?? "");
-  await page.getByLabel("Hasło").fill(process.env.E2E_PASSWORD ?? "");
-  await page.getByRole("button", { name: "Zaloguj się" }).click();
-  await page.waitForURL("/dashboard");
-}
 
 async function answerCurrentExercise(page: Page) {
   // Wait for whichever exercise type is active to be ready:
@@ -39,7 +32,6 @@ async function answerCurrentExercise(page: Page) {
 }
 
 test("drill session can be started, completed, and summary renders", async ({ page }) => {
-  await signIn(page);
   await page.goto("/drill");
 
   // Setup phase: pick the shortest session (5 exercises) to minimise run time.
