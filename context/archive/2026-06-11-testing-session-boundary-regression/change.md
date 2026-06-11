@@ -1,10 +1,10 @@
 ---
 change_id: testing-session-boundary-regression
 title: Session-boundary regression net (Phase 2)
-status: impl_reviewed
+status: archived
 created: 2026-06-11
-updated: 2026-06-11 # triage complete: F1 fixed (framing), F2 fixed (parser consolidation), F3 fixed (satisfies guards), F4 skipped
-archived_at: null
+updated: 2026-06-11
+archived_at: 2026-06-11T18:42:22Z
 ---
 
 ## Notes
