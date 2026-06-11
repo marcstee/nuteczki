@@ -1,7 +1,7 @@
 ---
 change_id: drill-landscape-fit
 title: Stop the drill area scrolling/clipping in landscape on iPad
-status: implemented
+status: impl_reviewed
 created: 2026-06-10
 updated: 2026-06-11
 ---
