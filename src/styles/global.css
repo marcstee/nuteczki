@@ -38,7 +38,7 @@
   --drill-staff-w: min(clamp(14rem, 52vw, 30rem), 55dvh);
   --drill-tap-h: min(clamp(4rem, 9vw, 6rem), max(4rem, 11dvh));
   --drill-tap-text: clamp(1.5rem, 3.2vw, 2.5rem);
-  --drill-prompt-text: min(clamp(6rem, 20vw, 11rem), 22dvh);
+  --drill-prompt-text: min(clamp(6rem, 20vw, 11rem), 18dvh);
   --drill-feedback-text: min(clamp(1.875rem, 5.5vw, 3rem), 7dvh);
   --drill-caption-text: clamp(1rem, 2.5vw, 1.25rem);
   --drill-action-h: min(clamp(3.5rem, 8vw, 5rem), max(3.5rem, 9dvh));

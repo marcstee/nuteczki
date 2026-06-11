@@ -39,17 +39,21 @@ export default function LetterToNoteExercise({
   const isCorrect = answered && chosenPitch !== null && pitchToLetter(chosenPitch) === promptLetter;
 
   return (
-    <div className="flex w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-[var(--drill-gap)]">
-      <p className="text-muted-foreground text-sm font-medium">
+    <div className="flex max-h-[calc(100dvh_-_2rem)] w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-[var(--drill-gap)]">
+      <p className="text-muted-foreground shrink-0 text-sm font-medium">
         Ćwiczenie {progress.index + 1} z {progress.total}
       </p>
 
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex shrink-0 flex-col items-center gap-2">
         <p className="text-muted-foreground text-[length:var(--drill-caption-text)] font-medium">Znajdź tę nutkę</p>
         <div className="text-primary text-[length:var(--drill-prompt-text)] font-bold">{promptLetter}</div>
       </div>
 
-      <div className="grid w-full grid-cols-3 gap-3">
+      {/* flex row (not grid) so the cards stretch to the row's shrunk height in
+          landscape; `min-h-0` here + `max-h-full` on each staff lets this be the
+          row that gives when the column exceeds the viewport. flex-1 keeps the
+          three cards equal-width, identical to the prior grid-cols-3 in portrait. */}
+      <div className="flex min-h-0 w-full gap-3">
         {options.map((option) => {
           const isAnswerOption = pitchToLetter(option) === promptLetter;
           const isWrongPick = answered && option === chosenPitch && !isAnswerOption;
@@ -75,16 +79,16 @@ export default function LetterToNoteExercise({
               onClick={() => {
                 onAnswer(option);
               }}
-              className={`flex items-center justify-center rounded-2xl border-4 bg-white p-3 text-slate-900 shadow-lg transition-all disabled:pointer-events-none ${stateClasses}`}
+              className={`flex min-h-0 min-w-0 flex-1 items-center justify-center rounded-2xl border-4 bg-white p-3 text-slate-900 shadow-lg transition-all disabled:pointer-events-none ${stateClasses}`}
             >
-              <Staff note={option} className="w-full" />
+              <Staff note={option} className="max-h-full w-full" />
             </button>
           );
         })}
       </div>
 
       {answered && (
-        <div className="flex w-full flex-col items-center gap-[var(--drill-gap-sm)]">
+        <div className="flex w-full shrink-0 flex-col items-center gap-[var(--drill-gap-sm)]">
           <p
             className={`text-[length:var(--drill-feedback-text)] font-bold ${isCorrect ? "text-success" : "text-destructive"}`}
           >

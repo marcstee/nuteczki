@@ -30,18 +30,21 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
   const isCorrect = answered && chosenLetter === correctLetter;
 
   return (
-    <div className="flex w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-[var(--drill-gap)]">
-      <p className="text-muted-foreground text-sm font-medium">
+    <div className="flex max-h-[calc(100dvh_-_2rem)] w-full max-w-[var(--drill-shell-max)] flex-col items-center gap-[var(--drill-gap)]">
+      <p className="text-muted-foreground shrink-0 text-sm font-medium">
         Ćwiczenie {progress.index + 1} z {progress.total}
       </p>
 
       {/* White "paper" card so the currentColor staff renders dark and legible;
-          the brand ring frames it as an intentional panel on the navy canvas. */}
-      <div className="ring-primary/30 w-full rounded-2xl bg-white p-6 text-slate-900 shadow-lg ring-4">
-        <Staff note={pitch} className="mx-auto w-[var(--drill-staff-w)]" />
+          the brand ring frames it as an intentional panel on the navy canvas.
+          `min-h-0` lets this be the one row that shrinks when the column is taller
+          than the viewport (landscape); the staff (max-h-full + preserveAspectRatio
+          meet) then scales down to fit, leaving portrait/desktop untouched. */}
+      <div className="ring-primary/30 flex min-h-0 w-full items-center justify-center rounded-2xl bg-white p-6 text-slate-900 shadow-lg ring-4">
+        <Staff note={pitch} className="mx-auto max-h-full w-[var(--drill-staff-w)]" />
       </div>
 
-      <div className="grid w-full grid-cols-4 gap-3">
+      <div className="grid w-full shrink-0 grid-cols-4 gap-3">
         {LETTERS.map((letter) => {
           const isAnswerLetter = letter === correctLetter;
           const isWrongPick = answered && letter === chosenLetter && !isAnswerLetter;
@@ -74,7 +77,7 @@ export default function NoteToLetterExercise({ pitch, answered, chosenLetter, on
       </div>
 
       {answered && (
-        <div className="flex w-full flex-col items-center gap-[var(--drill-gap-sm)]">
+        <div className="flex w-full shrink-0 flex-col items-center gap-[var(--drill-gap-sm)]">
           <p
             className={`text-[length:var(--drill-feedback-text)] font-bold ${isCorrect ? "text-success" : "text-destructive"}`}
           >

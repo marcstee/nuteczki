@@ -265,9 +265,9 @@ None — no data, schema, or API surface touched. Pure presentation retune.
 
 #### Automated
 
-- [x] 1.1 Linting passes: `npm run lint`
-- [x] 1.2 Type/Astro check passes: `npx astro check`
-- [x] 1.3 Build passes: `npm run build`
+- [x] 1.1 Linting passes: `npm run lint` — e7bc071
+- [x] 1.2 Type/Astro check passes: `npx astro check` — e7bc071
+- [x] 1.3 Build passes: `npm run build` — e7bc071
 
 #### Manual
 
