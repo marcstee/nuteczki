@@ -476,28 +476,28 @@ behavior-preserving.
 
 #### Automated
 
-- [x] 1.1 Unit tests pass: `npm run test`
-- [x] 1.2 Type checking passes: `astro check`
-- [x] 1.3 Linting passes: `npm run lint`
+- [x] 1.1 Unit tests pass: `npm run test` — c8181d2
+- [x] 1.2 Type checking passes: `astro check` — c8181d2
+- [x] 1.3 Linting passes: `npm run lint` — c8181d2
 
 #### Manual
 
-- [x] 1.4 Results screen shows identical overall + per-type numbers after refactor
+- [x] 1.4 Results screen shows identical overall + per-type numbers after refactor — c8181d2
 
 ### Phase 2: Persistence Regression Net (Risk #3, integration)
 
 #### Automated
 
-- [ ] 2.1 With local Supabase running, integration suite passes: `npm run test`
-- [ ] 2.2 With local Supabase not running, `npm run test` exits 0 with integration suite skipped (reason reported)
-- [ ] 2.3 Type checking passes, including payload-type guard: `astro check`
-- [ ] 2.4 Linting passes: `npm run lint`
+- [x] 2.1 With local Supabase running, integration suite passes: `npm run test`
+- [x] 2.2 With local Supabase not running, `npm run test` exits 0 with integration suite skipped (reason reported)
+- [x] 2.3 Type checking passes, including payload-type guard: `astro check`
+- [x] 2.4 Linting passes: `npm run lint`
 
 #### Manual
 
-- [ ] 2.5 `supabase db reset` applies `seed.sql` cleanly
-- [ ] 2.6 Characterization tests clearly labelled as current (not desired) behavior
-- [ ] 2.7 RLS negative test genuinely uses a non-service-role client
+- [x] 2.5 `supabase db reset` applies `seed.sql` cleanly
+- [x] 2.6 Characterization tests clearly labelled as current (not desired) behavior
+- [x] 2.7 RLS negative test genuinely uses a non-service-role client
 
 ### Phase 3: Cookbook, Lessons & Gap Hand-off
 
