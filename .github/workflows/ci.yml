@@ -37,6 +37,8 @@ jobs:
           version: latest
       - name: Start local Supabase
         run: supabase start
+      - name: Apply migrations and seed
+        run: supabase db reset --no-confirm
       - name: Export Supabase credentials
         run: |
           STATUS=$(supabase status --output json)
