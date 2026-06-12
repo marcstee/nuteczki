@@ -39,10 +39,14 @@ jobs:
         run: supabase start
       - name: Export Supabase credentials
         run: |
+          # Use the new publishable/secret key system (matches local .dev.vars).
+          # Newer Supabase images restrict the legacy ANON_KEY/SERVICE_ROLE_KEY
+          # JWTs to a role without table grants, which surfaces as
+          # "permission denied for table sessions" on the save + cleanup.
           STATUS=$(supabase status --output json)
           echo "SUPABASE_URL=$(echo "$STATUS" | jq -r '.API_URL')" >> "$GITHUB_ENV"
-          echo "SUPABASE_KEY=$(echo "$STATUS" | jq -r '.ANON_KEY')" >> "$GITHUB_ENV"
-          echo "SUPABASE_SERVICE_ROLE_KEY=$(echo "$STATUS" | jq -r '.SERVICE_ROLE_KEY')" >> "$GITHUB_ENV"
+          echo "SUPABASE_KEY=$(echo "$STATUS" | jq -r '.PUBLISHABLE_KEY')" >> "$GITHUB_ENV"
+          echo "SUPABASE_SERVICE_ROLE_KEY=$(echo "$STATUS" | jq -r '.SECRET_KEY')" >> "$GITHUB_ENV"
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
         env:
