@@ -1,4 +1,5 @@
 // @ts-check
+import process from "node:process";
 import { defineConfig, envField } from "astro/config";
 
 import react from "@astrojs/react";
@@ -70,6 +71,11 @@ function optimizeServerDeps() {
 export default defineConfig({
   output: "server",
   integrations: [react(), sitemap()],
+  // The dev-only toolbar floats over the bottom-center of the viewport and
+  // intercepts pointer events on full-width controls, which breaks Playwright
+  // e2e clicks. Off when ASTRO_DEV_TOOLBAR_DISABLED=1 (set by the e2e webServer);
+  // on by default, so normal `astro dev` is unchanged.
+  devToolbar: { enabled: process.env.ASTRO_DEV_TOOLBAR_DISABLED !== "1" },
   vite: {
     plugins: [tailwindcss(), optimizeServerDeps()],
     resolve: {

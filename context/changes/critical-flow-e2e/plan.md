@@ -422,28 +422,28 @@ None. No schema or data changes. Phase 1 is a non-behavioral markup addition.
 
 #### Automated
 
-- [x] 1.1 Linting passes: `npm run lint`
-- [x] 1.2 Type/build check passes: `npx astro sync && npm run build`
-- [x] 1.3 Existing unit tests stay green: `npm run test`
+- [x] 1.1 Linting passes: `npm run lint` — 0d86415
+- [x] 1.2 Type/build check passes: `npx astro sync && npm run build` — 0d86415
+- [x] 1.3 Existing unit tests stay green: `npm run test` — 0d86415
 
 #### Manual
 
-- [x] 1.4 Cards expose "Nutka 1/2/3" accessible names; none speak the pitch
-- [x] 1.5 Drill renders and plays identically (no visual/behavioral change)
+- [x] 1.4 Cards expose "Nutka 1/2/3" accessible names; none speak the pitch — 0d86415
+- [x] 1.5 Drill renders and plays identically (no visual/behavioral change) — 0d86415
 
 ### Phase 2: Drill-completion e2e spec (via /10x-e2e)
 
 #### Automated
 
-- [ ] 2.1 E2E passes locally: `npm run test:e2e`
-- [ ] 2.2 Re-run green back-to-back (cleanup + unique-id independence)
-- [ ] 2.3 Lint passes on the new spec: `npm run lint`
+- [x] 2.1 E2E passes locally: `npm run test:e2e`
+- [x] 2.2 Re-run green back-to-back (cleanup + unique-id independence)
+- [x] 2.3 Lint passes on the new spec: `npm run lint`
 
 #### Manual
 
-- [ ] 2.4 `/10x-e2e` review confirms clean against all five anti-patterns
-- [ ] 2.5 No leftover test session row in the DB after a run
-- [ ] 2.6 Breaking the flow (skip final "Dalej") makes the spec fail
+- [x] 2.4 `/10x-e2e` review confirms clean against all five anti-patterns
+- [x] 2.5 No leftover test session row in the DB after a run
+- [x] 2.6 Breaking the flow (skip final "Dalej") makes the spec fail
 
 ### Phase 3: CI e2e gate
 
