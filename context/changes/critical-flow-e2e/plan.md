@@ -435,23 +435,23 @@ None. No schema or data changes. Phase 1 is a non-behavioral markup addition.
 
 #### Automated
 
-- [x] 2.1 E2E passes locally: `npm run test:e2e`
-- [x] 2.2 Re-run green back-to-back (cleanup + unique-id independence)
-- [x] 2.3 Lint passes on the new spec: `npm run lint`
+- [x] 2.1 E2E passes locally: `npm run test:e2e` — 637d952
+- [x] 2.2 Re-run green back-to-back (cleanup + unique-id independence) — 637d952
+- [x] 2.3 Lint passes on the new spec: `npm run lint` — 637d952
 
 #### Manual
 
-- [x] 2.4 `/10x-e2e` review confirms clean against all five anti-patterns
-- [x] 2.5 No leftover test session row in the DB after a run
-- [x] 2.6 Breaking the flow (skip final "Dalej") makes the spec fail
+- [x] 2.4 `/10x-e2e` review confirms clean against all five anti-patterns — 637d952
+- [x] 2.5 No leftover test session row in the DB after a run — 637d952
+- [x] 2.6 Breaking the flow (skip final "Dalej") makes the spec fail — 637d952
 
 ### Phase 3: CI e2e gate
 
 #### Automated
 
-- [ ] 3.1 Workflow valid; `e2e` job reachable and runs on a PR
-- [ ] 3.2 `e2e` job runs `npm run test:e2e` and reports pass/fail
-- [ ] 3.3 `deploy.needs` includes `ci` and `e2e`; deploy blocked when e2e fails
+- [x] 3.1 Workflow valid; `e2e` job reachable and runs on a PR
+- [x] 3.2 `e2e` job runs `npm run test:e2e` and reports pass/fail
+- [x] 3.3 `deploy.needs` includes `ci` and `e2e`; deploy blocked when e2e fails
 
 #### Manual
 
