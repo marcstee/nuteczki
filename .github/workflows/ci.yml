@@ -45,6 +45,23 @@ jobs:
           echo "SUPABASE_URL=$(echo "$STATUS" | jq -r '.API_URL')" >> "$GITHUB_ENV"
           echo "SUPABASE_KEY=$(echo "$STATUS" | jq -r '.ANON_KEY')" >> "$GITHUB_ENV"
           echo "SUPABASE_SERVICE_ROLE_KEY=$(echo "$STATUS" | jq -r '.SERVICE_ROLE_KEY')" >> "$GITHUB_ENV"
+      - name: Wait for GoTrue to recover after DB reset
+        run: |
+          echo "Polling GoTrue until schema cache is ready..."
+          for i in $(seq 1 30); do
+            BODY=$(curl -s \
+              -H "apikey: $SUPABASE_KEY" \
+              -H "Content-Type: application/json" \
+              -X POST "$SUPABASE_URL/auth/v1/token?grant_type=password" \
+              -d '{"email":"probe@example.com","password":"probe"}' 2>/dev/null || echo "connection_error")
+            if echo "$BODY" | grep -qi "database error"; then
+              echo "  attempt $i: still recovering..."
+              sleep 2
+            else
+              echo "  attempt $i: GoTrue ready"
+              break
+            fi
+          done
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
         env:
