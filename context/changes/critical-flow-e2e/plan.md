@@ -449,15 +449,15 @@ None. No schema or data changes. Phase 1 is a non-behavioral markup addition.
 
 #### Automated
 
-- [x] 3.1 Workflow valid; `e2e` job reachable and runs on a PR
-- [x] 3.2 `e2e` job runs `npm run test:e2e` and reports pass/fail
-- [x] 3.3 `deploy.needs` includes `ci` and `e2e`; deploy blocked when e2e fails
+- [x] 3.1 Workflow valid; `e2e` job reachable and runs on a PR — 61fda8e
+- [x] 3.2 `e2e` job runs `npm run test:e2e` and reports pass/fail — 61fda8e
+- [x] 3.3 `deploy.needs` includes `ci` and `e2e`; deploy blocked when e2e fails — 61fda8e
 
 #### Manual
 
-- [ ] 3.4 PR check goes red on a broken flow and blocks merge/deploy
-- [ ] 3.5 Playwright HTML report downloadable from a failed run
-- [ ] 3.6 No test session rows accumulate in the targeted Supabase
+- [x] 3.4 PR check goes red on a broken flow and blocks merge/deploy — 61fda8e
+- [x] 3.5 Playwright HTML report downloadable from a failed run — 61fda8e
+- [x] 3.6 No test session rows accumulate in the targeted Supabase — 61fda8e
 
 ### Phase 4: Cookbook + rollout note
 
