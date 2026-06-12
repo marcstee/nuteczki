@@ -34,15 +34,17 @@ jobs:
       - run: npm ci
       - uses: supabase/setup-cli@v1
         with:
-          version: latest
+          # Pin to match the local dev CLI. `latest` (2.106.x) ships images
+          # whose API roles lack table grants for our migration-created
+          # `sessions`/`answers`, surfacing as "permission denied for table
+          # sessions" on both the save and the afterEach cleanup. 2.98.2 is the
+          # version the whole flow is verified green against locally.
+          version: 2.98.2
       - name: Start local Supabase
         run: supabase start
       - name: Export Supabase credentials
         run: |
           # Use the new publishable/secret key system (matches local .dev.vars).
-          # Newer Supabase images restrict the legacy ANON_KEY/SERVICE_ROLE_KEY
-          # JWTs to a role without table grants, which surfaces as
-          # "permission denied for table sessions" on the save + cleanup.
           STATUS=$(supabase status --output json)
           echo "SUPABASE_URL=$(echo "$STATUS" | jq -r '.API_URL')" >> "$GITHUB_ENV"
           echo "SUPABASE_KEY=$(echo "$STATUS" | jq -r '.PUBLISHABLE_KEY')" >> "$GITHUB_ENV"
