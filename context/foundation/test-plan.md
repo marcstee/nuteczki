@@ -6,7 +6,7 @@
 >
 > Refresh: re-run `/10x-test-plan --refresh` when stale (see §8).
 >
-> Last updated: 2026-06-11
+> Last updated: 2026-06-13
 
 ## 1. Strategy
 
@@ -73,7 +73,7 @@ orchestrator updates Status as artifacts appear on disk.
 | --- | ------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------- | -------------------------------- | ----------- | ---------------------------------------------------------------- |
 | 1   | Bootstrap + exercise integrity  | Stand up the runner; prove every generated exercise is winnable and musically correct (no DB needed) | #1, #2        | unit                             | complete    | context/archive/2026-06-11-testing-bootstrap-exercise-integrity/ |
 | 2   | Session-boundary regression net | Lock summary correctness and session persistence against the real schema, however composition churns | #3, #4        | unit + integration               | complete    | context/changes/testing-session-boundary-regression/             |
-| 3   | Critical-flow e2e               | Prove a real user can start, complete, and persist a drill session                                   | #7            | e2e (Playwright, via `/10x-e2e`) | not started | —                                                                |
+| 3   | Critical-flow e2e               | Prove a real user can start, complete, and persist a drill session                                   | #7            | e2e (Playwright, via `/10x-e2e`) | complete    | context/changes/critical-flow-e2e/                              |
 | 4   | Wedge + abuse coverage          | Adaptive weighting holds; no cross-family session access                                             | #5, #6        | seeded unit + integration        | not started | —                                                                |
 | 5   | Quality-gates wiring            | Add test + e2e gates to CI; migration smoke; recommend local hook                                    | cross-cutting | gates                            | not started | —                                                                |
 
