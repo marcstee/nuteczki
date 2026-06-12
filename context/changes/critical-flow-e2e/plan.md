@@ -463,9 +463,9 @@ None. No schema or data changes. Phase 1 is a non-behavioral markup addition.
 
 #### Automated
 
-- [ ] 4.1 Markdown formats cleanly: `npx prettier --check context/foundation/test-plan.md`
+- [x] 4.1 Markdown formats cleanly: `npx prettier --check context/foundation/test-plan.md`
 
 #### Manual
 
-- [ ] 4.2 §6.3 no longer reads "TBD" and names `drill-completion.spec.ts` as reference
-- [ ] 4.3 A reader could add a second e2e test from §6.3 alone
+- [x] 4.2 §6.3 no longer reads "TBD" and names `drill-completion.spec.ts` as reference
+- [x] 4.3 A reader could add a second e2e test from §6.3 alone

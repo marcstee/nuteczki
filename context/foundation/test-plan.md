@@ -307,7 +307,101 @@ Not yet wired — see §3 Phase 5. Until then, run integration tests locally wit
 
 ### 6.3 Adding an e2e test
 
-- TBD — see §3 Phase 3 (drill-completion critical flow, driven by `/10x-e2e`).
+**When to use this layer**: for a single, critical user-visible flow that green
+unit and integration tests cannot prove completes end-to-end in a real browser.
+The trigger question is: "Could every piece pass in isolation while the
+wired-together flow still fails?" If yes, e2e is the right tool. If the risk is
+pure logic or pure persistence, stay at unit (§6.1) or integration (§6.2)
+instead.
+
+#### Location and naming
+
+- All specs live under `e2e/*.spec.ts` — one spec per critical flow, not one
+  spec per page.
+- Auth is provided automatically: specs inherit storage-state from
+  `e2e/auth.setup.ts`. Do not write sign-in steps inside the spec; consume the
+  existing setup.
+
+#### The auto-finish gotcha (load-bearing fact)
+
+The drill's auto-finish fires on the **"Dalej" click of the last exercise, not
+on the last answer tap**. `handleNext` in `DrillSession.tsx` gates the
+`finished` transition on `answers.length >= exerciseCount`. A test that stops
+after tapping the final option — without clicking "Dalej" — never reaches the
+summary. The loop is uniform: detect type → click an option → wait for "Dalej"
+to appear → click "Dalej". The threshold does the work; do not special-case the
+last card.
+
+#### Locator rules
+
+Use `getByRole` / `getByLabel` / `getByText` only — no CSS selectors, XPath, or
+`getByTestId`. For the letter→note exercise, the three staff-option buttons carry
+positional `aria-label`s (`"Nutka 1"`, `"Nutka 2"`, `"Nutka 3"`) from the Phase
+1 a11y fix — addressable by `getByRole("button", { name: /^Nutka [123]$/ })`
+without leaking the correct pitch. Never use `page.waitForTimeout`; wait on
+`toBeVisible()`, `waitForURL()`, or `waitForResponse()`.
+
+#### Save-assertion boundary
+
+The drill's save is fire-and-forget: the summary renders immediately and the
+`POST /api/sessions` resolves in the background. Assert `getByText("Zapisano")`
+(the save indicator) — do **not** read `/history` or make a DB read-back call.
+Risk #3 (silent save failure) is §6.2's integration job; the e2e asserts the
+in-DOM indicator only. Capture the response via `page.waitForResponse` **before**
+navigating so you get the saved id for cleanup even when assertions below fail.
+
+#### Cleanup pattern
+
+Each spec run generates a client-side UUID session id. Track it in a module-level
+`Set<string>` and delete it in `afterEach` via the service-role helper from
+`e2e/supabase-e2e.ts`. FK cascade on `answers.session_id` removes answer rows
+automatically. Add the id to the set **before** asserting so cleanup runs even on
+assertion failure.
+
+```ts
+const sessionIds = new Set<string>();
+
+test.afterEach(async () => {
+  for (const id of sessionIds) {
+    await deleteSession(id); // e2e/supabase-e2e.ts
+  }
+  sessionIds.clear();
+});
+```
+
+#### Prerequisites
+
+- `supabase start` must be running (or CI points at the dedicated e2e Supabase
+  target).
+- `.dev.vars` (or env) must contain `SUPABASE_URL`, `SUPABASE_KEY`,
+  `E2E_EMAIL`, `E2E_PASSWORD`, and `SUPABASE_SERVICE_ROLE_KEY` (for `afterEach`
+  cleanup).
+
+#### Running tests
+
+```bash
+npm run test:e2e     # runs the Playwright suite once
+```
+
+The dev server auto-starts (`webServer` in `playwright.config.ts`). With
+`reuseExistingServer: !CI`, CI always launches a fresh server; local runs reuse
+an already-running one.
+
+#### Reference test
+
+`e2e/drill-completion.spec.ts` — covers Risk #7: start a 5-exercise session,
+advance through all five cards (branching per type: `note_to_letter` vs.
+`letter_to_note`), trigger auto-finish on the final "Dalej", assert the summary
+heading + accuracy % + both per-type breakdown blocks + "Zapisano", exit via
+"Gotowe" to `/dashboard`, and clean up via service-role `afterEach`. Use this
+spec as the template for any new critical-flow e2e test.
+
+#### CI gate
+
+The `e2e` job in `.github/workflows/ci.yml` runs `npm run test:e2e` on every
+PR to `main`. `deploy.needs` lists both `ci` and `e2e`; a failing e2e check
+blocks deploy. The Playwright HTML report is uploaded as an artifact on failure
+(`actions/upload-artifact`, `if: failure()`).
 
 ### 6.4 Adding a test for a new API endpoint
 
@@ -358,7 +452,9 @@ See §3 Phase 4 for the full cross-user ownership / IDOR matrix (Risk #6).
 
 ### 6.6 Per-rollout-phase notes
 
-- (Filled in as phases land.)
+- **Phase 3 (Critical-flow e2e):** `e2e/drill-completion.spec.ts` proves Risk #7
+  end-to-end; `.github/workflows/ci.yml` `e2e` job blocks `deploy` on a broken
+  completion flow.
 
 ## 7. What We Deliberately Don't Test
 
