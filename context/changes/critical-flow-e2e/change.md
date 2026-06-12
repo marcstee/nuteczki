@@ -1,7 +1,7 @@
 ---
 change_id: critical-flow-e2e
 title: Critical flow e2e
-status: implemented
+status: impl_reviewed
 created: 2026-06-11
 updated: 2026-06-13
 archived_at: null

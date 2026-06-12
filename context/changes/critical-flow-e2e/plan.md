@@ -469,3 +469,17 @@ None. No schema or data changes. Phase 1 is a non-behavioral markup addition.
 
 - [x] 4.2 §6.3 no longer reads "TBD" and names `drill-completion.spec.ts` as reference — b81463b
 - [x] 4.3 A reader could add a second e2e test from §6.3 alone — b81463b
+
+---
+
+## Addendum (2026-06-13) — test-infra files landed beyond Changes Required
+
+Phases 2–3 also touched four files not listed in the original Changes Required,
+all test-infra/DX only (no product surface, no prod paths):
+
+- `astro.config.mjs` — env-gated devToolbar disable so the overlay stops intercepting e2e clicks.
+- `playwright.config.ts` — load `.env`/`.dev.vars`; point `webServer` at local Supabase.
+- `e2e/auth.setup.ts` — `Hasło` exact match + hydration-safe retry for the storageState sign-in.
+- `supabase/seed.sql` — GoTrue token columns + identities row so the seeded user can sign in.
+
+Surfaced by impl-review F2 (reviews/impl-review.md); recorded here to keep the plan the source of truth.

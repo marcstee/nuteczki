@@ -3,7 +3,7 @@
 // auto-finish, see the summary, and have the session persist ("Zapisano") — the
 // wired-together flow that green unit/integration suites do not exercise.
 //
-// Seed: modelled on ../seed.spec.ts. Auth: storageState from e2e/auth.setup.ts
+// Seed/cleanup: via ./supabase-e2e.ts. Auth: storageState from e2e/auth.setup.ts
 // (no sign-in here). Run: `npm run test:e2e` with E2E_EMAIL / E2E_PASSWORD set,
 // local `supabase start`, and the dev server (auto-started by playwright.config).
 //
