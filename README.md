@@ -189,7 +189,7 @@ Set `SUPABASE_URL` and `SUPABASE_KEY` as secrets in the Cloudflare dashboard or 
 
 ## CI
 
-GitHub Actions runs lint + build on every push and PR. Configure `SUPABASE_URL` and `SUPABASE_KEY` as repository secrets for the build step. A Husky pre-commit hook runs `lint-staged` (ESLint on `*.ts,tsx,astro`; Prettier on `*.json,css,md`).
+GitHub Actions runs lint + build on every push and PR to `main`. Configure `SUPABASE_URL` and `SUPABASE_KEY` as repository secrets for the build step. A Husky pre-commit hook runs `lint-staged` (ESLint on `*.ts,tsx,astro`; Prettier on `*.json,css,md`).
 
 ## License
 

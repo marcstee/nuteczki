@@ -31,12 +31,12 @@ See `@package.json` scripts for the full list. Additionally:
 - Lint config: `@eslint.config.js`.
 - Prettier config: `@.prettierrc.json`.
 - Astro components for static content; React `.tsx` only for interactive islands.
-- Add shadcn/ui components via `npx shadcn@latest add <component>` — they land in `src/components/ui/`.
+- shadcn/ui components land in `src/components/ui/`.
 - Tailwind CSS v4 via Vite plugin; configuration lives in `@src/styles/global.css`, not a config file.
 
 ## CI Gate
 
-CI gate: `@.github/workflows/ci.yml` (lint + build on push/PR to `master`).
+CI gate: `@.github/workflows/ci.yml` (lint + build on push/PR).
 
 Pre-commit hook via Husky runs `lint-staged`: ESLint fix on `*.ts,tsx,astro`; Prettier on `*.json,css,md`.
 
