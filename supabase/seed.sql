@@ -4,6 +4,11 @@
 -- Known test user referenced by service-role integration tests.
 -- UUID 00000000-0000-0000-0000-000000000001 is stable across supabase db reset.
 -- Password: seed-password-123  (local only — never deployed to prod)
+-- The token columns below MUST be '' (empty string), never NULL. GoTrue scans
+-- confirmation_token / recovery_token / email_change / email_change_token_new
+-- into non-nullable Go strings; a NULL there makes every sign-in fail with
+-- "Database error querying schema". Newer GoTrue images ship these columns
+-- without a DB default, so a hand-written INSERT must set them explicitly.
 INSERT INTO auth.users (
   id,
   instance_id,
@@ -17,7 +22,11 @@ INSERT INTO auth.users (
   is_sso_user,
   is_anonymous,
   created_at,
-  updated_at
+  updated_at,
+  confirmation_token,
+  recovery_token,
+  email_change,
+  email_change_token_new
 )
 VALUES (
   '00000000-0000-0000-0000-000000000001',
@@ -32,7 +41,11 @@ VALUES (
   false,
   false,
   now(),
-  now()
+  now(),
+  '',
+  '',
+  '',
+  ''
 )
 ON CONFLICT (id) DO NOTHING;
 
