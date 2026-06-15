@@ -528,26 +528,26 @@ downstream migration. The package name changes from `@nuteczki/code-reviewer` to
 
 #### Automated
 
-- [x] 1.1 Type checking passes (`npm --prefix packages/core-reviewer run typecheck`)
-- [x] 1.2 `zod` resolves as a direct dep with `z.toJSONSchema`
-- [x] 1.3 Derived JSON Schema has exactly the pinned top-level keys (`type: "object"`, no `$ref`/`$defs`, no top-level `$schema`)
+- [x] 1.1 Type checking passes (`npm --prefix packages/core-reviewer run typecheck`) — 157d11d
+- [x] 1.2 `zod` resolves as a direct dep with `z.toJSONSchema` — 157d11d
+- [x] 1.3 Derived JSON Schema has exactly the pinned top-level keys (`type: "object"`, no `$ref`/`$defs`, no top-level `$schema`) — 157d11d
 
 #### Manual
 
-- [x] 1.4 `reviewReportSchema.safeParse` accepts a valid report and rejects a malformed one
-- [x] 1.5 Prompt text reads naturally and uses high/medium/low consistently
+- [x] 1.4 `reviewReportSchema.safeParse` accepts a valid report and rejects a malformed one — 157d11d
+- [x] 1.5 Prompt text reads naturally and uses high/medium/low consistently — 157d11d
 
 ### Phase 2: Build the reusable agent module
 
 #### Automated
 
-- [ ] 2.1 Type checking passes
-- [ ] 2.2 Build emits cleanly (`npm --prefix packages/core-reviewer run build`)
+- [x] 2.1 Type checking passes
+- [x] 2.2 Build emits cleanly (`npm --prefix packages/core-reviewer run build`)
 
 #### Manual
 
-- [ ] 2.3 Live run returns a populated, schema-valid `report`
-- [ ] 2.4 `report` is undefined (not a crash) on `error_max_structured_output_retries`, with `isError` set
+- [x] 2.3 Live run returns a populated, schema-valid `report`
+- [x] 2.4 `report` is undefined (not a crash) on `error_max_structured_output_retries`, with `isError` set
 
 ### Phase 3: Public surface, CLI, and smoke check
 
