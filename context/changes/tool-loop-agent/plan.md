@@ -2,7 +2,7 @@
 
 ## Overview
 
-Convert `packages/core-reviewer/`'s single-file `runReview()` wrapper into a
+Convert `packages/code-reviewer/`'s single-file `runReview()` wrapper into a
 well-organized, modular code-review agent built on the Claude Agent SDK. The
 agent stops returning only free-text prose and instead returns a **validated,
 structured `ReviewReport`** (severity-tagged findings, summary, numeric score)
@@ -16,10 +16,10 @@ and drive. This change does **not** configure any eval environment.
 
 The package is **fully standalone** (its own `package.json`, `tsconfig.json`,
 `node_modules`; not a root workspace; excluded from the root app's ESLint/tsconfig).
-Nothing in the root Astro app imports it (`grep` for `core-reviewer`/`code-reviewer`
+Nothing in the root Astro app imports it (`grep` for `code-reviewer`/`code-reviewer`
 under `src/` returns nothing).
 
-Current source layout (`packages/core-reviewer/src/`):
+Current source layout (`packages/code-reviewer/src/`):
 
 - `reviewer.ts` — the real logic. `runReview(opts)` builds an `Options` object,
   runs `query({ prompt, options })`, and concatenates assistant `text` blocks
@@ -47,7 +47,7 @@ Current source layout (`packages/core-reviewer/src/`):
   result is an **error** with subtype `error_max_structured_output_retries`
   (`sdk.d.ts:3857`) and no `structured_output`.
 - **`zod` v4.4.3 is already installed** (hoisted as a transitive SDK dep at
-  `packages/core-reviewer/node_modules/zod`) but is **not** a direct dependency in
+  `packages/code-reviewer/node_modules/zod`) but is **not** a direct dependency in
   `package.json`. Zod v4 ships a native `z.toJSONSchema()` — so the docs' external
   `zod-to-json-schema` package is unnecessary; one Zod definition yields the JSON
   Schema (for the SDK), runtime validation (`safeParse`), and the TS type (`z.infer`).
@@ -55,10 +55,10 @@ Current source layout (`packages/core-reviewer/src/`):
   `noUncheckedIndexedAccess` (`tsconfig.json`). Relative imports must carry `.js`
   extensions; type-only imports/exports must use `import type` / `export type`.
   `include: ["src/**/*.ts"]` already covers nested folders.
-- **Naming drift**: the folder is `core-reviewer`, but `package.json` `name` is
+- **Naming drift**: the folder is `code-reviewer`, but `package.json` `name` is
   `@nuteczki/code-reviewer`, and the README + `index.ts` header + 5 README
   references say `code-reviewer`/`packages/code-reviewer/`. A stray
-  `packages/core-reviewer/packages/core-reviewer/package-lock.json` (92 bytes) is
+  `packages/code-reviewer/packages/code-reviewer/package-lock.json` (92 bytes) is
   cruft. No external importer depends on the old name.
 - **The existing prompt's severity vocabulary** (`blocking / should-fix / nit`)
   must change to match the chosen schema enum (`high / medium / low`) so the prose
@@ -66,8 +66,8 @@ Current source layout (`packages/core-reviewer/src/`):
 
 ## Desired End State
 
-`packages/core-reviewer/` exposes a modular agent whose public entry
-(`@nuteczki/core-reviewer`) exports: the reusable `runReview()` agent, the Zod
+`packages/code-reviewer/` exposes a modular agent whose public entry
+(`@nuteczki/code-reviewer`) exports: the reusable `runReview()` agent, the Zod
 review schemas + derived JSON Schema, the inferred types, `REVIEW_TOOLS`, and the
 SDK type re-exports. A real run produces a `ReviewResult` whose `report` is a
 schema-valid `ReviewReport` object (parsed and validated), with `review` text
@@ -85,7 +85,7 @@ self-check); a live `npm run review -- "..."` returns a populated, valid report.
 - **No multi-agent / sub-agent orchestration, no MCP servers, no hooks, no
   custom tools.** The agent keeps the read-only `Read/Glob/Grep` allow-list.
 - **No change to the auth model** (local Claude Code login or `ANTHROPIC_API_KEY`).
-- **No folder rename** (`core-reviewer` stays); we align the *package name* and
+- **No folder rename** (`code-reviewer` stays); we align the *package name* and
   docs to the folder, not the reverse.
 - **No CI gating semantics** (e.g. `--fail-on high`): CLI exit code stays tied to
   `isError`/missing report, not to finding severity.
@@ -149,7 +149,7 @@ verifiable by `tsc`.
 
 #### 1. Review schemas module
 
-**File**: `packages/core-reviewer/src/schemas/review.ts`
+**File**: `packages/code-reviewer/src/schemas/review.ts`
 
 **Intent**: Define the structured review contract once in Zod and expose three
 artifacts from it — the runtime validator, the SDK-facing JSON Schema, and the
@@ -173,7 +173,7 @@ TS types — so there is no schema/type drift.
 
 #### 2. Schemas barrel
 
-**File**: `packages/core-reviewer/src/schemas/index.ts`
+**File**: `packages/code-reviewer/src/schemas/index.ts`
 
 **Intent**: Single import point for the schema module.
 
@@ -182,7 +182,7 @@ re-exported via `export type` where `verbatimModuleSyntax` requires it.
 
 #### 3. Reviewer prompt module
 
-**File**: `packages/core-reviewer/src/prompts/reviewer.ts`
+**File**: `packages/code-reviewer/src/prompts/reviewer.ts`
 
 **Intent**: Move the senior-reviewer instruction out of `reviewer.ts` into its
 own module and rewrite it to match the structured schema — instruct the model to
@@ -196,7 +196,7 @@ snippet needed.
 
 #### 4. Prompts barrel
 
-**File**: `packages/core-reviewer/src/prompts/index.ts`
+**File**: `packages/code-reviewer/src/prompts/index.ts`
 
 **Intent**: Single import point for prompts.
 
@@ -204,20 +204,20 @@ snippet needed.
 
 #### 5. Add zod as a direct dependency
 
-**File**: `packages/core-reviewer/package.json`
+**File**: `packages/code-reviewer/package.json`
 
 **Intent**: Make the already-present (transitive) `zod` an explicit dependency so
 the schema module's `import { z } from "zod"` is contractually supported.
 
 **Contract**: Add `"zod": "^4.4.3"` to `dependencies`. Run
-`npm install --prefix packages/core-reviewer` to refresh the lockfile.
+`npm install --prefix packages/code-reviewer` to refresh the lockfile.
 
 ### Success Criteria:
 
 #### Automated Verification:
 
-- Type checking passes: `npm --prefix packages/core-reviewer run typecheck`
-- `zod` resolves as a direct dep: `node --input-type=module -e "import('zod').then(m=>{if(typeof m.z?.toJSONSchema!=='function')process.exit(1)})"` from `packages/core-reviewer`
+- Type checking passes: `npm --prefix packages/code-reviewer run typecheck`
+- `zod` resolves as a direct dep: `node --input-type=module -e "import('zod').then(m=>{if(typeof m.z?.toJSONSchema!=='function')process.exit(1)})"` from `packages/code-reviewer`
 - JSON Schema top-level keys are exactly as pinned: a one-off `node` eval importing `reviewReportJsonSchema` and asserting `type === "object"`, no `"$ref"`/`"$defs"` anywhere in `JSON.stringify(...)`, no top-level `"$schema"` key, and `Object.keys(...)` equals the agreed set (`type`/`properties`/`required` [+ `additionalProperties` if strict])
 
 #### Manual Verification:
@@ -246,7 +246,7 @@ every phase boundary.
 
 #### 1. Agent tools module
 
-**File**: `packages/core-reviewer/src/agent/tools.ts`
+**File**: `packages/code-reviewer/src/agent/tools.ts`
 
 **Intent**: Relocate the read-only tool allow-list so the agent's capabilities are
 declared in one obvious place.
@@ -256,7 +256,7 @@ declared in one obvious place.
 
 #### 2. Agent types module
 
-**File**: `packages/core-reviewer/src/agent/types.ts`
+**File**: `packages/code-reviewer/src/agent/types.ts`
 
 **Intent**: House the public input/output types, extended for structured output.
 
@@ -269,7 +269,7 @@ imported from the schemas module via `import type`.
 
 #### 3. Agent core (runReview)
 
-**File**: `packages/core-reviewer/src/agent/reviewer.ts`
+**File**: `packages/code-reviewer/src/agent/reviewer.ts`
 
 **Intent**: Rebuild `runReview()` to request structured output, stream/collect
 text as before, and parse + validate the structured result. This is the package's
@@ -289,7 +289,7 @@ Details.
 
 #### 4. Agent barrel
 
-**File**: `packages/core-reviewer/src/agent/index.ts`
+**File**: `packages/code-reviewer/src/agent/index.ts`
 
 **Intent**: Single import point for the agent module.
 
@@ -305,12 +305,12 @@ Details.
 
 #### Automated Verification:
 
-- Type checking passes: `npm --prefix packages/core-reviewer run typecheck`
-- Build emits cleanly: `npm --prefix packages/core-reviewer run build`
+- Type checking passes: `npm --prefix packages/code-reviewer run typecheck`
+- Build emits cleanly: `npm --prefix packages/code-reviewer run build`
 
 #### Manual Verification:
 
-- A live run `npm --prefix packages/core-reviewer run review -- "Review src/agent for unhandled errors"` returns a `ReviewResult` whose `report` is populated and schema-valid
+- A live run `npm --prefix packages/code-reviewer run review -- "Review src/agent for unhandled errors"` returns a `ReviewResult` whose `report` is populated and schema-valid
 - `report` is undefined (not a crash) when a run hits `error_max_structured_output_retries`, and `isError` reflects it
 
 **Implementation Note**: After completing this phase and all automated verification
@@ -330,7 +330,7 @@ hatch, and extend the offline smoke check to assert the schema is wired.
 
 #### 1. Public surface
 
-**File**: `packages/core-reviewer/src/index.ts`
+**File**: `packages/code-reviewer/src/index.ts`
 
 **Intent**: Export everything a consumer (including a future promptfoo provider)
 needs: the agent, the schemas + derived JSON Schema, the inferred types, the tool
@@ -345,7 +345,7 @@ comment to the new package name.
 
 #### 2. CLI: structured rendering + `--json`
 
-**File**: `packages/core-reviewer/src/cli.ts`
+**File**: `packages/code-reviewer/src/cli.ts`
 
 **Intent**: Present the structured report to a human by default (findings grouped
 by severity), and emit raw JSON when `--json` is passed; keep the stderr summary
@@ -361,7 +361,7 @@ when `result.isError` **or** `result.report` is undefined.
 
 #### 3. Smoke check: assert schema wiring
 
-**File**: `packages/core-reviewer/src/smoke.ts`
+**File**: `packages/code-reviewer/src/smoke.ts`
 
 **Intent**: Keep the offline (no-token) wiring guarantee and extend it to the new
 structured-output surface.
@@ -373,7 +373,7 @@ score:100,findings:[]}).success === true`. Exit non-zero if any check fails.
 
 #### 4. Remove the old monolith
 
-**File**: `packages/core-reviewer/src/reviewer.ts` (delete)
+**File**: `packages/code-reviewer/src/reviewer.ts` (delete)
 
 **Intent**: Its responsibilities now live in `src/agent/`, `src/schemas/`, and
 `src/prompts/`. With `index.ts`/`cli.ts` repointed (above) and `smoke.ts` imports
@@ -387,17 +387,17 @@ place. No remaining importer references `./reviewer.js`.
 
 #### Automated Verification:
 
-- Type checking passes: `npm --prefix packages/core-reviewer run typecheck`
-- No dangling references to the old path: `grep -rn "reviewer\.js\|/reviewer\"" packages/core-reviewer/src` shows only `agent/reviewer` references
-- Build emits cleanly: `npm --prefix packages/core-reviewer run build`
-- Offline smoke passes: `npm --prefix packages/core-reviewer run smoke` (exit 0, schema assertions print ✓)
-- `--json` path is machine-parseable: `npm --prefix packages/core-reviewer run review -- "..." --json | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>JSON.parse(s))"` exits 0 on a successful run
+- Type checking passes: `npm --prefix packages/code-reviewer run typecheck`
+- No dangling references to the old path: `grep -rn "reviewer\.js\|/reviewer\"" packages/code-reviewer/src` shows only `agent/reviewer` references
+- Build emits cleanly: `npm --prefix packages/code-reviewer run build`
+- Offline smoke passes: `npm --prefix packages/code-reviewer run smoke` (exit 0, schema assertions print ✓)
+- `--json` path is machine-parseable: `npm --prefix packages/code-reviewer run review -- "..." --json | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>JSON.parse(s))"` exits 0 on a successful run
 
 #### Manual Verification:
 
 - Default CLI output groups findings by severity and is readable in a terminal
 - `--json` emits valid JSON matching `ReviewReport`; the stderr summary still appears and can be separated from stdout
-- Importing `@nuteczki/core-reviewer` exposes `runReview`, `reviewReportSchema`, `reviewReportJsonSchema`, and the types (spot-checked from a scratch import)
+- Importing `@nuteczki/code-reviewer` exposes `runReview`, `reviewReportSchema`, `reviewReportJsonSchema`, and the types (spot-checked from a scratch import)
 
 **Implementation Note**: After completing this phase and all automated verification
 passes, pause for manual confirmation before proceeding to Phase 4.
@@ -409,7 +409,7 @@ passes, pause for manual confirmation before proceeding to Phase 4.
 ### Overview
 
 Make the package internally consistent now that its shape changed: align the
-package name and all docs to the actual `core-reviewer` folder, rewrite the README
+package name and all docs to the actual `code-reviewer` folder, rewrite the README
 layout/usage to the new module structure and structured output, and delete the
 stray nested lockfile.
 
@@ -417,56 +417,56 @@ stray nested lockfile.
 
 #### 1. Package name alignment
 
-**File**: `packages/core-reviewer/package.json`
+**File**: `packages/code-reviewer/package.json`
 
 **Intent**: Resolve the folder-vs-name drift by adopting the folder name.
 
-**Contract**: Set `"name": "@nuteczki/core-reviewer"`. Refresh the lockfile via
-`npm install --prefix packages/core-reviewer`. (No external importer depends on the
+**Contract**: Set `"name": "@nuteczki/code-reviewer"`. Refresh the lockfile via
+`npm install --prefix packages/code-reviewer`. (No external importer depends on the
 old name — verified.)
 
 #### 2. Source header comment
 
-**File**: `packages/core-reviewer/src/index.ts`
+**File**: `packages/code-reviewer/src/index.ts`
 
 **Intent**: Keep the doc header truthful.
 
-**Contract**: Update the `@nuteczki/code-reviewer` header to `@nuteczki/core-reviewer`
+**Contract**: Update the `@nuteczki/code-reviewer` header to `@nuteczki/code-reviewer`
 (folded in here if not already done in Phase 3).
 
 #### 3. README rewrite
 
-**File**: `packages/core-reviewer/README.md`
+**File**: `packages/code-reviewer/README.md`
 
 **Intent**: Reflect the new name, module layout, structured output, and CLI flags.
 
-**Contract**: Replace all `@nuteczki/code-reviewer` → `@nuteczki/core-reviewer` and
-`packages/code-reviewer/` → `packages/core-reviewer/`. Rewrite the **Layout** block
+**Contract**: Replace all `@nuteczki/code-reviewer` → `@nuteczki/code-reviewer` and
+`packages/code-reviewer/` → `packages/code-reviewer/`. Rewrite the **Layout** block
 to show `src/schemas/`, `src/prompts/`, `src/agent/`, `index.ts`, `cli.ts`,
 `smoke.ts`. Update the **Programmatic** example to read `result.report` (structured)
 and mention `--json`. Note the `ReviewReport` schema is exported for downstream use.
 
 #### 4. Remove cruft
 
-**File**: `packages/core-reviewer/packages/` (delete the stray nested tree)
+**File**: `packages/code-reviewer/packages/` (delete the stray nested tree)
 
-**Intent**: Remove the orphaned `packages/core-reviewer/packages/core-reviewer/package-lock.json`.
+**Intent**: Remove the orphaned `packages/code-reviewer/packages/code-reviewer/package-lock.json`.
 
-**Contract**: `rm -rf packages/core-reviewer/packages`. Confirm nothing references it.
+**Contract**: `rm -rf packages/code-reviewer/packages`. Confirm nothing references it.
 
 ### Success Criteria:
 
 #### Automated Verification:
 
-- No stale name references remain: `grep -rn "code-reviewer" packages/core-reviewer --include=*.ts --include=*.json --include=*.md | grep -v node_modules` returns nothing
-- The nested cruft is gone: `test ! -e packages/core-reviewer/packages`
-- Type checking + build still pass: `npm --prefix packages/core-reviewer run typecheck && npm --prefix packages/core-reviewer run build`
-- Smoke still passes: `npm --prefix packages/core-reviewer run smoke`
+- No stale name references remain: `grep -rn "code-reviewer" packages/code-reviewer --include=*.ts --include=*.json --include=*.md | grep -v node_modules` returns nothing
+- The nested cruft is gone: `test ! -e packages/code-reviewer/packages`
+- Type checking + build still pass: `npm --prefix packages/code-reviewer run typecheck && npm --prefix packages/code-reviewer run build`
+- Smoke still passes: `npm --prefix packages/code-reviewer run smoke`
 
 #### Manual Verification:
 
 - README Layout/Usage match the actual files and the structured-output behavior
-- `npm install --prefix packages/core-reviewer` succeeds and the lockfile shows the new name
+- `npm install --prefix packages/code-reviewer` succeeds and the lockfile shows the new name
 
 **Implementation Note**: After completing this phase and all automated verification
 passes, pause for final manual confirmation.
@@ -484,13 +484,13 @@ passes, pause for final manual confirmation.
 
 ### Integration Tests:
 
-- Manual live runs of `npm run review` against `packages/core-reviewer/src` itself
+- Manual live runs of `npm run review` against `packages/code-reviewer/src` itself
   (a real, small target) confirm the agent produces a valid `ReviewReport` and
   that the CLI rendering + `--json` paths work end-to-end.
 
 ### Manual Testing Steps:
 
-1. From `packages/core-reviewer/`, run `npm run smoke` — expect ✓ on every check
+1. From `packages/code-reviewer/`, run `npm run smoke` — expect ✓ on every check
    and exit 0, with no network/token use.
 2. Run `npm run review -- "Review src/agent for unhandled promise rejections"` —
    expect a severity-grouped human render and a non-empty, valid report.
@@ -511,13 +511,13 @@ The public surface is additive except for the move from a free-text-first result
 to a structured-first one: `ReviewResult` **gains** `report?: ReviewReport` and
 **retains** `review`. No external consumers exist in this repo, so there is no
 downstream migration. The package name changes from `@nuteczki/code-reviewer` to
-`@nuteczki/core-reviewer`; it is `private`, unpublished, and unimported elsewhere.
+`@nuteczki/code-reviewer`; it is `private`, unpublished, and unimported elsewhere.
 
 ## References
 
 - Change identity: `context/changes/tool-loop-agent/change.md`
 - SDK structured output: `node_modules/@anthropic-ai/claude-agent-sdk/sdk.d.ts:925,1695,2026,3877,3896`; context7 `/nothflare/claude-agent-sdk-docs` (structured-outputs guide)
-- Current agent: `packages/core-reviewer/src/reviewer.ts`
+- Current agent: `packages/code-reviewer/src/reviewer.ts`
 - Team rule on optional/required-field gotchas mirrors the general lesson in `context/foundation/lessons.md` (don't over-constrain contracts)
 
 ## Progress
@@ -528,7 +528,7 @@ downstream migration. The package name changes from `@nuteczki/code-reviewer` to
 
 #### Automated
 
-- [x] 1.1 Type checking passes (`npm --prefix packages/core-reviewer run typecheck`) — 157d11d
+- [x] 1.1 Type checking passes (`npm --prefix packages/code-reviewer run typecheck`) — 157d11d
 - [x] 1.2 `zod` resolves as a direct dep with `z.toJSONSchema` — 157d11d
 - [x] 1.3 Derived JSON Schema has exactly the pinned top-level keys (`type: "object"`, no `$ref`/`$defs`, no top-level `$schema`) — 157d11d
 
@@ -541,13 +541,13 @@ downstream migration. The package name changes from `@nuteczki/code-reviewer` to
 
 #### Automated
 
-- [x] 2.1 Type checking passes
-- [x] 2.2 Build emits cleanly (`npm --prefix packages/core-reviewer run build`)
+- [x] 2.1 Type checking passes — e30f8d7
+- [x] 2.2 Build emits cleanly (`npm --prefix packages/code-reviewer run build`) — e30f8d7
 
 #### Manual
 
-- [x] 2.3 Live run returns a populated, schema-valid `report`
-- [x] 2.4 `report` is undefined (not a crash) on `error_max_structured_output_retries`, with `isError` set
+- [x] 2.3 Live run returns a populated, schema-valid `report` — e30f8d7
+- [x] 2.4 `report` is undefined (not a crash) on `error_max_structured_output_retries`, with `isError` set — e30f8d7
 
 ### Phase 3: Public surface, CLI, and smoke check
 
@@ -577,4 +577,4 @@ downstream migration. The package name changes from `@nuteczki/code-reviewer` to
 #### Manual
 
 - [ ] 4.5 README Layout/Usage match actual files and structured-output behavior
-- [ ] 4.6 `npm install --prefix packages/core-reviewer` succeeds; lockfile shows the new name
+- [ ] 4.6 `npm install --prefix packages/code-reviewer` succeeds; lockfile shows the new name

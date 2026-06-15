@@ -28,7 +28,7 @@ all dimensions PASS → **SOUND**.
 
 - Paths verified: `src/reviewer.ts`, `src/index.ts`, `src/cli.ts`, `src/smoke.ts`,
   `package.json`, `tsconfig.json`, `README.md`, SDK `sdk.d.ts`, `node_modules/zod`,
-  and the stray nested `packages/core-reviewer/packages/core-reviewer/package-lock.json`.
+  and the stray nested `packages/code-reviewer/packages/code-reviewer/package-lock.json`.
 - Symbols verified: `outputFormat?: OutputFormat` (sdk.d.ts:1695),
   `OutputFormat = JsonSchemaOutputFormat` (2026), `JsonSchemaOutputFormat =
   { type:'json_schema'; schema: Record<string,unknown> }` (925),
