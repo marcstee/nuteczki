@@ -1,13 +1,14 @@
 /**
- * Offline integration check — proves the SDK is wired up correctly without
- * spending tokens or needing the network. Verifies the package's own surface
- * (`runReview`) and the SDK's `query` resolve and are callable, then reports
- * which auth path is available. Exits non-zero if the wiring is broken.
+ * Offline integration check — proves the SDK and the structured-output surface
+ * are wired up correctly without spending tokens or needing the network.
+ * Verifies the package's own surface (`runReview`), the SDK's `query`, and the
+ * review schema (JSON Schema shape + a `safeParse` round-trip), then reports
+ * which auth path is available. Exits non-zero if any check fails.
  *
  * Run: `npm run smoke`
  */
 import { query } from "@anthropic-ai/claude-agent-sdk";
-import { runReview, REVIEW_TOOLS } from "./index.js";
+import { runReview, REVIEW_TOOLS, reviewReportSchema, reviewReportJsonSchema } from "./index.js";
 
 function check(label: string, ok: boolean): boolean {
   process.stdout.write(`${ok ? "✓" : "✗"} ${label}\n`);
@@ -17,6 +18,16 @@ function check(label: string, ok: boolean): boolean {
 const results = [
   check("SDK query() imported as a function", typeof query === "function"),
   check("runReview() entry-point exported", typeof runReview === "function"),
+  check(
+    "reviewReportJsonSchema is an object with type === \"object\"",
+    typeof reviewReportJsonSchema === "object" &&
+      reviewReportJsonSchema !== null &&
+      reviewReportJsonSchema.type === "object",
+  ),
+  check(
+    "reviewReportSchema accepts a valid empty report",
+    reviewReportSchema.safeParse({ summary: "x", score: 100, findings: [] }).success === true,
+  ),
 ];
 
 process.stdout.write(`  review tools: ${REVIEW_TOOLS.join(", ")}\n`);

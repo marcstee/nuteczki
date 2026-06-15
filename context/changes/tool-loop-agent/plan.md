@@ -553,17 +553,17 @@ downstream migration. The package name changes from `@nuteczki/code-reviewer` to
 
 #### Automated
 
-- [ ] 3.1 Type checking passes
-- [ ] 3.2 No dangling references to the old `reviewer.ts` path
-- [ ] 3.3 Build emits cleanly
-- [ ] 3.4 Offline smoke passes with schema assertions (exit 0)
-- [ ] 3.5 `--json` output is machine-parseable on a successful run
+- [x] 3.1 Type checking passes
+- [x] 3.2 No dangling references to the old `reviewer.ts` path
+- [x] 3.3 Build emits cleanly
+- [x] 3.4 Offline smoke passes with schema assertions (exit 0)
+- [x] 3.5 `--json` output is machine-parseable on a successful run
 
 #### Manual
 
-- [ ] 3.6 Default CLI output groups findings by severity and is readable
-- [ ] 3.7 `--json` emits valid `ReviewReport` JSON; stderr summary still separable
-- [ ] 3.8 Public entry exposes agent, schemas, JSON Schema, and types
+- [x] 3.6 Default CLI output groups findings by severity and is readable
+- [x] 3.7 `--json` emits valid `ReviewReport` JSON; stderr summary still separable
+- [x] 3.8 Public entry exposes agent, schemas, JSON Schema, and types
 
 ### Phase 4: Housekeeping — naming, docs, cruft
 
