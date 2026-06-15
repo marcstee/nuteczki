@@ -553,28 +553,28 @@ downstream migration. The package name changes from `@nuteczki/code-reviewer` to
 
 #### Automated
 
-- [x] 3.1 Type checking passes
-- [x] 3.2 No dangling references to the old `reviewer.ts` path
-- [x] 3.3 Build emits cleanly
-- [x] 3.4 Offline smoke passes with schema assertions (exit 0)
-- [x] 3.5 `--json` output is machine-parseable on a successful run
+- [x] 3.1 Type checking passes — c7d86b4
+- [x] 3.2 No dangling references to the old `reviewer.ts` path — c7d86b4
+- [x] 3.3 Build emits cleanly — c7d86b4
+- [x] 3.4 Offline smoke passes with schema assertions (exit 0) — c7d86b4
+- [x] 3.5 `--json` output is machine-parseable on a successful run — c7d86b4
 
 #### Manual
 
-- [x] 3.6 Default CLI output groups findings by severity and is readable
-- [x] 3.7 `--json` emits valid `ReviewReport` JSON; stderr summary still separable
-- [x] 3.8 Public entry exposes agent, schemas, JSON Schema, and types
+- [x] 3.6 Default CLI output groups findings by severity and is readable — c7d86b4
+- [x] 3.7 `--json` emits valid `ReviewReport` JSON; stderr summary still separable — c7d86b4
+- [x] 3.8 Public entry exposes agent, schemas, JSON Schema, and types — c7d86b4
 
 ### Phase 4: Housekeeping — naming, docs, cruft
 
 #### Automated
 
-- [ ] 4.1 No stale `code-reviewer` name references remain
-- [ ] 4.2 Nested cruft tree is removed
-- [ ] 4.3 Typecheck + build still pass
-- [ ] 4.4 Smoke still passes
+- [x] 4.1 No stale `code-reviewer` name references remain
+- [x] 4.2 Nested cruft tree is removed
+- [x] 4.3 Typecheck + build still pass
+- [x] 4.4 Smoke still passes
 
 #### Manual
 
-- [ ] 4.5 README Layout/Usage match actual files and structured-output behavior
-- [ ] 4.6 `npm install --prefix packages/code-reviewer` succeeds; lockfile shows the new name
+- [x] 4.5 README Layout/Usage match actual files and structured-output behavior
+- [x] 4.6 `npm install --prefix packages/code-reviewer` succeeds; lockfile shows the new name
