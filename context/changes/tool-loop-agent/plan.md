@@ -569,12 +569,12 @@ downstream migration. The package name changes from `@nuteczki/code-reviewer` to
 
 #### Automated
 
-- [x] 4.1 No stale `code-reviewer` name references remain
-- [x] 4.2 Nested cruft tree is removed
-- [x] 4.3 Typecheck + build still pass
-- [x] 4.4 Smoke still passes
+- [x] 4.1 No stale `code-reviewer` name references remain — 979b07d
+- [x] 4.2 Nested cruft tree is removed — 979b07d
+- [x] 4.3 Typecheck + build still pass — 979b07d
+- [x] 4.4 Smoke still passes — 979b07d
 
 #### Manual
 
-- [x] 4.5 README Layout/Usage match actual files and structured-output behavior
-- [x] 4.6 `npm install --prefix packages/code-reviewer` succeeds; lockfile shows the new name
+- [x] 4.5 README Layout/Usage match actual files and structured-output behavior — 979b07d
+- [x] 4.6 `npm install --prefix packages/code-reviewer` succeeds; lockfile shows the new name — 979b07d
