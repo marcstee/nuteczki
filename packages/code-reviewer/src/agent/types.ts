@@ -20,11 +20,23 @@ export interface ReviewOptions {
   abortController?: AbortController;
   /** Called with each chunk of assistant text as it streams in. */
   onText?: (text: string) => void;
-  /** Escape hatch: merged over the options this wrapper builds, last write wins. */
+  /**
+   * Escape hatch: merged over the options this wrapper builds (model, maxTurns,
+   * cwd, etc.). The read-only safety keys — `allowedTools` and `permissionMode`
+   * — are re-pinned *after* this spread and cannot be overridden here.
+   */
   overrides?: Partial<Options>;
 }
 
-/** Output of {@link runReview}. */
+/**
+ * Output of {@link runReview}.
+ *
+ * Note on failure modes: a schema/model failure (e.g.
+ * `error_max_structured_output_retries`) returns normally with `report`
+ * undefined and `isError` true. An SDK-level failure (missing auth, network
+ * error, abort) instead **rejects** the returned promise — callers driving
+ * `runReview` directly should wrap the call in try/catch.
+ */
 export interface ReviewResult {
   /** Concatenated assistant text — the prose review, retained alongside the report. */
   review: string;

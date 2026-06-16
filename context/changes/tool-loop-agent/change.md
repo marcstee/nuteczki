@@ -1,9 +1,9 @@
 ---
 change_id: tool-loop-agent
 title: Code review agent built on Claude Agent SDK
-status: implemented
+status: impl_reviewed
 created: 2026-06-15
-updated: 2026-06-15
+updated: 2026-06-16
 archived_at: null
 ---
 

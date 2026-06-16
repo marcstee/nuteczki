@@ -35,14 +35,16 @@ export async function runReview(opts: ReviewOptions): Promise<ReviewResult> {
   const options: Options = {
     cwd,
     maxTurns,
-    permissionMode,
     settingSources,
-    allowedTools: [...REVIEW_TOOLS],
     systemPrompt: { type: "preset", preset: "claude_code", append: REVIEWER_SYSTEM_PROMPT },
     outputFormat: { type: "json_schema", schema: reviewReportJsonSchema },
     ...(model ? { model } : {}),
     ...(abortController ? { abortController } : {}),
     ...overrides,
+    // Re-pin the safety-critical keys after the spread so `overrides` can tune
+    // model/maxTurns/cwd but never defeat the read-only guarantee.
+    allowedTools: [...REVIEW_TOOLS],
+    permissionMode,
   };
 
   let review = "";

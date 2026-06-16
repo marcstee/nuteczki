@@ -73,15 +73,24 @@ function renderReport(report: ReviewReport): string {
   return lines.join("\n") + "\n";
 }
 
-const result = await runReview({
-  target,
-  model: values.model,
-  maxTurns: values["max-turns"] ? Number(values["max-turns"]) : undefined,
-  cwd: values.cwd,
-  loadProjectSettings: values["project-settings"],
-  // Stream progress to stderr so stdout stays a clean report (or JSON).
-  onText: (text) => process.stderr.write(text),
-});
+let result;
+try {
+  result = await runReview({
+    target,
+    model: values.model,
+    maxTurns: values["max-turns"] ? Number(values["max-turns"]) : undefined,
+    cwd: values.cwd,
+    loadProjectSettings: values["project-settings"],
+    // Stream progress to stderr so stdout stays a clean report (or JSON).
+    onText: (text) => process.stderr.write(text),
+  });
+} catch (err) {
+  // SDK-level failures (auth, network, abort) reject rather than returning an
+  // isError result — print a clean one-liner instead of an unhandled rejection.
+  const message = err instanceof Error ? err.message : String(err);
+  process.stderr.write(`code-reviewer: ${message}\n`);
+  process.exit(1);
+}
 
 if (values.json) {
   process.stdout.write(JSON.stringify(result.report ?? null, null, 2) + "\n");
