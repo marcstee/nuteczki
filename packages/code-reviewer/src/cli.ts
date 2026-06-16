@@ -1,6 +1,6 @@
 #!/usr/bin/env -S npx tsx
 import { parseArgs } from "node:util";
-import { runReview } from "./index.js";
+import { runReview, computeVerdict } from "./index.js";
 import type { ReviewReport, Severity } from "./index.js";
 
 const USAGE = `code-reviewer — read-only AI code review on the Claude Agent SDK
@@ -43,10 +43,25 @@ if (values.help || !target) {
 
 const SEVERITY_ORDER: readonly Severity[] = ["high", "medium", "low"] as const;
 
+const CRITERIA_LABELS = [
+  ["correctness", "C1 Correctness"],
+  ["security", "C2 Security"],
+  ["conventions", "C3 Conventions"],
+  ["testing", "C4 Testing"],
+  ["readability", "C5 Readability"],
+  ["errorHandling", "C6 Error Handling"],
+] as const;
+
 /** Render a structured report for a human terminal, grouped by severity. */
 function renderReport(report: ReviewReport): string {
   const lines: string[] = [];
-  lines.push(`Score: ${report.score}/100`);
+  const verdict = computeVerdict(report);
+  lines.push(`Verdict: ${verdict.toUpperCase()}`);
+  lines.push("");
+  lines.push("Criteria:");
+  for (const [key, label] of CRITERIA_LABELS) {
+    lines.push(`  ${label}: ${report.criteria[key]}/10`);
+  }
   lines.push("");
   lines.push(report.summary);
 
