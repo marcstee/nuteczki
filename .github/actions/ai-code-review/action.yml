@@ -64,7 +64,7 @@ runs:
 
         cd "$GITHUB_WORKSPACE/packages/code-reviewer"
         REVIEW_EXIT=0
-        npm run review -- "$INSTRUCTION" \
+        npx tsx src/cli.ts "$INSTRUCTION" \
           --project-settings \
           --model "${{ inputs.model }}" \
           --json \
