@@ -497,14 +497,14 @@ criteria` on a throwaway PR before considering the change complete.
 
 #### Automated
 
-- [ ] 2.1 Action YAML parses without error (or `actionlint` clean if available)
-- [ ] 2.2 All `uses:` inside the action are SHA-pinned with a `# vX.Y.Z` comment (no `@v[0-9]`)
+- [x] 2.1 Action YAML parses without error (or `actionlint` clean if available) — f1264aa
+- [x] 2.2 All `uses:` inside the action are SHA-pinned with a `# vX.Y.Z` comment (no `@v[0-9]`) — f1264aa
 
 #### Manual
 
-- [ ] 2.3 Running the action on a test PR posts one comment with summary, six scores, grouped findings
-- [ ] 2.4 Exactly one `review/*` label applied; re-run updates the same comment (no duplicate)
-- [ ] 2.5 Forced review failure yields `review/error` label + comment, step does not fail
+- [x] 2.3 Running the action on a test PR posts one comment with summary, six scores, grouped findings — f1264aa
+- [x] 2.4 Exactly one `review/*` label applied; re-run updates the same comment (no duplicate) — f1264aa
+- [x] 2.5 Forced review failure yields `review/error` label + comment, step does not fail — f1264aa
 
 ### Phase 3: Workflow wiring + supply-chain hardening + Dependabot
 
