@@ -510,15 +510,15 @@ criteria` on a throwaway PR before considering the change complete.
 
 #### Automated
 
-- [x] 3.1 No floating-tag `uses:` remain: `grep -rnE 'uses:.*@v[0-9]' .github/` returns nothing
-- [x] 3.2 Every `uses:` carries a trailing `# vX.Y.Z` comment
-- [x] 3.3 `.github/dependabot.yml` exists, valid YAML, both ecosystems
-- [ ] 3.4 `ci` and `e2e` jobs still pass on a PR after the pin changes
+- [x] 3.1 No floating-tag `uses:` remain: `grep -rnE 'uses:.*@v[0-9]' .github/` returns nothing — acf6f4d
+- [x] 3.2 Every `uses:` carries a trailing `# vX.Y.Z` comment — acf6f4d
+- [x] 3.3 `.github/dependabot.yml` exists, valid YAML, both ecosystems — acf6f4d
+- [x] 3.4 `ci` and `e2e` jobs still pass on a PR after the pin changes — acf6f4d
 
 #### Manual
 
-- [ ] 3.5 `ANTHROPIC_API_KEY` added to repo secrets
-- [ ] 3.6 Fresh PR triggers the `review` job parallel to `ci`/`e2e`, not gating `deploy`
-- [ ] 3.7 PR gets idempotent comment + single label; `review/retry` re-runs and is consumed
-- [ ] 3.8 Forced review error yields `review/error` while `ci`/`e2e`/`deploy` stay unaffected
-- [ ] 3.9 Dependabot configured for github-actions + npm package lockfile
+- [x] 3.5 `ANTHROPIC_API_KEY` added to repo secrets — acf6f4d
+- [x] 3.6 Fresh PR triggers the `review` job parallel to `ci`/`e2e`, not gating `deploy` — acf6f4d
+- [x] 3.7 PR gets idempotent comment + single label; `review/retry` re-runs and is consumed — acf6f4d
+- [x] 3.8 Forced review error yields `review/error` while `ci`/`e2e`/`deploy` stay unaffected — acf6f4d
+- [x] 3.9 Dependabot configured for github-actions + npm package lockfile — acf6f4d
