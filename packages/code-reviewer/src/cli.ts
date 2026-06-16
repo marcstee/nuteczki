@@ -35,6 +35,8 @@ const { values, positionals } = parseArgs({
 });
 
 const target = positionals.join(" ").trim();
+const prTitle = process.env["PR_TITLE"];
+const fullTarget = prTitle ? `${target}\n\nPR title: ${prTitle}` : target;
 
 if (values.help || !target) {
   process.stdout.write(USAGE + "\n");
@@ -91,7 +93,7 @@ function renderReport(report: ReviewReport): string {
 let result;
 try {
   result = await runReview({
-    target,
+    target: fullTarget,
     model: values.model,
     maxTurns: values["max-turns"] ? Number(values["max-turns"]) : undefined,
     cwd: values.cwd,

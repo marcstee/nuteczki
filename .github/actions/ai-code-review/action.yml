@@ -29,10 +29,13 @@ runs:
     # ── 1. Produce the diff and changed-file list ─────────────────────────────
     - name: Compute diff
       shell: bash
+      env:
+        BASE_SHA: ${{ inputs.base_sha }}
+        HEAD_SHA: ${{ inputs.head_sha }}
       run: |
-        git diff "${{ inputs.base_sha }}...${{ inputs.head_sha }}" \
+        git diff "$BASE_SHA...$HEAD_SHA" \
           > "$RUNNER_TEMP/pr.diff"
-        git diff --name-only "${{ inputs.base_sha }}...${{ inputs.head_sha }}" \
+        git diff --name-only "$BASE_SHA...$HEAD_SHA" \
           > "$RUNNER_TEMP/pr-files.txt"
         echo "Diff size: $(wc -c < "$RUNNER_TEMP/pr.diff") bytes"
         echo "Changed files:"
@@ -50,12 +53,12 @@ runs:
       env:
         ANTHROPIC_API_KEY: ${{ inputs.anthropic_api_key }}
         PR_TITLE: ${{ github.event.pull_request.title }}
+        MODEL: ${{ inputs.model }}
       run: |
         PR_FILES="$(tr '\n' ',' < "$RUNNER_TEMP/pr-files.txt" | sed 's/,$//')"
 
         INSTRUCTION="Review this pull request.
 
-        PR title: ${PR_TITLE}
         Changed files: ${PR_FILES}
 
         Please Read the full diff at $RUNNER_TEMP/pr.diff and any surrounding
@@ -66,7 +69,7 @@ runs:
         REVIEW_EXIT=0
         npx tsx src/cli.ts "$INSTRUCTION" \
           --project-settings \
-          --model "${{ inputs.model }}" \
+          --model "$MODEL" \
           --json \
           > "$RUNNER_TEMP/review.json" \
           2> "$RUNNER_TEMP/review.stderr" \
@@ -89,6 +92,7 @@ runs:
         VERDICT_PATH: ${{ runner.temp }}/verdict.txt
         COMMENT_PATH: ${{ runner.temp }}/comment.md
         HEAD_SHA: ${{ inputs.head_sha }}
+        MODEL: ${{ inputs.model }}
       run: |
         cd "$GITHUB_WORKSPACE/packages/code-reviewer"
         npx tsx src/render-for-ci.ts

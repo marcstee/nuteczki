@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { computeVerdict, renderComment, REVIEW_MARKER } from "./index.js";
 import type { ReviewReport } from "./index.js";
 
@@ -13,7 +13,7 @@ if (!jsonPath || !verdictPath || !commentPath) {
   process.exit(1);
 }
 
-const raw = readFileSync(jsonPath, "utf8").trim();
+const raw = existsSync(jsonPath) ? readFileSync(jsonPath, "utf8").trim() : "";
 const report: ReviewReport | null =
   raw === "null" || raw === "" ? null : (JSON.parse(raw) as ReviewReport);
 
@@ -32,6 +32,7 @@ writeFileSync(
   commentPath,
   renderComment(report, {
     verdict,
+    model: process.env["MODEL"],
     commitSha: process.env["HEAD_SHA"],
     costUsd: process.env["REVIEW_COST"] ? Number(process.env["REVIEW_COST"]) : undefined,
     turns: process.env["REVIEW_TURNS"] ? Number(process.env["REVIEW_TURNS"]) : undefined,

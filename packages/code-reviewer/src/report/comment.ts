@@ -26,6 +26,7 @@ export function renderComment(
   report: ReviewReport,
   meta: {
     verdict: Verdict;
+    model?: string;
     costUsd?: number;
     turns?: number;
     commitSha?: string;
@@ -74,9 +75,11 @@ export function renderComment(
   }
 
   const footerParts: string[] = [];
+  if (meta.model) footerParts.push(`Reviewed by ${meta.model}`);
   if (meta.commitSha) footerParts.push(`commit ${meta.commitSha}`);
   if (meta.turns !== undefined) footerParts.push(`${meta.turns} turns`);
-  if (meta.costUsd !== undefined) footerParts.push(`$${meta.costUsd.toFixed(4)}`);
+  if (meta.costUsd !== undefined)
+    footerParts.push(Number.isFinite(meta.costUsd) ? `$${meta.costUsd.toFixed(4)}` : "N/A");
   if (footerParts.length > 0) {
     lines.push(`---`);
     lines.push(`*${footerParts.join(" · ")}*`);

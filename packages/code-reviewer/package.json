@@ -21,6 +21,7 @@
     "review": "tsx src/cli.ts",
     "dev": "tsx watch src/cli.ts",
     "smoke": "tsx src/smoke.ts",
+    "lint": "eslint src",
     "typecheck": "tsc --noEmit",
     "build": "tsc"
   },
@@ -33,7 +34,9 @@
   },
   "devDependencies": {
     "@types/node": "^25.9.3",
+    "eslint": "^9.39.4",
     "tsx": "^4.22.4",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1"
   }
 }

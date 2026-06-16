@@ -1,7 +1,7 @@
 ---
 change_id: code-review-in-ci
 title: Integrate Claude Code into GitHub CI for PR code review
-status: implemented
+status: impl_reviewed
 created: 2026-06-16
 updated: 2026-06-16
 
