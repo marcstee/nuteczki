@@ -510,9 +510,9 @@ criteria` on a throwaway PR before considering the change complete.
 
 #### Automated
 
-- [ ] 3.1 No floating-tag `uses:` remain: `grep -rnE 'uses:.*@v[0-9]' .github/` returns nothing
-- [ ] 3.2 Every `uses:` carries a trailing `# vX.Y.Z` comment
-- [ ] 3.3 `.github/dependabot.yml` exists, valid YAML, both ecosystems
+- [x] 3.1 No floating-tag `uses:` remain: `grep -rnE 'uses:.*@v[0-9]' .github/` returns nothing
+- [x] 3.2 Every `uses:` carries a trailing `# vX.Y.Z` comment
+- [x] 3.3 `.github/dependabot.yml` exists, valid YAML, both ecosystems
 - [ ] 3.4 `ci` and `e2e` jobs still pass on a PR after the pin changes
 
 #### Manual
