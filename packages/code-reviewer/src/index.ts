@@ -14,10 +14,14 @@ export type { ReviewOptions, ReviewResult } from "./agent/index.js";
 
 export {
   severitySchema,
+  criteriaSchema,
   findingSchema,
   reviewReportSchema,
   reviewReportJsonSchema,
 } from "./schemas/index.js";
-export type { Severity, Finding, ReviewReport } from "./schemas/index.js";
+export type { Severity, Criteria, Finding, ReviewReport } from "./schemas/index.js";
+
+export { computeVerdict, renderComment, REVIEW_MARKER } from "./report/index.js";
+export type { Verdict } from "./report/index.js";
 
 export type { Options, SDKMessage, PermissionMode } from "@anthropic-ai/claude-agent-sdk";

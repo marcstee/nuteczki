@@ -25,10 +25,24 @@ export const findingSchema = z.object({
 });
 export type Finding = z.infer<typeof findingSchema>;
 
+/**
+ * Six review criteria, each scored 1 (worst) to 10 (best).
+ * Keyed by stable names (C1–C6 from requirements.md §Code Review Criteria).
+ */
+export const criteriaSchema = z.object({
+  correctness: z.number().int().min(1).max(10),
+  security: z.number().int().min(1).max(10),
+  conventions: z.number().int().min(1).max(10),
+  testing: z.number().int().min(1).max(10),
+  readability: z.number().int().min(1).max(10),
+  errorHandling: z.number().int().min(1).max(10),
+});
+export type Criteria = z.infer<typeof criteriaSchema>;
+
 /** The full structured report the agent is asked to return. */
 export const reviewReportSchema = z.object({
   summary: z.string(),
-  score: z.number().int().min(0).max(100),
+  criteria: criteriaSchema,
   findings: z.array(findingSchema),
 });
 export type ReviewReport = z.infer<typeof reviewReportSchema>;
